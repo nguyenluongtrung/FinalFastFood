@@ -23,7 +23,7 @@ public class UpdateAccountConfirmServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Account user = (Account) request.getSession().getAttribute("acc");
-        String accRole, accCreatedDate, accName, accAddress, accPhone, accEmail, accDob, accPassword, accPassword2;
+        String accRole, accCreatedDate, accName, accAddress, accPhone, accEmail, accDob, accPassword, accPasswordCf;
         int totalAccumulatedPoint;
         boolean gender;
 
@@ -33,17 +33,33 @@ public class UpdateAccountConfirmServlet extends HttpServlet {
         accDob = request.getParameter("dob");
         gender = Boolean.getBoolean(request.getParameter("gender"));
         accPassword = request.getParameter("password");
-        accPassword2 = request.getParameter("password2");
+        accPasswordCf = request.getParameter("password2");
 
-        Account updateAccount = new Account(user.getAccountID(), user.getRole(), user.getCreatedDate(), accName, accAddress, accPhone, user.getEmail(), accDob, gender, user.getTotalAccumulatedPoint(), accPassword);
-        AccountDAO dao = new AccountDAO();
-        if (dao.updateAccount(updateAccount)) {
-            request.setAttribute("msg", "Update successfully!");
-        } else {
-            request.setAttribute("msg", "Update Failse!");
+        boolean checkError = true;
+
+        if (!accPassword.equals(accPasswordCf)) {
+            request.setAttribute("msg", "Password and ConfirmPassword must be the one !!");
+            checkError = false;
         }
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("updateAccount.jsp").forward(request, response);
+
+        if (checkError) {
+            Account updateAccount = new Account(user.getAccountID(), user.getRole(), user.getCreatedDate(), accName, accAddress, accPhone, user.getEmail(), accDob, gender, user.getTotalAccumulatedPoint(), accPassword);
+            AccountDAO dao = new AccountDAO();
+            if (dao.updateAccount(updateAccount)) {
+                request.setAttribute("msg", "Update successfully!");
+                user.setName(accName);
+                user.setAddress(accAddress);
+                user.setPhone(accPhone);
+                user.setDob(accDob);
+                user.setGender(gender);
+                user.setPassword(accPassword);
+            } else {
+                request.setAttribute("msg", "Update Failse!");
+            }
+            request.getRequestDispatcher("updateAccount.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("updateAccount.jsp").forward(request, response);
+        }
     }
 
     @Override
