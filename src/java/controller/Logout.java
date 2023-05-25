@@ -4,24 +4,19 @@
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.ProductDAO;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Account;
-import model.Product;
 
 /**
  *
  * @author ADMIN
  */
-public class LoginServlet extends HttpServlet {
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,27 +30,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("Email");
-        String password = request.getParameter("Password");
-//        String remember =request.getParameter("Remember");
-       AccountDAO daos=new AccountDAO();
-        Account acc = daos.login(email, password);
-
-        if (acc != null) { 
-            //luu session
-            HttpSession session = request.getSession();
-            session.setAttribute("acc", acc);
-            response.sendRedirect("index.jsp");
-//            Cookie cookieMail=new Cookie("cookieMail",email);
-//            Cookie cookiePass=new Cookie("cookiePass",password);
-//            Cookie cookieRem=new Cookie("cookieRem",remember);
-//            response.addCookie(cookieMail);
-//            response.addCookie(cookiePass);
-//            response.addCookie(cookieRem);
-        } else {
-            request.setAttribute("mess", "Wrong user or password");
-            response.sendRedirect("login.jsp");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -71,14 +46,31 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        HttpSession session=request.getSession();
+//        session.invalidate();
+        session.removeAttribute("acc");
+        response.sendRedirect("index.jsp");
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

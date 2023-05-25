@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- header -->
 <div class="top-header-area" id="sticker">
@@ -41,13 +42,33 @@
                                                                                                         </div>-->
                                 <div class="header-icons">
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                                    <c:if test="${sessionScope.acc ==null}">
+<!--                                    <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>-->
                                     <a class="" href="login.jsp">Login</a>
-                                    <a class="" href="signup.jsp">Sign up</a>
+                                    </c:if>
                                 </div>
+                                
                             </li>
-                            <c:if test="${sessionScope.acc.role == 'US'}">
-                                <li><a href="UpdateAccountServlet">Update Account</a></li>
+                            <c:if test="${sessionScope.acc != null}">
+                                 <c:if test="${sessionScope.acc.role == 'AD'}">
+                                <li><a href="#">Feature 1</a></li>
+                                <li><a href="#">Feature 2</a></li>
+                                <li><a href="#">Feature 3</a></li>
                             </c:if>
+                                <c:if test="${sessionScope.acc.role == 'US'}">
+                                <li><a href="#">Feature 1</a></li>
+                                <li><a href="#">Feature 2</a></li>
+                                <li><a href="#">Feature 3</a></li>
+                            </c:if>
+                                <c:if test="${sessionScope.acc.role == 'ST'}">
+                                <li><a href="#">Feature 1</a></li>
+                                <li><a href="#">Feature 2</a></li>
+                                <li><a href="#">Feature 3</a></li>
+                            </c:if>
+                                <li><a href="UpdateAccountServlet"><i class="fas fa-user"></i> ${sessionScope.acc.name}</a></li> 
+                                <li><a href="./logout">Logout</a></li>
+                            </c:if>
+                               
 
                         </ul>
                     </nav>

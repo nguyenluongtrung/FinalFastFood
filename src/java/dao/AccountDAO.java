@@ -25,13 +25,10 @@ public class AccountDAO {
         String query = "SELECT * FROM Account where Email=? and Password=?";
 
         try {
-            conn = new DBContext().getConnection();
-
+            conn =DBContext.getConnection();
             ps = conn.prepareStatement(query);
-            
             ps.setString(1, email);
             ps.setString(2, pass);
-            
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getBoolean(9), rs.getInt(10), rs.getString(11));

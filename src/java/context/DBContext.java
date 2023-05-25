@@ -13,10 +13,10 @@ import java.sql.DriverManager;
  * @author ADMIN
  */
 public class DBContext {
-    public Connection getConnection() throws Exception {
+    public static Connection getConnection() throws Exception {
         String url = "jdbc:sqlserver://localhost:1433;databaseName=FastFood";
         String username = "sa";
-        String password = "123";
+        String password = "Toan1234";
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         return DriverManager.getConnection(url, username, password);
     }
