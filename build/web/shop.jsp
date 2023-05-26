@@ -108,7 +108,7 @@
                                 <div class="col-lg-4 col-md-6 text-center strawberry">
 					<div class="single-product-item">
 						<div class="product-image">
-                                                    <a href="single-product.jsp"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                                    <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
 						</div>
 						<h3>${c.name}</h3>
 						<p class="product-price"><span>Per Kg</span> 85$ </p>
