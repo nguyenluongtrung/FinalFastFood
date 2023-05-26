@@ -4,6 +4,10 @@
         <servlet-name>ShoppingServlet</servlet-name>
         <servlet-class>controller.ShoppingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <servlet-class>controller.SearchByNameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>UpdateAccountConfirmServlet</servlet-name>
         <url-pattern>/UpdateAccountConfirmServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <url-pattern>/search-name</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
