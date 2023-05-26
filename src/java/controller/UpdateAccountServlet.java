@@ -30,7 +30,33 @@ public class UpdateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int accountID = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String dob = request.getParameter("dob");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String gender_raw = request.getParameter("gender");
+        boolean gender = false;
+        if("male".equalsIgnoreCase(gender_raw)){
+            gender = true;
+        }
+        String password = request.getParameter("password");
+        
+        new AccountDAO().updateAccount(name, address, phone, dob, gender, password, accountID);
+        Account acc = (Account) request.getSession().getAttribute("acc");
+        acc.setAddress(address);
+        acc.setName(name);
+        acc.setDob(dob);
+        acc.setPassword(password);
+        acc.setPhone(phone);
+        acc.setGender(gender);
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+        pw.println("<script type=\"text/javascript\">");
+        pw.println("alert('Update information successfully');");
+        pw.println("</script>");
+        request.getRequestDispatcher("index.jsp").include(request, response);
+
     }
 
     @Override

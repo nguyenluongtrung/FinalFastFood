@@ -28,10 +28,10 @@
                             <h3 class="mb-4 text-center">Have an account?</h3>
                             <form action="LoginServlet" method="post" class="signin-form">
                                 <div class="form-group">
-                                    <input type="text" name="Email" class="form-control" placeholder="Email" required>
+                                    <input type="text" name="email" class="form-control" placeholder="Email" required value="${email}">
                                 </div>
                                 <div class="form-group">
-                                    <input id="password-field" type="password"  name="Password" class="form-control" placeholder="Password" required>
+                                    <input id="password-field" type="password"  name="password" class="form-control" placeholder="Password" required value="${password}">
                                     <span toggle="#password-field"  class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 </div>
                                 <div class="form-group">
@@ -40,12 +40,12 @@
                                 <div class="form-group d-md-flex">
                                     <div class="w-50">
                                         <label class="checkbox-wrap checkbox-primary">Remember Me
-                                            <input type="checkbox" checked>
+                                            <input type="checkbox" checked name="remember">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                     <div class="w-50 text-md-right">
-                                        <a href="#" style="color: #fff">Forgot Password</a>
+                                        <a href="forgot-password" style="color: #fff">Forgot Password</a>
                                     </div>
                                 </div>
                             </form>

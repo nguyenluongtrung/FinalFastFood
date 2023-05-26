@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- header -->
 <div class="top-header-area" id="sticker">
@@ -34,20 +35,24 @@
                                     <li><a href="cart.jsp">Cart</a></li>
                                 </ul>
                             </li>
+                            
                             <li>
-                                <!--									<div class="header-icons">
-                                                                                                                <a class="shopping-cart" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
-                                                                                                                <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                                                                                        </div>-->
+            
                                 <div class="header-icons">
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                    <a class="" href="login.jsp">Login</a>
-                                    <a class="" href="signup.jsp">Sign up</a>
+                                    <c:if test="${sessionScope.acc.role == null}">
+                                        <a class="" href="login.jsp">Login</a>
+                                        <a class="" href="signup.jsp">Sign up</a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.acc.role != null}">
+                                        <a class="shopping-cart" href="cart.jsp"><i class="fas fa-shopping-cart"></i></a>
+                                        <a href="UpdateAccountServlet">My Account</a>
+                                        <a href="logout">Log out</a>
+                                    </c:if>
+                                    
                                 </div>
                             </li>
-                            <c:if test="${sessionScope.acc.role == 'US'}">
-                                <li><a href="UpdateAccountServlet">Update Account</a></li>
-                            </c:if>
+
 
                         </ul>
                     </nav>

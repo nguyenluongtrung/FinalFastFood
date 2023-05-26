@@ -12,6 +12,10 @@
         <servlet-name>SearchByNameServlet</servlet-name>
         <servlet-class>controller.SearchByNameServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -36,17 +40,9 @@
         <servlet-name>UpdateAccountServlet</servlet-name>
         <servlet-class>controller.UpdateAccountServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>UpdateAccountConfirmServlet</servlet-name>
-        <servlet-class>controller.UpdateAccountConfirmServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>UpdateAccountServlet</servlet-name>
         <url-pattern>/UpdateAccountServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateAccountConfirmServlet</servlet-name>
-        <url-pattern>/UpdateAccountConfirmServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SingleProductServlet</servlet-name>
@@ -55,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>SearchByNameServlet</servlet-name>
         <url-pattern>/search-name</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <servlet-class>controller.ForgotPasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgot-password</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
