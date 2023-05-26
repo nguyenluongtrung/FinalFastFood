@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
             //luu session
             HttpSession session = request.getSession();
             session.setAttribute("acc", acc);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("shop.jsp");
 //            Cookie cookieMail=new Cookie("cookieMail",email);
 //            Cookie cookiePass=new Cookie("cookiePass",password);
 //            Cookie cookieRem=new Cookie("cookieRem",remember);

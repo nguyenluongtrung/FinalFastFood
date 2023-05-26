@@ -42,33 +42,40 @@
                                                                                                         </div>-->
                                 <div class="header-icons">
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                    <c:if test="${sessionScope.acc ==null}">
-<!--                                    <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>-->
-                                    <a class="" href="login.jsp">Login</a>
+                                        <c:if test="${sessionScope.acc ==null}">
+                                        <!--                                    <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>-->
+                                        <a class="" href="login.jsp">Login</a>
                                     </c:if>
                                 </div>
-                                
+
                             </li>
-                            <c:if test="${sessionScope.acc != null}">
-                                 <c:if test="${sessionScope.acc.role == 'AD'}">
-                                <li><a href="#">Feature 1</a></li>
-                                <li><a href="#">Feature 2</a></li>
-                                <li><a href="#">Feature 3</a></li>
-                            </c:if>
-                                <c:if test="${sessionScope.acc.role == 'US'}">
-                                <li><a href="#">Feature 1</a></li>
-                                <li><a href="#">Feature 2</a></li>
-                                <li><a href="#">Feature 3</a></li>
-                            </c:if>
-                                <c:if test="${sessionScope.acc.role == 'ST'}">
-                                <li><a href="#">Feature 1</a></li>
-                                <li><a href="#">Feature 2</a></li>
-                                <li><a href="#">Feature 3</a></li>
-                            </c:if>
-                                <li><a href="UpdateAccountServlet"><i class="fas fa-user"></i> ${sessionScope.acc.name}</a></li> 
+                            <c:if test="${sessionScope.acc != null}"> 
+                                <li><a href="#">${sessionScope.acc.name}  <i class="fas fa-user"></i></a>
+
+                                    <ul class="sub-menu">
+                                        <c:if test="${sessionScope.acc.role == 'AD'}">
+                                            <li><a href="#">Feature 1</a></li>
+                                            <li><a href="#">Feature 2</a></li>
+                                            <li><a href="#">Feature 3</a></li>
+                                            </c:if>
+                                            <c:if test="${sessionScope.acc.role == 'US'}">
+                                            <li><a href="#">Feature 1</a></li>
+                                            <li><a href="#">Feature 2</a></li>
+                                            <li><a href="#">Feature 3</a></li>
+                                            </c:if>
+                                            <c:if test="${sessionScope.acc.role == 'ST'}">
+                                            <li><a href="#">Feature 1</a></li>
+                                            <li><a href="#">Feature 2</a></li>
+                                            <li><a href="#">Feature 3</a></li>
+                                            </c:if>
+                                    </ul> 
+
+
+
+
                                 <li><a href="./logout">Logout</a></li>
-                            </c:if>
-                               
+                                </c:if>
+
 
                         </ul>
                     </nav>
