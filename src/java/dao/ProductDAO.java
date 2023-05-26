@@ -54,18 +54,16 @@ public class ProductDAO {
         
     }
     
-     public List<Product> getProductsByName(String name, int index) {
+     public List<Product> getProductsByName(String name) {
         List<Product> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Product "
                     + "WHERE Name like ?";
-//                    + "ORDER BY ProductID OFFSET ? ROWS FETCH NEXT 9 ROWS ONLY;";
 
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(sql);
             ps.setString(1, "%" + name + "%");
-//            ps.setInt(2, 9 * (index - 1));
 
             rs = ps.executeQuery();
             while (rs.next()) {

@@ -58,16 +58,9 @@ public class SearchByNameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int index = 0;
-        if (request.getAttribute("index") == null) {
-            index = 1;
-        } else {
-            index = (int) (request.getAttribute("index"));
-        }
+        
         String name = request.getParameter("name");
-        List<Product> products = new ProductDAO().getProductsByName(name,index);
-        request.setAttribute("tag", index);
-        request.setAttribute("name", name);
+        List<Product> products = new ProductDAO().getProductsByName(name);
         request.setAttribute("list", products);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
