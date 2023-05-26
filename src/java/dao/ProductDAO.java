@@ -116,6 +116,28 @@ public class ProductDAO {
         }
         return list;
     }
+    
+    public List<Product> getProductsByName(String name, int index) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Product "
+                    + "WHERE Name like ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%");
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getFloat(8), rs.getInt(9), rs.getInt(10));
+                list.add(product);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         System.out.println(new ProductDAO().getProductByID(2));

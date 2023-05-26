@@ -8,6 +8,10 @@
         <servlet-name>SingleProductServlet</servlet-name>
         <servlet-class>controller.SingleProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <servlet-class>controller.SearchByNameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>SingleProductServlet</servlet-name>
         <url-pattern>/single-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <url-pattern>/search-name</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
