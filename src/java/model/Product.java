@@ -20,11 +20,15 @@ public class Product {
     private float rating;
     private int accumulatedPoint;
     private int exchangedPoint;
+    private int priceID;
+    private String startDate;
+    private String endDate;
+    private int price;
 
     public Product() {
     }
 
-    public Product(int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint) {
+    public Product(int priceID, String startDate, String endDate, int price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint) {
         this.productID = productID;
         this.name = name;
         this.image = image;
@@ -35,6 +39,10 @@ public class Product {
         this.rating = rating;
         this.accumulatedPoint = accumulatedPoint;
         this.exchangedPoint = exchangedPoint;
+        this.priceID = priceID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
     }
 
     public int getProductID() {
@@ -117,10 +125,44 @@ public class Product {
         this.exchangedPoint = exchangedPoint;
     }
 
+    public int getPriceID() {
+        return priceID;
+    }
+
+    public void setPriceID(int priceID) {
+        this.priceID = priceID;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
-        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", quantity=" + quantity + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + '}';
+        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", quantity=" + quantity + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + ", priceID=" + priceID + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + '}';
     }
+
+    
     
     
     

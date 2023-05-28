@@ -28,17 +28,7 @@ public class ProductDAO {
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         try {
-            String sql = "SELECT [ProductID]\n"
-                    + "      ,[Name]\n"
-                    + "      ,[Image]\n"
-                    + "      ,[CategoryID]\n"
-                    + "      ,[Quantity]\n"
-                    + "      ,[Calories]\n"
-                    + "      ,[isSurprise]\n"
-                    + "      ,[Rating]\n"
-                    + "      ,[AccumulatedPoint]\n"
-                    + "      ,[ExchangedPoint]\n"
-                    + "  FROM [dbo].[Product]";
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE GETDATE() BETWEEN a.StartDate AND a.EndDate";
 
             conn = new DBContext().getConnection();
 
@@ -46,7 +36,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getFloat(8), rs.getInt(9), rs.getInt(10)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,18 +47,7 @@ public class ProductDAO {
 
     public Product getProductByID(int id) {
         try {
-            String sql = "SELECT [ProductID]\n"
-                    + "      ,[Name]\n"
-                    + "      ,[Image]\n"
-                    + "      ,[CategoryID]\n"
-                    + "      ,[Quantity]\n"
-                    + "      ,[Calories]\n"
-                    + "      ,[isSurprise]\n"
-                    + "      ,[Rating]\n"
-                    + "      ,[AccumulatedPoint]\n"
-                    + "      ,[ExchangedPoint]\n"
-                    + "  FROM [dbo].[Product]\n"
-                    + "  WHERE ProductID = ?";
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.ProductID = ?) AND (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
 
             conn = new DBContext().getConnection();
 
@@ -77,7 +56,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                return new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getFloat(8), rs.getInt(9), rs.getInt(10));
+                return new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,18 +67,7 @@ public class ProductDAO {
     public List<Product> getRelatedProducts(int id, int pID) {
         List<Product> list = new ArrayList<>();
         try {
-            String sql = "SELECT TOP 3 [ProductID]\n"
-                    + "      ,[Name]\n"
-                    + "      ,[Image]\n"
-                    + "      ,[CategoryID]\n"
-                    + "      ,[Quantity]\n"
-                    + "      ,[Calories]\n"
-                    + "      ,[isSurprise]\n"
-                    + "      ,[Rating]\n"
-                    + "      ,[AccumulatedPoint]\n"
-                    + "      ,[ExchangedPoint]\n"
-                    + "  FROM [dbo].[Product]\n"
-                    + "  WHERE CategoryID = ? and ProductID <> ?";
+            String sql = "SELECT TOP 3 a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.CategoryID = ? and b.ProductID <> ?) AND (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
 
             conn = new DBContext().getConnection();
 
@@ -109,7 +77,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getFloat(8), rs.getInt(9), rs.getInt(10)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,8 +88,7 @@ public class ProductDAO {
     public List<Product> getProductsByName(String name, int index) {
         List<Product> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Product "
-                    + "WHERE Name like ?";
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Name like ?) AND (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
 
             conn = new DBContext().getConnection();
 
@@ -130,8 +97,26 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                Product product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getFloat(8), rs.getInt(9), rs.getInt(10));
-                list.add(product);
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public List<Product> getSomeProducts() {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "SELECT TOP 6 a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);

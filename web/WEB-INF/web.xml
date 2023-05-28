@@ -16,6 +16,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>controller.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeControlServlet</servlet-name>
+        <servlet-class>controller.HomeControlServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>ForgotPasswordServlet</servlet-name>
         <url-pattern>/forgot-password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeControlServlet</servlet-name>
+        <url-pattern>/home-control</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

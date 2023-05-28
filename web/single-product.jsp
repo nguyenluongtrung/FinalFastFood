@@ -100,7 +100,7 @@
                     <div class="col-md-7">
                         <div class="single-product-content">
                             <h3>${product.name}</h3>
-                            <p class="single-product-pricing">$50</p>
+                            <p class="single-product-pricing">${product.price}$</p>
                             <div class="single-product-form">
                                 <form action="index.html">
                                     <input type="number" placeholder="0">
@@ -141,7 +141,7 @@
                                     <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
                                 </div>
                                 <h3>${c.name}</h3>
-                                <p class="product-price"><span>Per Kg</span> 85$ </p>
+                                <p class="product-price"> ${c.price}$ </p>
                                 <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             </div>
                         </div>

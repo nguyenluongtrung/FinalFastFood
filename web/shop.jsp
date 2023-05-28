@@ -97,9 +97,6 @@
                             <div class="product-filters">
                                 <ul>
                                     <li class="active" data-filter="*">All</li>
-                                    <li data-filter=".strawberry">Strawberry</li>
-                                    <li data-filter=".berry">Berry</li>
-                                    <li data-filter=".lemon">Lemon</li>
                                 </ul>
                             </div>
                         </div>
@@ -113,7 +110,7 @@
                                     <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
                                 </div>
                                 <h3>${c.name}</h3>
-                                <p class="product-price"><span>Per Kg</span> 85$ </p>
+                                <p class="product-price"> ${c.price}$ </p>
                                 <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             </div>
                         </div>

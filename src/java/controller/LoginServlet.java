@@ -92,7 +92,7 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(p);
             response.addCookie(e);
 
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("home-control");
         } else {
             //login failed
             response.setContentType("text/html");

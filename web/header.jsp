@@ -23,7 +23,7 @@
                     <!-- menu start -->
                     <nav class="main-menu">
                         <ul>
-                            <li class="current-list-item"><a href="index.jsp">Home</a>
+                            <li class="current-list-item"><a href="home-control">Home</a>
                             </li>
                             <li><a href="about.jsp">About</a></li>
                             <li><a href="contact.jsp">Contact</a></li>
@@ -31,7 +31,6 @@
                                 <ul class="sub-menu">
                                     <li><a href="shopping">Shop</a></li>
                                     <li><a href="checkout.jsp">Check Out</a></li>
-                                    <li><a href="single-product.jsp">Single Product</a></li>
                                     <li><a href="cart.jsp">Cart</a></li>
                                 </ul>
                             </li>
