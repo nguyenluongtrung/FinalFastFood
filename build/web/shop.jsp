@@ -111,7 +111,7 @@
                                 </div>
                                 <h3>${c.name}</h3>
                                 <p class="product-price"> ${c.price}$ </p>
-                                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <a href="cart.jsp" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             </div>
                         </div>
                     </c:forEach>

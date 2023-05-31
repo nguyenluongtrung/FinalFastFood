@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>PlaceOrderFilter</filter-name>
+        <filter-class>controller.PlaceOrderFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PlaceOrderFilter</filter-name>
+        <url-pattern>/checkout</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>ShoppingServlet</servlet-name>
         <servlet-class>controller.ShoppingServlet</servlet-class>
@@ -19,6 +27,18 @@
     <servlet>
         <servlet-name>HomeControlServlet</servlet-name>
         <servlet-class>controller.HomeControlServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>controller.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>controller.RemoveFromCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>controller.CheckoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
@@ -71,6 +91,18 @@
     <servlet-mapping>
         <servlet-name>HomeControlServlet</servlet-name>
         <url-pattern>/home-control</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/add-to-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/remove-from-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

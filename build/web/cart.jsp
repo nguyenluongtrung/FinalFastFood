@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +39,21 @@
         <!-- responsive -->
         <link rel="stylesheet" href="assets/css/responsive.css">
 
+        <style>
+             .continue-btn{
+                cursor: pointer;
+                border-radius: 30px;
+                background-color: #f28123;
+                color: white;
+                border:none;
+            }
+
+            .continue-btn:hover{
+                background-color: black;
+                color: #f28123;
+                border: none;
+            }
+        </style>
     </head>
     <body>
 
@@ -105,33 +121,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach items="${items}" var="c">
                                         <tr class="table-body-row">
-                                            <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                            <td class="product-image"><img src="assets/img/products/product-img-1.jpg" alt=""></td>
-                                            <td class="product-name">Strawberry</td>
-                                            <td class="product-price">$85</td>
-                                            <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                            <td class="product-total">1</td>
+                                            <td class="product-remove"><a href="remove-from-cart?id=${c.product.productID}"><i class="far fa-window-close"></i></a></td>
+                                            <td class="product-image"><img src="${c.product.image}" alt="" style="height: 50px; width: 50px;"></td>
+                                            <td class="product-name">${c.product.name}</td>
+                                            <td class="product-price">${c.product.price}$</td>
+                                            <td class="product-quantity"><input type="number" readonly placeholder="${c.quantity}"></td>
+                                            <td class="product-total">${c.quantity * c.product.price}$</td>
                                         </tr>
-                                        <tr class="table-body-row">
-                                            <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                            <td class="product-image"><img src="assets/img/products/product-img-2.jpg" alt=""></td>
-                                            <td class="product-name">Berry</td>
-                                            <td class="product-price">$70</td>
-                                            <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                            <td class="product-total">1</td>
-                                        </tr>
-                                        <tr class="table-body-row">
-                                            <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                            <td class="product-image"><img src="assets/img/products/product-img-3.jpg" alt=""></td>
-                                            <td class="product-name">Lemon</td>
-                                            <td class="product-price">$35</td>
-                                            <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                            <td class="product-total">1</td>
-                                        </tr>
+                                    </c:forEach>
+                                        
                                     </tbody>
+                                    
+                                    
                                 </table>
+                                
                             </div>
+                            <div class="mt-5"><a href="shopping" class="px-5 py-3 mt-5 continue-btn">Continue shopping</a></div>
+                            
                         </div>
 
                         <div class="col-lg-4">
@@ -146,21 +154,20 @@
                                     <tbody>
                                         <tr class="total-data">
                                             <td><strong>Subtotal: </strong></td>
-                                            <td>$500</td>
+                                            <td>${subtotal}$</td>
                                         </tr>
-                                        <tr class="total-data">
+<!--                                        <tr class="total-data">
                                             <td><strong>Shipping: </strong></td>
-                                            <td>$45</td>
-                                        </tr>
+                                            <td>$50</td>
+                                        </tr>-->
                                         <tr class="total-data">
                                             <td><strong>Total: </strong></td>
-                                            <td>$545</td>
+                                            <td>${subtotal}$</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="cart-buttons">
-                                    <a href="cart.html" class="boxed-btn">Update Cart</a>
-                                    <a href="checkout.html" class="boxed-btn black">Check Out</a>
+                                    <a href="checkout" class="boxed-btn black">Check Out</a>
                                 </div>
                             </div>
 

@@ -84,7 +84,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<Product> getProductsByName(String name, int index) {
         List<Product> list = new ArrayList<>();
         try {
@@ -104,7 +104,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<Product> getSomeProducts() {
         List<Product> list = new ArrayList<>();
         try {
@@ -126,5 +126,23 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         System.out.println(new ProductDAO().getProductByID(2));
+    }
+
+    public void updateQuantity(int productID, int quantity) {
+        try {
+            String sql = "UPDATE [dbo].[Product]\n"
+                    + "   SET [Quantity] = [Quantity] - ?\n"
+                    + " WHERE ProductID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, quantity);
+            ps.setInt(2, productID);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -27,9 +27,9 @@
                             </li>
                             <li><a href="about.jsp">About</a></li>
                             <li><a href="contact.jsp">Contact</a></li>
-                            <li><a href="shopping">Shop</a>
+                            <li><a href="shopping">Menu</a>
                                 <ul class="sub-menu">
-                                    <li><a href="shopping">Shop</a></li>
+                                    <li><a href="shopping">Menu</a></li>
                                     <li><a href="checkout.jsp">Check Out</a></li>
                                     <li><a href="cart.jsp">Cart</a></li>
                                 </ul>
@@ -44,7 +44,7 @@
                                         <a class="" href="signup.jsp">Sign up</a>
                                     </c:if>
                                     <c:if test="${sessionScope.acc.role != null}">
-                                        <a class="shopping-cart" href="cart.jsp"><i class="fas fa-shopping-cart"></i></a>
+                                        <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
                                         <a href="UpdateAccountServlet">My Account</a>
                                         <a href="logout">Log out</a>
                                     </c:if>

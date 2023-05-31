@@ -102,11 +102,14 @@
                             <h3>${product.name}</h3>
                             <p class="single-product-pricing">${product.price}$</p>
                             <div class="single-product-form">
-                                <form action="index.html">
-                                    <input type="number" placeholder="0">
+                                <p>Calories: ${product.calories}</p>
+                                <p>Categories: ${category.categoryName}</p>
+                                <form action="add-to-cart">
+                                    <input type="number" placeholder="0" name="quantity"><br>
+                                    <input type="hidden" name="productID" value="${product.productID}">
+                                    <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                                 </form>
-                                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                                <p><strong>Categories: ${category.categoryName}</strong></p>
+                                
                             </div>
                             <h4>Share:</h4>
                             <ul class="product-share">
@@ -142,7 +145,7 @@
                                 </div>
                                 <h3>${c.name}</h3>
                                 <p class="product-price"> ${c.price}$ </p>
-                                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <a href="cart.jsp" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             </div>
                         </div>
                     </c:forEach>
