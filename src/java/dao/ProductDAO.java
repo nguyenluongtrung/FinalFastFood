@@ -125,7 +125,7 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductByID(2));
+        System.out.println(new ProductDAO().getAllProducts());
     }
 
     public void updateQuantity(int productID, int quantity) {
@@ -145,4 +145,35 @@ public class ProductDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<Product> searchByCalories(int from, int to) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if(to != -1){
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Calories >= ?) AND (b.Calories <= ?) AND (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
+            }
+            else{
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Calories >= ?) AND (GETDATE() BETWEEN a.StartDate AND a.EndDate)";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if(to != -1){
+                ps.setInt(1, from);
+                ps.setInt(2, to);
+            }
+            else{
+                ps.setInt(1, from);
+            }
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    
 }
