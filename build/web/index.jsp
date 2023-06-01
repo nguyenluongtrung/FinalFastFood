@@ -47,7 +47,7 @@
                 <div class="circle"></div>
             </div>
         </div>
-        <!--PreLoader Ends-->
+        
 
         <jsp:include page="header.jsp"></jsp:include>
 

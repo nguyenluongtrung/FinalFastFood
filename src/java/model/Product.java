@@ -37,6 +37,20 @@ public class Product {
         this.exchangedPoint = exchangedPoint;
     }
 
+    public Product(String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint) {
+        this.name = name;
+        this.image = image;
+        this.categoryID = categoryID;
+        this.quantity = quantity;
+        this.calories = calories;
+        this.isSurprise = isSurprise;
+        this.rating = rating;
+        this.accumulatedPoint = accumulatedPoint;
+        this.exchangedPoint = exchangedPoint;
+    }
+
+    
+
     public int getProductID() {
         return productID;
     }

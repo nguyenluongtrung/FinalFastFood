@@ -12,6 +12,30 @@
         <servlet-name>SearchByNameServlet</servlet-name>
         <servlet-class>controller.SearchByNameServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerServlet</servlet-name>
+        <servlet-class>controller.ManagerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddproductServlet</servlet-name>
+        <servlet-class>controller.AddproductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>controller.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateproducServlet</servlet-name>
+        <servlet-class>controller.UpdateproducServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditProductServlet</servlet-name>
+        <servlet-class>controller.EditProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -55,6 +79,30 @@
     <servlet-mapping>
         <servlet-name>SearchByNameServlet</servlet-name>
         <url-pattern>/search-name</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerServlet</servlet-name>
+        <url-pattern>/manager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddproductServlet</servlet-name>
+        <url-pattern>/addproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/deleteproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateproducServlet</servlet-name>
+        <url-pattern>/updateproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditProductServlet</servlet-name>
+        <url-pattern>/editproduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

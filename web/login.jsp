@@ -40,7 +40,7 @@
                                 <div class="form-group d-md-flex">
                                     <div class="w-50">
                                         <label class="checkbox-wrap checkbox-primary">Remember Me
-                                            <input type="checkbox" checked>
+                                            <input type="checkbox" name="Remember" checked>
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -49,11 +49,9 @@
                                     </div>
                                 </div>
                             </form>
-                            <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+                            <p class="w-100 text-center">&mdash; Or Sign Up &mdash;</p>
                             <div class="social d-flex text-center">
-                                <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
-                                <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
-                            </div>
+                                <a href="signup.jsp" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Sign Up</a>                           </div>
                         </div>
                     </div>
                 </div>
@@ -67,4 +65,3 @@
 
     </body>
 </html>
-
