@@ -10,8 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Order;
 
 /**
  *
@@ -52,6 +55,38 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    public List<Order> getOrderByAccountID(int accountID) {
+        List<Order> list = new ArrayList<>();
+        try {
+            String sql = "SELECT [OrderID]\n"
+                    + "      ,[TotalPrice]\n"
+                    + "      ,[ShippingID]\n"
+                    + "      ,[Note]\n"
+                    + "      ,[Status]\n"
+                    + "      ,[Date]\n"
+                    + "      ,[AccountID]\n"
+                    + "  FROM [FastFood].[dbo].[Order]\n"
+                    + "  WHERE AccountID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, accountID);
+
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new OrderDAO().getOrderByAccountID(4));
     }
 
 }

@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -73,7 +74,55 @@
                 margin-bottom: 1rem;
             }
 
+            .card-ul{
+                padding: 0;
+            }
+
+            .card-ul li{
+                list-style: none;
+                margin-bottom: 15px;
+            }
+
+
+
+            .card-ul li a{
+                text-decoration: none;
+                color: black;
+            }
+
+            .card-ul li a:hover{
+                display: block;
+                color: #f28123;
+                border-bottom: #f28123 solid 3px;
+                transition: 0.3s ease-in-out;
+            }
+
+            #my-order-list {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            #my-order-list td, #my-order-list th {
+                border: 1px solid #ddd;
+                padding: 8px 26px;
+
+            }
+
+            #my-order-list tr:nth-child(even){background-color: #f2f2f2;}
+
+            #my-order-list tr:hover {background-color: #ddd;}
+
+            #my-order-list th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+
         </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     </head>
     <body>
@@ -94,9 +143,20 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="card-ul">
+                                    <li><a href="#" onclick="myFunction1()"><span><i class="fa-solid fa-person"></i></span> &nbsp; My Information</a></li>
+                                    <li><a href="#" onclick="myFunction2()"><span><i class="fa-solid fa-box"></i></span> &nbsp; My Order</a></li>
+                                    <li><a href="#" onclick="myFunction3()"><span><i class="fa-solid fa-bell"></i></i></span> &nbsp; My Notification</a></li>
+                                    <li><a href="#" onclick="myFunction4()"><span><i class="fa-solid fa-coins"></i></span> &nbsp; My Accumulated Points</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" id="my-info">
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="row gutters">
@@ -157,8 +217,67 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" style="display:none;" id="my-order">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row gutters pl-3">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h6 class="mb-2 text-primary">My Orders</h6>
+                                    </div>
+                                    <div>
+                                        <table id="my-order-list">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Total Price</th>
+                                                <th>Note</th>
+                                                <th>Status</th>
+                                                <th>View details</th>
+                                            </tr>
+                                            <c:forEach items="${orders}" var="c">
+                                                <tr>
+                                                    <td>${c.date}</td>
+                                                    <td>${c.totalPrice}</td>
+                                                    <td>${c.note}</td>
+                                                    <td>${c.status}</td>
+                                                    <td><a href="view-order-details?id=${c.orderID}">View</a></td>
+                                                </tr>
+                                            </c:forEach>
+
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </form>
         </div>
+
+        <script>
+            function myFunction1() {
+                document.getElementById('my-info').style.display = 'block';
+                document.getElementById('my-order').style.display = 'none';
+
+            }
+            function myFunction2() {
+                document.getElementById('my-info').style.display = 'none';
+                document.getElementById('my-order').style.display = 'block';
+
+            }
+            function myFunction3() {
+                document.getElementById('my-info').style.display = 'none';
+                document.getElementById('my-order').style.display = 'block';
+
+            }
+            function myFunction4() {
+                document.getElementById('my-info').style.display = 'none';
+                document.getElementById('my-order').style.display = 'block';
+
+            }
+        </script>
     </body>
 </html>

@@ -44,6 +44,10 @@
         <servlet-name>SearchByCaloriesServlet</servlet-name>
         <servlet-class>controller.SearchByCaloriesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewOrderDetailServlet</servlet-name>
+        <servlet-class>controller.ViewOrderDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>SearchByCaloriesServlet</servlet-name>
         <url-pattern>/search-by-calories</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewOrderDetailServlet</servlet-name>
+        <url-pattern>/view-order-details</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

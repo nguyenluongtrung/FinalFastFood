@@ -97,23 +97,25 @@
                 transition: 0.3s ease-in-out;
             }
 
-            #my-order-list {
+            #my-order-list, #my-order-list2 {
                 font-family: Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
                 width: 100%;
             }
 
-            #my-order-list td, #my-order-list th {
+            #my-order-list td, #my-order-list th, #my-order-list2 td, #my-order-list2 th {
                 border: 1px solid #ddd;
                 padding: 8px 26px;
 
             }
 
             #my-order-list tr:nth-child(even){background-color: #f2f2f2;}
+            #my-order-list2 tr:nth-child(even){background-color: #f2f2f2;}
 
             #my-order-list tr:hover {background-color: #ddd;}
+            #my-order-list2 tr:hover {background-color: #ddd;}
 
-            #my-order-list th {
+            #my-order-list th, #my-order-list2 th{
                 padding-top: 12px;
                 padding-bottom: 12px;
                 text-align: left;
@@ -156,7 +158,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" id="my-info">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" style="display:none;" id="my-info">
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="row gutters">
@@ -218,7 +220,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" style="display:none;" id="my-order">
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" style="display: none;" id="my-order">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row gutters pl-3">
@@ -252,7 +254,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" id="my-order-detail">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row gutters pl-3">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h6 class="mb-2 text-primary">My Order Details</h6>
+                                    </div>
+                                    <div>
+                                        <table id="my-order-list">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Calories</th>
+                                                <th>Accumulated Points</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Subprice</th>
+                                            </tr>
+                                            <c:forEach items="${orderDetails}" var="c">
+                                                <tr>
+                                                    <td>${c.productName}</td>
+                                                    <td>${c.calories}</td>
+                                                    <td>${c.accumulatedPoints}</td>
+                                                    <td>${c.productQuantity}</td>
+                                                    <td>${c.productPrice}$</td>
+                                                    <td>${c.productQuantity * c.productPrice}$</td>
+                                                </tr>
+                                            </c:forEach>
 
+
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                 </div>
             </form>
         </div>
@@ -261,22 +300,13 @@
             function myFunction1() {
                 document.getElementById('my-info').style.display = 'block';
                 document.getElementById('my-order').style.display = 'none';
+                document.getElementById('my-order-detail').style.display = 'none';
 
             }
             function myFunction2() {
                 document.getElementById('my-info').style.display = 'none';
                 document.getElementById('my-order').style.display = 'block';
-
-            }
-            function myFunction3() {
-                document.getElementById('my-info').style.display = 'none';
-                document.getElementById('my-order').style.display = 'block';
-
-            }
-            function myFunction4() {
-                document.getElementById('my-info').style.display = 'none';
-                document.getElementById('my-order').style.display = 'block';
-
+                document.getElementById('my-order-detail').style.display = 'none';
             }
         </script>
     </body>

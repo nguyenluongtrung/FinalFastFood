@@ -6,13 +6,19 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.OrderDAO;
+import dao.ProductOrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Account;
+import model.Order;
+import model.ProductOrderDetail;
 
 public class UpdateAccountServlet extends HttpServlet {
 
@@ -24,7 +30,12 @@ public class UpdateAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("updateAccount.jsp");
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("acc");
+        int accountID = acc.getAccountID();
+        List<Order> orders = new OrderDAO().getOrderByAccountID(accountID);
+        request.setAttribute("orders", orders);
+        request.getRequestDispatcher("updateAccount.jsp").forward(request, response);
     }
 
     @Override
@@ -37,11 +48,11 @@ public class UpdateAccountServlet extends HttpServlet {
         String address = request.getParameter("address");
         String gender_raw = request.getParameter("gender");
         boolean gender = false;
-        if("male".equalsIgnoreCase(gender_raw)){
+        if ("male".equalsIgnoreCase(gender_raw)) {
             gender = true;
         }
         String password = request.getParameter("password");
-        
+
         new AccountDAO().updateAccount(name, address, phone, dob, gender, password, accountID);
         Account acc = (Account) request.getSession().getAttribute("acc");
         acc.setAddress(address);

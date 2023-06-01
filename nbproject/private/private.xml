@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/ShoppingServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/header.jsp</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/SearchByCaloriesServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/ProductDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/shop.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/UpdateAccountServlet.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/ProductOrderDetail.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/view-order-details.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/Order.java</file>
             <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/OrderDAO.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/ViewOrderDetailServlet.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/updateAccount.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/ProductOrderDetailDAO.java</file>
         </group>
     </open-files>
 </project-private>
