@@ -80,7 +80,12 @@ public class AddToCartServlet extends HttpServlet {
             if(productID_raw != null){
                 int productID = Integer.parseInt(productID_raw);
                 Product product = new ProductDAO().getProductByID(productID);
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                int quantity = 0;
+                if(request.getParameter("quantity") != null){
+                    quantity = Integer.parseInt(request.getParameter("quantity"));
+                }else{
+                    quantity = 1;
+                }
                 Item item = new Item(product, quantity);
                 cart.addItemToCart(item);
             }

@@ -5,31 +5,23 @@
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.OrderDAO;
-import dao.OrderDetailDAO;
 import dao.ProductDAO;
-import dao.ShippingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Account;
-import model.Cart;
-import model.Item;
+import model.CategoryRevenue;
+import model.HotProduct;
 
 /**
  *
  * @author ADMIN
  */
-public class CheckoutServlet extends HttpServlet {
+public class AdminPageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +40,10 @@ public class CheckoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckoutServlet</title>");            
+            out.println("<title>Servlet AdminPageServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CheckoutServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminPageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,17 +61,26 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession();
-            Cart cart = (Cart) session.getAttribute("cart");
-            List<Item> items = cart.getItems();
-            int subtotal = cart.getTotalMoney();
-            request.setAttribute("subtotal", subtotal);
-            request.setAttribute("items", items);
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        List<HotProduct> hList = new ProductDAO().getAllHotProducts();
+        List<CategoryRevenue> cList = new ProductDAO().getAllCategoryRevenue();
+        int[] crList = new int[10];
+        for(int i = 1;i <= 10; i++){
+            int ok = 0;
+            for(CategoryRevenue c: cList){
+                if(i == c.getCategoryID()){
+                    crList[i-1] = c.getTotalPrice();
+                    ok = 1;
+                    break;
+                }
+            }
+            if(ok == 0)
+                crList[i-1] = 0;
         }
+        System.out.println(Arrays.toString(crList));
+        
+        request.setAttribute("crList", Arrays.toString(crList));
+        request.setAttribute("hList", hList);
+        request.getRequestDispatcher("admin-dashboard.jsp").forward(request, response);
     }
 
     /**
@@ -93,37 +94,7 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
-            String phone = request.getParameter("phone");
-            String note = request.getParameter("note");
-            
-            int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
-            
-            HttpSession session = request.getSession();
-            Account acc = (Account) session.getAttribute("acc");
-            Cart cart = (Cart) session.getAttribute("cart");
-            int accountID = acc.getAccountID();
-            int totalPrice = cart.getTotalMoney();
-            
-            int orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID);
-            
-            List<Item> items = cart.getItems();
-            for(Item i: items){
-                int productID = i.getProduct().getProductID();
-                int quantity = i.getQuantity();
-                new OrderDetailDAO().addOrderDetail(orderID, productID, quantity);
-                new ProductDAO().updateQuantity(productID, quantity);
-            }
-            
-            new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
-            session.removeAttribute("cart");
-            request.getRequestDispatcher("thankyou.jsp").forward(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

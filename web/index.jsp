@@ -200,7 +200,10 @@
                                 </div>
                                 <h3>${c.name}</h3>
                                 <p class="product-price"> ${c.price}$ </p>
-                                <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <c:if test="${sessionScope.acc.role != null}">
+                                    <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
+                                </c:if>                       
                             </div>
                         </div>
                     </c:forEach> 

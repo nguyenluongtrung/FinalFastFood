@@ -48,6 +48,10 @@
         <servlet-name>ViewOrderDetailServlet</servlet-name>
         <servlet-class>controller.ViewOrderDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminPageServlet</servlet-name>
+        <servlet-class>controller.AdminPageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -119,6 +123,34 @@
     <servlet-mapping>
         <servlet-name>ViewOrderDetailServlet</servlet-name>
         <url-pattern>/view-order-details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminPageServlet</servlet-name>
+        <url-pattern>/admin-page</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddToWishListServlet</servlet-name>
+        <servlet-class>controller.AddToWishListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveFromWishlistServlet</servlet-name>
+        <servlet-class>controller.RemoveFromWishlistServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetListWishlistServlet</servlet-name>
+        <servlet-class>controller.GetListWishlistServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToWishListServlet</servlet-name>
+        <url-pattern>/add-to-wishlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFromWishlistServlet</servlet-name>
+        <url-pattern>/remove-wishlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetListWishlistServlet</servlet-name>
+        <url-pattern>/get-list-wishlist</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

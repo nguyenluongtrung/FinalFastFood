@@ -159,4 +159,22 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void updateAccumulatedPoints(int accountID, int totalAccumulatedPoints) {
+        try {
+            String sql = "UPDATE [dbo].[Account]\n"
+                    + "   SET [TotalAccumulatedPoint] = [TotalAccumulatedPoint] + ?\n"
+                    + " WHERE AccountID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, totalAccumulatedPoints);
+            ps.setInt(2, accountID);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

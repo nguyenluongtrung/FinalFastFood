@@ -1,6 +1,6 @@
 <%-- 
-    Document   : single-product
-    Created on : 20 May, 2023, 8:43:24 AM
+    Document   : cart
+    Created on : 20 May, 2023, 8:45:04 AM
     Author     : ADMIN
 --%>
 
@@ -15,7 +15,7 @@
         <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
         <!-- title -->
-        <title>Single Product</title>
+        <title>Wish List</title>
 
         <!-- favicon -->
         <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -39,6 +39,21 @@
         <!-- responsive -->
         <link rel="stylesheet" href="assets/css/responsive.css">
 
+        <style>
+            .continue-btn{
+                cursor: pointer;
+                border-radius: 30px;
+                background-color: #f28123;
+                color: white;
+                border:none;
+            }
+
+            .continue-btn:hover{
+                background-color: black;
+                color: #f28123;
+                border: none;
+            }
+        </style>
     </head>
     <body>
 
@@ -79,8 +94,8 @@
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2 text-center">
                             <div class="breadcrumb-text">
-                                <p>See more Details</p>
-                                <h1>Single Product</h1>
+                                <p>Fresh and Organic</p>
+                                <h1>Wish List</h1>
                             </div>
                         </div>
                     </div>
@@ -88,80 +103,54 @@
             </div>
             <!-- end breadcrumb section -->
 
-            <!-- single product -->
-            <div class="single-product mt-150 mb-150">
+            <!-- cart -->
+            <div class="cart-section mt-150 mb-150">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-5">
-                            <div class="single-product-img">
-                                <img src="${product.image}" alt="">
-                        </div>
+                        <div class="col-md-12">
+                            <div class="cart-table-wrap">
+                                <table class="cart-table">
+                                    <thead class="cart-table-head">
+                                        <tr class="table-head-row">
+                                            <!--<th class="product-remove"></th>-->
+                                            <th class="product-image">Product Image</th>
+                                            <th class="product-name">Name</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product-detail">Detail</th>
+                                            <th class="product-delete">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${products}" var="c">
+                                        <tr class="table-body-row">
+                                            <!--<td class="product-remove"><a href="remove-from-cart?id=${c.productID}"><i class="far fa-window-close"></i></a></td>-->
+                                            <td class="product-image"><img src="${c.image}" alt="" style="height: 50px; width: 50px;"></td>
+                                            <td class="product-name">${c.name}</td>
+                                            <td class="product-price">${c.price}$</td>
+                                            <td class="product-detail"><a href="single-product?id=${c.productID}">See Detail</a></td>
+                                            <!--<td class="product-delete"><a>Thêm Button Delete</a></td>-->
+                                            <td class="product-delete">
+                                                <a href="remove-wishlist?productID=${c.productID}">
+                                                    <button class="btn btn-danger px-5 py-3">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>             
+                                </tbody> 
+                            </table>
+                        </div>   
                     </div>
-                    <div class="col-md-7">
-                        <div class="single-product-content">
-                            <h3>${product.name}</h3>
-                            <p class="single-product-pricing">${product.price}$</p>
-                            <div class="single-product-form">
-                                <p>Calories: ${product.calories}</p>
-                                <p>Categories: ${category.categoryName}</p>
-                                <form action="add-to-cart">
-                                    <input type="number" placeholder="0" name="quantity" min="1"><br>
-                                    <input type="hidden" name="productID" value="${product.productID}">
-                                    <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-                                </form><br>
-                                <c:if test="${sessionScope.acc.role != null}">
-                                    <a href="add-to-wishlist?productID=${product.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
-                                </c:if>
-                            </div>
-                            <h4>Share:</h4>
-                            <ul class="product-share">
-                                <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href=""><i class="fab fa-twitter"></i></a></li>
-                                <li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
-                                <li><a href=""><i class="fab fa-linkedin"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end single product -->
-
-        <!-- more products -->
-        <div class="more-products mb-150">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2 text-center">
-                        <div class="section-title">	
-                            <h3><span class="orange-text">Related</span> Products</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <c:forEach items="${relatedProducts}" var="c">
-                        <div class="col-lg-4 col-md-6 text-center">
-                            <div class="single-product-item">
-                                <div class="product-image">
-                                    <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
-                                </div>
-                                <h3>${c.name}</h3>
-                                <p class="product-price"> ${c.price}$ </p>
-                                <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                                <c:if test="${sessionScope.acc.role != null}">
-                                    <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
-                                </c:if>
-                            </div>
-                        </div>
-                    </c:forEach>
 
                 </div>
             </div>
         </div>
-        <!-- end more products -->
+        <!-- end cart -->
+
+
 
         <jsp:include page="footer.jsp"></jsp:include>
-
 
 
         <!-- jquery -->

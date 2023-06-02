@@ -27,28 +27,28 @@
                             </li>
                             <li><a href="about.jsp">About</a></li>
                             <li><a href="contact.jsp">Contact</a></li>
-                            <li><a href="shopping">Menu</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shopping">Menu</a></li>
-                                    <li><a href="checkout.jsp">Check Out</a></li>
-                                    <li><a href="cart.jsp">Cart</a></li>
-                                </ul>
-                            </li>
-                            
+                            <li><a href="shopping">Menu</a></li>
+                                <c:if test="${sessionScope.acc.role == 'AD'}">
+                                <li><a class="" href="admin-page">Admin Page</a></li>
+                                </c:if>
+
                             <li>
-            
+
                                 <div class="header-icons">
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                    <c:if test="${sessionScope.acc.role == null}">
+                                    <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
+                                        <c:if test="${sessionScope.acc.role == null}">
                                         <a class="" href="login.jsp">Login</a>
                                         <a class="" href="signup.jsp">Sign up</a>
                                     </c:if>
+
                                     <c:if test="${sessionScope.acc.role != null}">
-                                        <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
+
+                                        <a class="wishlist" href="get-list-wishlist"><i class="fas fa-heart"></i></a>
                                         <a href="UpdateAccountServlet">My Account</a>
                                         <a href="logout">Log out</a>
                                     </c:if>
-                                    
+
                                 </div>
                             </li>
 

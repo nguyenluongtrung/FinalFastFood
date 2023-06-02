@@ -105,11 +105,13 @@
                                 <p>Calories: ${product.calories}</p>
                                 <p>Categories: ${category.categoryName}</p>
                                 <form action="add-to-cart">
-                                    <input type="number" placeholder="0" name="quantity"><br>
+                                    <input type="number" placeholder="0" name="quantity" min="1"><br>
                                     <input type="hidden" name="productID" value="${product.productID}">
                                     <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-                                </form>
-                                
+                                </form><br>
+                                <c:if test="${sessionScope.acc.role != null}">
+                                    <a href="add-to-wishlist?productID=${product.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
+                                </c:if>
                             </div>
                             <h4>Share:</h4>
                             <ul class="product-share">
@@ -145,7 +147,10 @@
                                 </div>
                                 <h3>${c.name}</h3>
                                 <p class="product-price"> ${c.price}$ </p>
-                                <a href="cart.jsp" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                <c:if test="${sessionScope.acc.role != null}">
+                                    <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
+                                </c:if>
                             </div>
                         </div>
                     </c:forEach>

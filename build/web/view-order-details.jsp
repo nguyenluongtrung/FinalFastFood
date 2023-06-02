@@ -275,7 +275,7 @@
                                                 <tr>
                                                     <td>${c.productName}</td>
                                                     <td>${c.calories}</td>
-                                                    <td>${c.accumulatedPoints}</td>
+                                                    <td>${c.accumulatedPoints * c.productQuantity}</td>
                                                     <td>${c.productQuantity}</td>
                                                     <td>${c.productPrice}$</td>
                                                     <td>${c.productQuantity * c.productPrice}$</td>

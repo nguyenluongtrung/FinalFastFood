@@ -86,6 +86,14 @@ public class Cart {
         return sum;
     }
     
+    public int getTotalAccumulatedPoints(){
+        int sum = 0;
+        for(Item item : items){
+            sum += item.getProduct().getAccumulatedPoint()*item.getQuantity();
+        }
+        return sum;
+    }
+    
     
     
 }
