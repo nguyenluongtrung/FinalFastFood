@@ -5,9 +5,7 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import dao.FeedbackDAO;
-import dao.ProductDAO;
+import dao.SaleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,15 +13,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Category;
-import model.FeedbackAccount;
-import model.Product;
+import model.Sale;
 
 /**
  *
  * @author ADMIN
  */
-public class SingleProductServlet extends HttpServlet {
+public class ManageSaleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +38,10 @@ public class SingleProductServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SingleProductServlet</title>");            
+            out.println("<title>Servlet ManageSaleServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SingleProductServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ManageSaleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,16 +59,9 @@ public class SingleProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Product product = new ProductDAO().getProductByID(id);
-        Category category = new CategoryDAO().getCategoryByID(product.getCategoryID());
-        List<Product> relatedProducts = new ProductDAO().getRelatedProducts(product.getCategoryID(), product.getProductID());
-        List<FeedbackAccount> list = new FeedbackDAO().getFeedbackByProductID(id);
-        request.setAttribute("feed", list);
-        request.setAttribute("relatedProducts", relatedProducts);
-        request.setAttribute("category", category);
-        request.setAttribute("product", product);
-        request.getRequestDispatcher("single-product.jsp").forward(request, response);
+        List<Sale> sList = new SaleDAO().getAllSales();
+        request.setAttribute("sList", sList);
+        request.getRequestDispatcher("admin-sale.jsp").forward(request, response);
     }
 
     /**

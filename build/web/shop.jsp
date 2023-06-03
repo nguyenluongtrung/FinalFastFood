@@ -43,23 +43,42 @@
             .bg-orange{
                 background-color: #f28123;
             }
-            
-            
+
+
             .calories-ul{
                 list-style: none;
                 padding-left: 5px;
             }
-            
+
             .calories-ul li a{
                 color: grey;
                 font-size: 100%;
             }
-            
+
             .calories-ul li a:hover{
                 border-bottom: #f28123 3px solid;
                 display:block;
                 transition: 0.3s ease-in-out;
             }
+
+            .price-ul{
+                list-style: none;
+                padding-left: 5px;
+            }
+
+            .price-ul li a{
+                color: grey;
+                font-size: 100%;
+            }
+
+            .price-ul li a:hover{
+                border-bottom: #f28123 3px solid;
+                display:block;
+                transition: 0.3s ease-in-out;
+            }
+
+
+
 
 
         </style>
@@ -116,24 +135,35 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3 mt-150 mb-150">
-                        <div class="search-by-name bg-success " style="height:50px;width:100%">
-
+                        <div class="shop__sidebar__search w-100">
+                            <form action="search-name" method="get" >
+                                <input style="width: 86%;" class="rounded p-2 border-1" oninput="searchByName(this)" type="text" placeholder="Search..." name="name">
+                                <button style="width: 12%" class="p-2 rounded border-1" type="submit"><span class="fas fa-search" style="font-size: 120%;"></span></button>
+                            </form>
                         </div>
                         <hr>
-                        <div class="search-by-price bg-danger my-5" style="height: 300px; width: 100%;">
+                        <div class="search-by-price ">
+                            <p class="bg-orange p-3 text-white font-weight-bold">The amount of price you want:</p>
 
-                        </div>
-                        <hr>
-                        <div class="search-by-categories ">
-                            <p class="bg-orange p-3 text-white font-weight-bold">The amount of calories you want to take in</p>
+                            <ul class="price-ul">
+                                <li class='mb-2'><a href="search-price?from=${0}&to=${10}">0 - 10$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${10}&to=${20}">10 - 20$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${20}&to=${30}">20 - 30$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${30}&to=${40}">30 - 40$</a></li>
+                        </ul>
 
-                                <ul class="calories-ul">
-                                    <li class='mb-2'><a href="search-by-calories?from=${0}&to=${100}">0 - 100 (calories)</a></li>
-                                <li class='mb-2'><a href="search-by-calories?from=${100}&to=${200}">100 - 200 (calories)</a></li>
-                                <li class='mb-2'><a href="search-by-calories?from=${200}&to=${300}">200 - 300 (calories)</a></li>
-                                <li class='mb-2'><a href="search-by-calories?from=${300}&to=${400}">300 - 400 (calories)</a></li>
-                                <li class='mb-2'><a href="search-by-calories?from=${400}&to=${-1}">400+ (calories)</a></li>
-                            </ul>
+                    </div>
+                    <hr>
+                    <div class="search-by-categories ">
+                        <p class="bg-orange p-3 text-white font-weight-bold">The amount of calories you want to take in</p>
+
+                        <ul class="calories-ul">
+                            <li class='mb-2'><a href="search-by-calories?from=${0}&to=${100}">0 - 100 (calories)</a></li>
+                            <li class='mb-2'><a href="search-by-calories?from=${100}&to=${200}">100 - 200 (calories)</a></li>
+                            <li class='mb-2'><a href="search-by-calories?from=${200}&to=${300}">200 - 300 (calories)</a></li>
+                            <li class='mb-2'><a href="search-by-calories?from=${300}&to=${400}">300 - 400 (calories)</a></li>
+                            <li class='mb-2'><a href="search-by-calories?from=${400}&to=${-1}">400+ (calories)</a></li>
+                        </ul>
                     </div>
                 </div>
 
@@ -146,7 +176,17 @@
                                 <div class="col-md-12">
                                     <div class="product-filters">
                                         <ul>
-                                            <li class="active" data-filter="*">All</li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'" class="border-0 bg-orange"><a class="text-white" href="search-category?id=${-1}">All</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${1}">Chicken</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${2}">Sandwich</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${3}">Burger</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${4}">Beverage</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${5}">Spaghetti</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${6}">Salad</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${7}">Taco</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${8}">Fresh Fries</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${9}">Dessert</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${10}">Slide Dish</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -164,7 +204,7 @@
                                             <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                                             <c:if test="${sessionScope.acc.role != null}">
                                                 <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
-                                            </c:if>
+                                                    </c:if>
                                         </div>
                                     </div>
                                 </c:forEach>

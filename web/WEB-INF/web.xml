@@ -52,6 +52,10 @@
         <servlet-name>AdminPageServlet</servlet-name>
         <servlet-class>controller.AdminPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageSaleServlet</servlet-name>
+        <servlet-class>controller.ManageSaleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -151,6 +155,42 @@
     <servlet-mapping>
         <servlet-name>GetListWishlistServlet</servlet-name>
         <url-pattern>/get-list-wishlist</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchByCategoryServlet</servlet-name>
+        <servlet-class>controller.SearchByCategoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchByPrice</servlet-name>
+        <servlet-class>controller.SearchByPrice</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchByCategoryServlet</servlet-name>
+        <url-pattern>/search-category</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByPrice</servlet-name>
+        <url-pattern>/search-price</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageSaleServlet</servlet-name>
+        <url-pattern>/sale-admin</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FeedBackServlet</servlet-name>
+        <servlet-class>controller.FeedBackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedBackAdminServlet</servlet-name>
+        <servlet-class>controller.FeedBackAdminServlet</servlet-class>
+    </servlet>
+<servlet-mapping>
+        <servlet-name>FeedBackServlet</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedBackAdminServlet</servlet-name>
+        <url-pattern>/feedback-admin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

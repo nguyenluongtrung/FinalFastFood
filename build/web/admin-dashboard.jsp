@@ -124,6 +124,8 @@
                             class="fas fa-gift me-2"></i>Orders</a>
                     <a href="feedback-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-comment-dots me-2"></i>Feedback</a>
+                    <a href="sale-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-comment-dots me-2"></i>Sale</a>
                     <a href="home-control" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Home page</a>
                 </div>
