@@ -118,14 +118,16 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                         class="fas fa-user-secret me-2"></i>MANAGER PAGE</div>
                 <div class="list-group list-group-flush my-3">
-                    <a href="dashboard" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                    <a href="admin-page" class="list-group-item list-group-item-action bg-transparent second-text active fw-bold"><i
                             class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="product-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-tachometer-alt me-2"></i>Products</a> 
                     <a href="list-orders-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-gift me-2"></i>Orders</a>
                     <a href="feedback-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Feedback</a>
+                            class="fas fa-comment-dots me-2"></i>Feedbacks</a>
                     <a href="sale-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Sale</a>
+                            class="fas fa-comment-dots me-2"></i>Sales</a>
                     <a href="home-control" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Home page</a>
                 </div>
@@ -232,7 +234,7 @@
     <!-- Custom JS -->
     <script src="js/scripts.js"></script>
     <script>
-        
+
         var a = ${crList};
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
@@ -313,7 +315,7 @@
                 theme: "dark",
             },
             xaxis: {
-                categories: ["Chicken", "Sandwich", "Burger", "Beverage", "Spaghetti","Salad", "Taco", "French Fries", "Dessert", "Side Dish"],
+                categories: ["Chicken", "Sandwich", "Burger", "Beverage", "Spaghetti", "Salad", "Taco", "French Fries", "Dessert", "Side Dish"],
                 title: {
                     style: {
                         color: "#964B00",

@@ -26,11 +26,12 @@ public class Product {
     private String startDate;
     private String endDate;
     private int price;
+    private boolean status;
 
     public Product() {
     }
 
-    public Product(int priceID, String startDate, String endDate, int price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint) {
+    public Product(int priceID, String startDate, String endDate, int price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint, boolean status) {
         this.productID = productID;
         this.name = name;
         this.image = image;
@@ -45,6 +46,7 @@ public class Product {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
+        this.status = status;
     }
 
     public int getProductID() {
@@ -159,11 +161,22 @@ public class Product {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", quantity=" + quantity + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + ", priceID=" + priceID + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + '}';
+    public boolean isStatus() {
+        return status;
     }
 
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", quantity=" + quantity + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + ", priceID=" + priceID + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", status=" + status + '}';
+    }
+    
+    public static void main(String[] args) {
+    }
     
     
     

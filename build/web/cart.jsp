@@ -174,10 +174,12 @@
                             <div class="coupon-section">
                                 <h3>Apply Coupon</h3>
                                 <div class="coupon-form-wrap">
-                                    <form action="index.html">
-                                        <p><input type="text" placeholder="Coupon"></p>
+                                    <form action="add-to-cart" method="post">
+                                        <input type="hidden" name="productID" value="${productID}">
+                                        <p><input type="text" name="code" placeholder="Coupon"></p>
                                         <p><input type="submit" value="Apply"></p>
                                     </form>
+                                        <p class="text-danger">${ms != null ? ms : ""}</p>
                                 </div>
                             </div>
                         </div>

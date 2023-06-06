@@ -26,7 +26,7 @@ public class OrderDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    public int addOrderReturnKey(int totalPrice, int shippingID, String note, int accountID) {
+    public int addOrderReturnKey(float totalPrice, int shippingID, String note, int accountID) {
         try {
             String sql = "INSERT INTO [dbo].[Order]\n"
                     + "           ([TotalPrice]\n"
@@ -41,7 +41,7 @@ public class OrderDAO {
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, totalPrice);
+            ps.setFloat(1, totalPrice);
             ps.setInt(2, shippingID);
             ps.setString(3, note);
             ps.setInt(4, accountID);

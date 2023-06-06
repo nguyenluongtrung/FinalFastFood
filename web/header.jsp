@@ -31,6 +31,9 @@
                                 <c:if test="${sessionScope.acc.role == 'AD'}">
                                 <li><a class="" href="admin-page">Admin Page</a></li>
                                 </c:if>
+                                <c:if test="${sessionScope.acc.role == 'ST'}">
+                                <li><a class="" href="staff-page">Staff Page</a></li>
+                                </c:if>
 
                             <li>
 
@@ -43,7 +46,6 @@
                                     </c:if>
 
                                     <c:if test="${sessionScope.acc.role != null}">
-
                                         <a class="wishlist" href="get-list-wishlist"><i class="fas fa-heart"></i></a>
                                         <a href="UpdateAccountServlet">My Account</a>
                                         <a href="logout">Log out</a>

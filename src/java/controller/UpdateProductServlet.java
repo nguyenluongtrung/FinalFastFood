@@ -5,31 +5,24 @@
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.OrderDAO;
-import dao.OrderDetailDAO;
+import dao.CategoryDAO;
+import dao.PriceDAO;
 import dao.ProductDAO;
-import dao.ShippingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Account;
-import model.Cart;
-import model.Item;
+import model.Category;
+import model.Product;
 
 /**
  *
  * @author ADMIN
  */
-public class CheckoutServlet extends HttpServlet {
+public class UpdateProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +41,10 @@ public class CheckoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckoutServlet</title>");            
+            out.println("<title>Servlet UpdateProductServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CheckoutServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateProductServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,13 +62,16 @@ public class CheckoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("cart");
-        List<Item> items = cart.getItems();
-        float subtotal = (float) session.getAttribute("subtotal");
-        request.setAttribute("subtotal", subtotal);
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("checkout.jsp").forward(request, response);
+        List<Category> cList = new CategoryDAO().getAllCategory();
+        List<Product> list = new ProductDAO().getAllProducts();
+        int id = Integer.parseInt(request.getParameter("id"));
+        Product product = new ProductDAO().getProductByID(id);
+        System.out.println(product);
+        request.setAttribute("product", product);
+        request.setAttribute("list", list);
+        request.setAttribute("cList", cList);
+        request.setAttribute("okela", 1);
+        request.getRequestDispatcher("admin-product.jsp").forward(request, response);
     }
 
     /**
@@ -90,28 +86,27 @@ public class CheckoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
-        String note = request.getParameter("note");
-        int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
-        HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("acc");
-        Cart cart = (Cart) session.getAttribute("cart");
-        int accountID = acc.getAccountID();
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String image = request.getParameter("image");
+        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
+        int calories = Integer.parseInt(request.getParameter("calories"));
+        int accPoint = Integer.parseInt(request.getParameter("accPoint"));
+        int exPoint = Integer.parseInt(request.getParameter("exPoint"));
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        String s_date = request.getParameter("s_date");
+        int price = Integer.parseInt(request.getParameter("price"));
+        int original_price = Integer.parseInt(request.getParameter("original_price"));
+        new ProductDAO().updateProduct(productID,name,quantity,image,categoryID,calories,accPoint,exPoint);
         
-        float totalPrice = (float) session.getAttribute("subtotal");
-        int orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID);
-        List<Item> items = cart.getItems();
-        for(Item i: items){
-            int productID = i.getProduct().getProductID();
-            int quantity = i.getQuantity();
-            new OrderDetailDAO().addOrderDetail(orderID, productID, quantity);
-            new ProductDAO().updateQuantity(productID, quantity);
+        if(price != original_price){
+            int priceID = new PriceDAO().getPriceID(productID, s_date);
+            new PriceDAO().updatePriceByPriceID(priceID);
+            new PriceDAO().createNewPrice(productID, price);
         }
-        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
-        session.removeAttribute("cart");
-        request.getRequestDispatcher("thankyou.jsp").forward(request, response);
+        
+        List<Product> list = new ProductDAO().getAllProducts();
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("admin-product.jsp").forward(request, response);
     }
 
     /**

@@ -268,8 +268,7 @@
                                                 <th>Calories</th>
                                                 <th>Accumulated Points</th>
                                                 <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Subprice</th>
+                                                <th>Price / a product</th>
                                             </tr>
                                             <c:forEach items="${orderDetails}" var="c">
                                                 <tr>
@@ -278,7 +277,6 @@
                                                     <td>${c.accumulatedPoints * c.productQuantity}</td>
                                                     <td>${c.productQuantity}</td>
                                                     <td>${c.productPrice}$</td>
-                                                    <td>${c.productQuantity * c.productPrice}$</td>
                                                 </tr>
                                             </c:forEach>
 

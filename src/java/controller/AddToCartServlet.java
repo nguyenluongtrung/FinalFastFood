@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
+import dao.SaleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import model.Cart;
 import model.Item;
 import model.Product;
+import model.Sale;
 
 /**
  *
@@ -44,7 +46,7 @@ public class AddToCartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddToCartServlet</title>");            
+            out.println("<title>Servlet AddToCartServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AddToCartServlet at " + request.getContextPath() + "</h1>");
@@ -68,33 +70,34 @@ public class AddToCartServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             Cart cart = null;
-            if((Cart) session.getAttribute("cart") == null){
+            if ((Cart) session.getAttribute("cart") == null) {
                 cart = new Cart();
-            }
-            else{
+            } else {
                 cart = (Cart) session.getAttribute("cart");
             }
-            
+
             String productID_raw = request.getParameter("productID");
-            
-            if(productID_raw != null){
+
+            if (productID_raw != null) {
                 int productID = Integer.parseInt(productID_raw);
                 Product product = new ProductDAO().getProductByID(productID);
                 int quantity = 0;
-                if(request.getParameter("quantity") != null){
+                if (request.getParameter("quantity") != null) {
                     quantity = Integer.parseInt(request.getParameter("quantity"));
-                }else{
+                } else {
                     quantity = 1;
                 }
                 Item item = new Item(product, quantity);
                 cart.addItemToCart(item);
+                request.setAttribute("productID", productID);
             }
-            
+
             session.setAttribute("cart", cart);
             session.setAttribute("subtotal", cart.getTotalMoney());
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
+            
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +115,49 @@ public class AddToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String code = request.getParameter("code");
+        Sale sale = new SaleDAO().getSaleByDate();
+        if (code.equalsIgnoreCase(sale.getSaleCode())) {
+            try {
+                HttpSession session = request.getSession();
+                Cart cart = null;
+                if ((Cart) session.getAttribute("cart") == null) {
+                    cart = new Cart();
+                } else {
+                    cart = (Cart) session.getAttribute("cart");
+                }
+                
+                
+                
+                session.setAttribute("cart", cart);
+                session.setAttribute("subtotal", cart.getTotalMoney()*(1 - sale.getSaleValue()));
+                session.setMaxInactiveInterval(-1);
+                List<Item> items = cart.getItems();
+                request.setAttribute("items", items);
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                HttpSession session = request.getSession();
+                Cart cart = null;
+                if ((Cart) session.getAttribute("cart") == null) {
+                    cart = new Cart();
+                } else {
+                    cart = (Cart) session.getAttribute("cart");
+                }
+                request.setAttribute("ms", "Sale code is invalid!");
+                session.setAttribute("cart", cart);
+                session.setAttribute("subtotal", cart.getTotalMoney());
+                session.setMaxInactiveInterval(-1);
+                List<Item> items = cart.getItems();
+                request.setAttribute("items", items);
+            } catch (ParseException ex) {
+                Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     /**

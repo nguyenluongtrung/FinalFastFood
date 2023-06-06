@@ -11,9 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
             :root {
                 --main-bg-color: #009d63;
@@ -113,8 +112,8 @@
                 left: 50%;
                 transform: translate(-50%,-50%) scale(0);
                 background: #fff;
-                width: 450px;
-                height: 650px;
+                width: 500px;
+                height: 500px;
                 z-index: 2;
                 padding: 20px;
                 box-sizing: border-box;
@@ -127,8 +126,8 @@
                 left: 50%;
                 transform: translate(-50%,-50%) scale(0);
                 background: #fff;
-                width: 550px;
-                height: 500px;
+                width: 630px;
+                height: 600px;
                 z-index: 2;
                 padding: 20px;
                 box-sizing: border-box;
@@ -254,8 +253,6 @@
                     margin-left: -15rem;
                 }
             }
-
-
         </style>
     </head>
     <body>
@@ -263,18 +260,8 @@
             <!-- Sidebar -->
             <div class="bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                        class="fas fa-user-secret me-2"></i>MANAGER PAGE</div>
+                        class="fas fa-user-secret me-2"></i>STAFF PAGE</div>
                 <div class="list-group list-group-flush my-3">
-                    <a href="admin-page" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="product-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-tachometer-alt me-2"></i>Products</a> 
-                    <a href="list-orders-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-gift me-2"></i>Orders</a>
-                    <a href="feedback-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Feedbacks</a>
-                    <a href="sale-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
-                            class="fas fa-comment-dots me-2"></i>Sales</a>
                     <a href="home-control" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Home page</a>
                 </div>
@@ -286,7 +273,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                        <h2 class="fs-2 m-0">Sale Management</h2>
+                        <h2 class="fs-2 m-0">Product's Status Management</h2>
                     </div>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -299,8 +286,8 @@
                 <div class="container-fluid px-4">
                     <div class="row my-5">
                         <div class="row mb-3">
-                            <h3 class="fs-4 mb-3 d-inline col-sm-10">Sale events </h3>
-                            <button class="btn btn-success px-3 py-1 col-sm-2"><a class="view-modal text-decoration-none text-white" href="add-sale"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Add a sale event</a></button>
+                            <h3 class="fs-4 mb-3 d-inline col-sm-10">List of products </h3>
+                            <button class="btn btn-success px-3 py-1 col-sm-2"><a class="view-modal text-decoration-none text-white" href="#"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Submit</a></button>
                         </div>
 
 
@@ -308,28 +295,33 @@
                             <table class="table bg-white rounded shadow-sm  table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Sale ID</th>
-                                        <th scope="col">Sale Name</th>
-                                        <th scope="col">Sale Value</th>
-                                        <th scope="col">Start Date</th>
-                                        <th scope="col">End Date</th>
-                                        <th scope="col">Sale Code</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" style="font-size: 90%">Product ID</th>
+                                        <th scope="col" style="font-size: 90%">Name</th>
+                                        <th scope="col" style="font-size: 90%">Image</th>
+                                        <th scope="col" style="font-size: 90%">Category ID</th>
+                                        <th scope="col" style="font-size: 90%">Quantity</th>
+                                        <th scope="col" style="font-size: 90%">Calories</th>
+                                        <th scope="col" style="font-size: 90%">Is Surprise</th>
+                                        <th scope="col" style="font-size: 90%">Rating</th>
+                                        <th scope="col" style="font-size: 90%">Accumulated Point</th>
+                                        <th scope="col" style="font-size: 90%">Exchanged Point</th>
+                                        <th scope="col" style="font-size: 90%">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${sList}" var="c">
+                                    <c:forEach items="${list}" var="c">
                                         <tr>
-                                            <td>${c.saleID}</td>
-                                            <td>${c.saleName}</td>
-                                            <td>${c.saleValue}</td>
-                                            <td>${c.startDate}</td>
-                                            <td>${c.endDate}</td>
-                                            <td>${c.saleCode}</td>
-                                            <td>
-                                                <a href="update-sale?id=${c.saleID}" class="edit"><i class="view-modal fa-sharp fa-regular fa-pen-to-square  text-dark"></i></a> &nbsp;&nbsp;&nbsp;
-                                                <a href="delete-sale?id=${c.saleID}" class="delete"><i class="fa-sharp fa-solid fa-trash  text-dark"></i></a>
-                                            </td>
+                                            <td>${c.productID}</td>
+                                            <td>${c.name}</td>
+                                            <td><image src="${c.image}" style="width: 40px; height: 40px;"></td>
+                                            <td>${c.categoryID}</td>
+                                            <td>${c.quantity}</td>
+                                            <td>${c.calories}</td>
+                                            <td>${c.isSurprise}</td>
+                                            <td>${c.rating}</td>
+                                            <td>${c.accumulatedPoint}</td>
+                                            <td>${c.exchangedPoint}</td>
+                                            <td><input type='checkbox' name='status'></td>
                                         </tr>
                                     </c:forEach>
 
@@ -349,33 +341,54 @@
             <div class="overlay"></div>
             <div class="content2">
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
-                <p style="font-weight: bold; text-align: center">ADD NEW SALE</p><br>
+                <p style="font-weight: bold; text-align: center">ADD NEW PRODUCT</p><br>
                 <div>
-                    <form class="form" action="add-sale" method="post">
-                        <div class="input-box">
-                            <label>Sale Name</label>
-                            <input type="text" name="s-name" placeholder="Enter sale name" required />
-                        </div>
+                    <form class="form" action="add-product" method="post">
                         <div class="column">
                             <div class="input-box">
-                                <label>Sale Value</label>
-                                <input type="text" name="s-value" placeholder="Enter sale value" required />
+                                <label>Product Name</label>
+                                <input type="text" name="name" placeholder="Enter product name" required />
                             </div>
                             <div class="input-box">
-                                <label>Sale Code</label>
-                                <input type="text" name="s-code" placeholder="Enter sale code" required />
+                                <label>Price</label>
+                                <input type="number" name="price" placeholder="Enter price" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Start Date</label>
-                                <input type="date" name="s-start" placeholder="Enter start date" required />
+                                <label>Quantity</label>
+                                <input type="number" placeholder="0" name="quantity" min="1">
                             </div>
                             <div class="input-box">
-                                <label>End Date</label>
-                                <input type="date" name="s-end" placeholder="Enter end date" required />
+                                <label>Image</label>
+                                <input type="text" name="image" placeholder="Enter image source" required />
                             </div>
                         </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label class="mb-2">Category</label>
+                                <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
+                                    <c:forEach items="${cList}" var="c">
+                                        <option value="${c.categoryID}">${c.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Calories</label>
+                                <input type="number" name="calories" placeholder="Enter calories" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Accumulated Point</label>
+                                <input type="number" name="accPoint" placeholder="Enter accumulated points" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Exchanged Point</label>
+                                <input type="number" name="exPoint" placeholder="Enter exchanged points" required />
+                            </div>
+                        </div>
+                        
                         <button>Submit</button>
                     </form>
                 </div>
@@ -383,37 +396,57 @@
         </div>
     </c:if>
 
+
     <c:if test="${okela != null}">
         <div class="popup active" id="popup-2">
             <div class="overlay"></div>
             <div class="content2">
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
-                <p style="font-weight: bold; text-align: center">UPDATE SALE</p><br>
+                <p style="font-weight: bold; text-align: center">UPDATE NEW PRODUCT</p><br>
                 <div>
-                    <form class="form" action="update-sale" method="post">
-                        <input type="hidden" name="id" value="${id}">
-                        <div class="input-box">
-                            <label>Sale Name</label>
-                            <input type="text" name="s-name" placeholder="Enter sale name" required value="${sale.saleName}" />
-                        </div>
+                    <form class="form" action="add-product" method="post">
                         <div class="column">
                             <div class="input-box">
-                                <label>Sale Value</label>
-                                <input type="text" name="s-value" placeholder="Enter sale value" required value="${sale.saleValue}" />
+                                <label>Product Name</label>
+                                <input type="text" name="name" placeholder="Enter product name" required />
                             </div>
                             <div class="input-box">
-                                <label>Sale Code</label>
-                                <input type="text" name="s-code" placeholder="Enter sale code" required value="${sale.saleCode}" />
+                                <label>Price</label>
+                                <input type="number" name="price" placeholder="Enter price" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Start Date</label>
-                                <input type="date" name="s-start" placeholder="Enter start date" required value="${sale.startDate}" />
+                                <label>Quantity</label>
+                                <input type="number" value="${product.name}" placeholder="0" name="quantity" min="1">
                             </div>
                             <div class="input-box">
-                                <label>End Date</label>
-                                <input type="date" name="s-end" placeholder="Enter end date" required value="${sale.endDate}" />
+                                <label>Image</label>
+                                <input type="text" value="${product.name}" name="image" placeholder="Enter image source" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label class="mb-2">Category</label>
+                                <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
+                                    <c:forEach items="${cList}" var="c">
+                                        <option value="${c.categoryID}">${c.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Calories</label>
+                                <input type="number" name="calories" value="${product.name}" placeholder="Enter calories" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Accumulated Point</label>
+                                <input type="number" name="accPoint" value="${product.name}" placeholder="Enter accumulated points" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Exchanged Point</label>
+                                <input type="number" name="exPoint" value="${product.name}" placeholder="Enter exchanged points" required />
                             </div>
                         </div>
                         <button>Submit</button>
@@ -467,6 +500,5 @@
                         document.getElementById("popup-2").classList.toggle("active");
                     }
     </script>
-
 </body>
 </html>

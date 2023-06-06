@@ -6,12 +6,14 @@
 package controller;
 
 import dao.ProductDAO;
+import dao.SaleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Sale;
 
 /**
  *
@@ -57,7 +59,12 @@ public class HomeControlServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Sale sale = new SaleDAO().getSaleByDate();
+        float saleValue = (float) Math.round(sale.getSaleValue() * 100) / 100 *100;
+        request.setAttribute("saleValue", saleValue);
         request.setAttribute("someProducts", new ProductDAO().getSomeProducts());
+        request.setAttribute("sale", new SaleDAO().getSaleByDate());
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 

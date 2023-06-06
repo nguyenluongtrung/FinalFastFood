@@ -56,6 +56,38 @@
         <servlet-name>ManageSaleServlet</servlet-name>
         <servlet-class>controller.ManageSaleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteSaleServlet</servlet-name>
+        <servlet-class>controller.DeleteSaleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddSaleServlet</servlet-name>
+        <servlet-class>controller.AddSaleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateSaleServlet</servlet-name>
+        <servlet-class>controller.UpdateSaleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageProductServlet</servlet-name>
+        <servlet-class>controller.ManageProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <servlet-class>controller.DeleteProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductServlet</servlet-name>
+        <servlet-class>controller.AddProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <servlet-class>controller.UpdateProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffPageServlet</servlet-name>
+        <servlet-class>controller.StaffPageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -184,13 +216,45 @@
         <servlet-name>FeedBackAdminServlet</servlet-name>
         <servlet-class>controller.FeedBackAdminServlet</servlet-class>
     </servlet>
-<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>FeedBackServlet</servlet-name>
         <url-pattern>/feedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FeedBackAdminServlet</servlet-name>
         <url-pattern>/feedback-admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSaleServlet</servlet-name>
+        <url-pattern>/delete-sale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSaleServlet</servlet-name>
+        <url-pattern>/add-sale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateSaleServlet</servlet-name>
+        <url-pattern>/update-sale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageProductServlet</servlet-name>
+        <url-pattern>/product-admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductServlet</servlet-name>
+        <url-pattern>/delete-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductServlet</servlet-name>
+        <url-pattern>/add-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <url-pattern>/update-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffPageServlet</servlet-name>
+        <url-pattern>/staff-page</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

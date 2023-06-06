@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <style>
@@ -95,6 +96,150 @@
                 border: none;
             }
 
+            .popup .overlay{
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7);
+                z-index: 1;
+                display: none;
+            }
+
+            .popup .content{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%) scale(0);
+                background: #fff;
+                width: 450px;
+                height: 650px;
+                z-index: 2;
+                padding: 20px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+
+            .popup .content2{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%) scale(0);
+                background: #fff;
+                width: 550px;
+                height: 500px;
+                z-index: 2;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .popup .close-btn{
+                position: absolute;
+                right: 20px;
+                top: 20px;
+                width: 30px;
+                height: 30px;
+                background: #222;
+                color: #fff;
+                font-size: 25px;
+                font-weight: 600;
+                line-height: 30px;
+                text-align: center;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            .popup.active .overlay{
+                display: block;
+            }
+
+            .popup.active .content{
+                transform: translate(-50%,-50%) scale(1);
+                transition: all 300ms ease-in-out;
+            }
+            .popup.active .content2{
+                transform: translate(-50%,-50%) scale(1);
+                transition: all 300ms ease-in-out;
+            }
+
+            input[type="radio"] {
+                display: none;
+            }
+
+            input[type="radio"] + label:before {
+                content: "";
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                padding: 6px;
+                margin-right: 3px;
+                background-clip: content-box;
+                border: 2px solid #bbb;
+                background-color: #e7e6e7;
+                border-radius: 50%;
+            }
+
+            input[type="radio"]:checked + label:before {
+                background-color: #93e026;
+            }
+
+            label {
+                display: flex;
+                align-items: center;
+            }
+
+            .sub-but{
+                width:100%;
+            }
+
+            .form .input-box {
+                width: 100%;
+                margin-top: 20px;
+            }
+            .input-box label {
+                color: #333;
+            }
+            .form :where(.input-box input, .select-box) {
+                position: relative;
+                height: 50px;
+                width: 100%;
+                outline: none;
+                font-size: 1rem;
+                color: #707070;
+                margin-top: 8px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                padding: 0 15px;
+            }
+            .input-box input:focus {
+                box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+            }
+            .form .column {
+                display: flex;
+                column-gap: 15px;
+            }
+            .form :where(.gender input, .gender label) {
+                cursor: pointer;
+            }
+
+
+            .form button {
+                height: 55px;
+                width: 100%;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 400;
+                margin-top: 30px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background: rgb(130, 106, 251);
+            }
+            .form button:hover {
+                background: rgb(88, 56, 250);
+            }
+
             @media (min-width: 768px) {
                 #sidebar-wrapper {
                     margin-left: 0;
@@ -109,6 +254,8 @@
                     margin-left: -15rem;
                 }
             }
+
+
         </style>
     </head>
     <body>
@@ -118,14 +265,16 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                         class="fas fa-user-secret me-2"></i>MANAGER PAGE</div>
                 <div class="list-group list-group-flush my-3">
-                    <a href="dashboard" class="list-group-item list-group-item-action bg-transparent second-text active"><i
+                    <a href="admin-page" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="product-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-tachometer-alt me-2"></i>Products</a> 
                     <a href="list-orders-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-gift me-2"></i>Orders</a>
                     <a href="feedback-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Feedback</a>
-                    <a href="sale-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comment-dots me-2"></i>Sale</a>
+                            class="fas fa-comment-dots me-2"></i>Feedbacks</a>
+                    <a href="sale-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active"><i
+                            class="fas fa-comment-dots me-2"></i>Sales</a>
                     <a href="home-control" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                             class="fas fa-power-off me-2"></i>Home page</a>
                 </div>
@@ -149,7 +298,12 @@
 
                 <div class="container-fluid px-4">
                     <div class="row my-5">
-                        <h3 class="fs-4 mb-3">Sale events</h3>
+                        <div class="row mb-3">
+                            <h3 class="fs-4 mb-3 d-inline col-sm-10">Sale events </h3>
+                            <button class="btn btn-success px-3 py-1 col-sm-2"><a class="view-modal text-decoration-none text-white" href="add-sale"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Add a sale event</a></button>
+                        </div>
+
+
                         <div class="col">
                             <table class="table bg-white rounded shadow-sm  table-hover">
                                 <thead>
@@ -158,19 +312,27 @@
                                         <th scope="col">Sale Name</th>
                                         <th scope="col">Sale Value</th>
                                         <th scope="col">Start Date</th>
-                                        <th scope="col">End Date/th>
+                                        <th scope="col">End Date</th>
                                         <th scope="col">Sale Code</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:forEach items="${sList}" var="c">
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>${c.saleID}</td>
+                                            <td>${c.saleName}</td>
+                                            <td>${c.saleValue}</td>
+                                            <td>${c.startDate}</td>
+                                            <td>${c.endDate}</td>
+                                            <td>${c.saleCode}</td>
+                                            <td>
+                                                <a href="update-sale?id=${c.saleID}" class="edit"><i class="view-modal fa-sharp fa-regular fa-pen-to-square  text-dark"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a href="delete-sale?id=${c.saleID}" class="delete"><i class="fa-sharp fa-solid fa-trash  text-dark"></i></a>
+                                            </td>
                                         </tr>
+                                    </c:forEach>
+
                                 </tbody>
                             </table>
                         </div>
@@ -182,10 +344,129 @@
         <!-- /#page-content-wrapper -->
     </div>
 
+    <c:if test="${ok != null}">
+        <div class="popup active" id="popup-2">
+            <div class="overlay"></div>
+            <div class="content2">
+                <div class="close-btn" onclick="togglePopup2()">&times;</div>
+                <p style="font-weight: bold; text-align: center">ADD NEW SALE</p><br>
+                <div>
+                    <form class="form" action="add-sale" method="post">
+                        <div class="input-box">
+                            <label>Sale Name</label>
+                            <input type="text" name="s-name" placeholder="Enter sale name" required />
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Sale Value</label>
+                                <input type="text" name="s-value" placeholder="Enter sale value" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Sale Code</label>
+                                <input type="text" name="s-code" placeholder="Enter sale code" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Start Date</label>
+                                <input type="date" name="s-start" placeholder="Enter start date" required />
+                            </div>
+                            <div class="input-box">
+                                <label>End Date</label>
+                                <input type="date" name="s-end" placeholder="Enter end date" required />
+                            </div>
+                        </div>
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <c:if test="${okela != null}">
+        <div class="popup active" id="popup-2">
+            <div class="overlay"></div>
+            <div class="content2">
+                <div class="close-btn" onclick="togglePopup2()">&times;</div>
+                <p style="font-weight: bold; text-align: center">UPDATE SALE</p><br>
+                <div>
+                    <form class="form" action="update-sale" method="post">
+                        <input type="hidden" name="id" value="${id}">
+                        <div class="input-box">
+                            <label>Sale Name</label>
+                            <input type="text" name="s-name" placeholder="Enter sale name" required value="${sale.saleName}" />
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Sale Value</label>
+                                <input type="text" name="s-value" placeholder="Enter sale value" required value="${sale.saleValue}" />
+                            </div>
+                            <div class="input-box">
+                                <label>Sale Code</label>
+                                <input type="text" name="s-code" placeholder="Enter sale code" required value="${sale.saleCode}" />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Start Date</label>
+                                <input type="date" name="s-start" placeholder="Enter start date" required value="${sale.startDate}" />
+                            </div>
+                            <div class="input-box">
+                                <label>End Date</label>
+                                <input type="date" name="s-end" placeholder="Enter end date" required value="${sale.endDate}" />
+                            </div>
+                        </div>
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
     <!-- Custom JS -->
     <script src="js/scripts.js"></script>
-    
+    <script>
+                    var el = document.getElementById("wrapper");
+                    var toggleButton = document.getElementById("menu-toggle");
+
+                    toggleButton.onclick = function () {
+                        el.classList.toggle("toggled");
+                    };
+
+                    $(document).ready(function () {
+                        // Activate tooltip
+                        $('[data-toggle="tooltip"]').tooltip();
+
+                        // Select/Deselect checkboxes
+                        var checkbox = $('table tbody input[type="checkbox"]');
+                        $("#selectAll").click(function () {
+                            if (this.checked) {
+                                checkbox.each(function () {
+                                    this.checked = true;
+                                });
+                            } else {
+                                checkbox.each(function () {
+                                    this.checked = false;
+                                });
+                            }
+                        });
+                        checkbox.click(function () {
+                            if (!this.checked) {
+                                $("#selectAll").prop("checked", false);
+                            }
+                        });
+                    });
+
+                    function togglePopup() {
+                        document.getElementById("popup-1").classList.toggle("active");
+                    }
+
+                    function togglePopup2() {
+                        document.getElementById("popup-2").classList.toggle("active");
+                    }
+    </script>
+
 </body>
 </html>

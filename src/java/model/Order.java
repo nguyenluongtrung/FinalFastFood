@@ -11,7 +11,7 @@ package model;
  */
 public class Order {
     private int orderID;
-    private int totalPrice;
+    private float totalPrice;
     private int shippingID;
     private String note;
     private String status;
@@ -21,7 +21,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderID, int totalPrice, int shippingID, String note, String status, String date, int accountID) {
+    public Order(int orderID, float totalPrice, int shippingID, String note, String status, String date, int accountID) {
         this.orderID = orderID;
         this.totalPrice = totalPrice;
         this.shippingID = shippingID;
@@ -39,11 +39,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 

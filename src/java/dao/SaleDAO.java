@@ -50,4 +50,122 @@ public class SaleDAO {
         return list;
     }
 
+    public void deleteSaleByID(int id) {
+        try {
+            String sql = "DELETE FROM [dbo].[Sale]\n"
+                    + "      WHERE SaleID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addNewSale(String name, float value, String code, String s_date, String e_date) {
+        try {
+            String sql = "INSERT INTO [dbo].[Sale]\n"
+                    + "           ([SaleValue]\n"
+                    + "           ,[StartDate]\n"
+                    + "           ,[EndDate]\n"
+                    + "           ,[SaleName]\n"
+                    + "           ,[SaleCode])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?,?,?)";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setFloat(1, value );
+            ps.setString(2, s_date);
+            ps.setString(3, e_date);
+            ps.setString(4, name);
+            ps.setString(5, code);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateSale(int id, String name, float value, String code, String s_date, String e_date) {
+        try {
+            String sql = "UPDATE [dbo].[Sale]\n"
+                    + "   SET [SaleValue] = ?\n"
+                    + "      ,[StartDate] = ?\n"
+                    + "      ,[EndDate] = ?\n"
+                    + "      ,[SaleName] = ?\n"
+                    + "      ,[SaleCode] = ?\n"
+                    + " WHERE SaleID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setFloat(1, value);
+            ps.setString(2, s_date);
+            ps.setString(3, e_date);
+            ps.setString(4, name);
+            ps.setString(5, code);
+            ps.setInt(6, id);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Sale getSaleByID(int id) {
+        try {
+            String sql = "SELECT [SaleID]\n"
+                    + "      ,[SaleValue]\n"
+                    + "      ,[StartDate]\n"
+                    + "      ,[EndDate]\n"
+                    + "      ,[SaleName]\n"
+                    + "      ,[SaleCode]\n"
+                    + "  FROM [dbo].[Sale]\n"
+                    + "  WHERE SaleID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Sale(rs.getInt(1), rs.getFloat(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Sale getSaleByDate() {
+        try {
+            String sql = "SELECT [SaleID]\n"
+                    + "      ,[SaleValue]\n"
+                    + "      ,[StartDate]\n"
+                    + "      ,[EndDate]\n"
+                    + "      ,[SaleName]\n"
+                    + "      ,[SaleCode]\n"
+                    + "  FROM [dbo].[Sale]\n"
+                    + "  WHERE GETDATE() BETWEEN StartDate AND EndDate";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Sale(rs.getInt(1), rs.getFloat(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

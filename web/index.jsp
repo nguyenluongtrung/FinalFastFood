@@ -203,7 +203,7 @@
                                 <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                                 <c:if test="${sessionScope.acc.role != null}">
                                     <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
-                                </c:if>                       
+                                        </c:if>                       
                             </div>
                         </div>
                     </c:forEach> 
@@ -212,37 +212,6 @@
             </div>
         </div>
         <!-- end product section -->
-
-        <!-- cart banner section -->
-        <section class="cart-banner pt-100 pb-100">
-            <div class="container">
-                <div class="row clearfix">
-                    <!--Image Column-->
-                    <div class="image-column col-lg-6">
-                        <div class="image">
-                            <div class="price-box">
-                                <div class="inner-price">
-                                    <span class="price">
-                                        <strong>30%</strong> <br> off per kg
-                                    </span>
-                                </div>
-                            </div>
-                            <img src="assets/img/a.jpg" alt="">
-                        </div>
-                    </div>
-                    <!--Content Column-->
-                    <div class="content-column col-lg-6">
-                        <h3><span class="orange-text">Deal</span> of the month</h3>
-                        <h4>Hikan Strwaberry</h4>
-                        <div class="text">Quisquam minus maiores repudiandae nobis, minima saepe id, fugit ullam similique! Beatae, minima quisquam molestias facere ea. Perspiciatis unde omnis iste natus error sit voluptatem accusant</div>
-                        <!--Countdown Timer-->
-                        <div class="time-counter"><div class="time-countdown clearfix" data-countdown="2020/2/01"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
-                        <a href="cart.html" class="cart-btn mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- end cart banner section -->
 
         <!-- testimonail-section -->
         <div class="testimonail-section mt-150 mb-150">
@@ -325,9 +294,13 @@
         <!-- shop banner -->
         <section class="shop-banner">
             <div class="container">
-                <h3>December sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
-                <div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
-                <a href="shop.html" class="cart-btn btn-lg">Shop Now</a>
+                <h3><span class="text-warning">${sale.saleName}</span> sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
+                <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
+                <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
+                <!--Countdown Timer-->
+                <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+
+                <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
             </div>
         </section>
         <!-- end shop banner -->
