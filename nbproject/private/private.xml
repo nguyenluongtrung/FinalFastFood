@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/UpdateProductServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/PriceDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/AddProductServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/admin-product.jsp</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/Product.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/ProductDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/FeedbackAccount.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/single-product.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/FeedBack.java</file>
         </group>
     </open-files>
 </project-private>

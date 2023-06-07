@@ -88,6 +88,10 @@ public class FeedbackDAO {
         return list;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new FeedbackDAO().getFeedbackByProductID(1));
+    }
+
     public int countFeedBack(int productID) {
         try {
             String sql = "SELECT COUNT(*)\n"
@@ -104,6 +108,49 @@ public class FeedbackDAO {
             Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    public void replyFeedbackByID(int feedbackID, String reply) {
+        try {
+            String sql = "UPDATE [dbo].[Review] SET [Reply] = ? WHERE [ReviewID] = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, reply);
+            ps.setInt(2, feedbackID);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public List<FeedBack> getFeedbacksByAccountID(int accountID) {
+        List<FeedBack> list = new ArrayList<>();
+        try {
+            String sql = "SELECT [ReviewID]\n"
+                    + "      ,[Msg]\n"
+                    + "      ,[Reply]\n"
+                    + "      ,[Date]\n"
+                    + "      ,[UserID]\n"
+                    + "      ,[ProductID]\n"
+                    + "  FROM [dbo].[Review]\n"
+                    + "  WHERE UserID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, accountID);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new FeedBack(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
 }

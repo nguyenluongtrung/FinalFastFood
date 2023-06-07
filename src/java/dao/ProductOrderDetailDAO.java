@@ -27,7 +27,7 @@ public class ProductOrderDetailDAO {
     public List<ProductOrderDetail> getAllProductOrderDetailByOrderID(int orderID){
         List<ProductOrderDetail> list = new ArrayList<>();
         try {
-            String sql = "SELECT c.[Name], c.AccumulatedPoint, c.Calories, d.Price, b.Quantity FROM [Order] a JOIN OrderDetail b ON a.OrderID = b.OrderID JOIN Product c ON b.ProductID = c.ProductID JOIN Price d ON d.ProductID = c.ProductID WHERE (a.OrderID = ?) AND (GETDATE() BETWEEN d.StartDate AND d.EndDate)";
+            String sql = "SELECT c.[Name], c.AccumulatedPoint, c.Calories, d.Price, b.Quantity FROM [Order] a JOIN OrderDetail b ON a.OrderID = b.OrderID JOIN Product c ON b.ProductID = c.ProductID JOIN Price d ON d.ProductID = c.ProductID WHERE (a.OrderID = ?) AND d.EndDate is null";
             
             conn = new DBContext().getConnection();
             

@@ -60,9 +60,8 @@ public class FeedBackAdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<FeedbackAccount> feedback = new FeedbackDAO().getAllFeedback();
-        System.out.println(feedback);
         request.setAttribute("feedbacks", feedback);
-        request.getRequestDispatcher("manager-feedback.jsp").forward(request, response);
+        request.getRequestDispatcher("admin-feedback.jsp").forward(request, response);
     }
 
     /**
@@ -76,7 +75,10 @@ public class FeedBackAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int feedbackID = Integer.parseInt(request.getParameter("fid"));
+        String reply = request.getParameter("reply");
+        new FeedbackDAO().replyFeedbackByID(feedbackID,reply);
+        response.sendRedirect("feedback-admin");
     }
 
     /**

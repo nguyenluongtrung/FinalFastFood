@@ -151,7 +151,7 @@
                                 <ul class="card-ul">
                                     <li><a href="#" onclick="myFunction1()"><span><i class="fa-solid fa-person"></i></span> &nbsp; My Information</a></li>
                                     <li><a href="#" onclick="myFunction2()"><span><i class="fa-solid fa-box"></i></span> &nbsp; My Order</a></li>
-                                    <li><a href="#" onclick="myFunction3()"><span><i class="fa-solid fa-bell"></i></i></span> &nbsp; My Notification</a></li>
+                                    <li><a href="#" onclick="myFunction3()"><span><i class="fa-solid fa-bell"></i></i></span> &nbsp; My Feedbacks</a></li>
                                     <li><a href="#" onclick="myFunction4()"><span><i class="fa-solid fa-coins"></i></span> &nbsp; My Accumulated Points</a></li>
                                 </ul>
                             </div>
@@ -289,7 +289,42 @@
                         </div>
                     </div>
 
-                    
+                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12" style="display:none;" id="my-feedback">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row gutters pl-3">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h6 class="mb-2 text-primary">My Feedbacks</h6>
+                                    </div>
+                                    <div>
+                                        <table id="my-order-list">
+                                            <tr>
+                                                <th>My Feedbacks</th>
+                                                <th>Reply</th>
+                                                <th>Date</th>
+                                                <th>Product Name</th>
+                                            </tr>
+                                            <c:forEach items="${feeds}" var="c">
+                                                <tr>
+                                                    <td>${c.msg}</td>
+                                                    <td>${c.reply}</td>
+                                                    <td>${c.date}</td>
+                                                    <c:forEach items="${products}" var="p">
+                                                        <c:if test="${c.productID == p.productID}">
+                                                            <td>${p.name}</td>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </tr>
+                                            </c:forEach>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </form>
         </div>
@@ -299,12 +334,19 @@
                 document.getElementById('my-info').style.display = 'block';
                 document.getElementById('my-order').style.display = 'none';
                 document.getElementById('my-order-detail').style.display = 'none';
-
+                document.getElementById('my-feedback').style.display = 'none';
             }
             function myFunction2() {
                 document.getElementById('my-info').style.display = 'none';
                 document.getElementById('my-order').style.display = 'block';
                 document.getElementById('my-order-detail').style.display = 'none';
+                document.getElementById('my-feedback').style.display = 'none';
+            }
+            function myFunction3() {
+                document.getElementById('my-info').style.display = 'none';
+                document.getElementById('my-order').style.display = 'none';
+                document.getElementById('my-order-detail').style.display = 'none';
+                document.getElementById('my-feedback').style.display = 'block';
             }
         </script>
     </body>

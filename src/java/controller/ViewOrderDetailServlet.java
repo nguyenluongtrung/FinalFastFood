@@ -5,7 +5,9 @@
  */
 package controller;
 
+import dao.FeedbackDAO;
 import dao.OrderDAO;
+import dao.ProductDAO;
 import dao.ProductOrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
+import model.FeedBack;
 import model.Order;
+import model.Product;
 import model.ProductOrderDetail;
 
 /**
@@ -66,10 +70,15 @@ public class ViewOrderDetailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("acc");
         int accountID = acc.getAccountID();
+        
         List<Order> orders = new OrderDAO().getOrderByAccountID(accountID);
+        List<FeedBack> feeds = new FeedbackDAO().getFeedbacksByAccountID(accountID);
         int id = Integer.parseInt(request.getParameter("id"));
         List<ProductOrderDetail> orderDetails = new ProductOrderDetailDAO().getAllProductOrderDetailByOrderID(id);
+        List<Product> products = new ProductDAO().getAllProducts();
+        request.setAttribute("products", products);
         request.setAttribute("orders", orders);
+        request.setAttribute("feeds", feeds);
         request.setAttribute("orderDetails", orderDetails);
         request.getRequestDispatcher("view-order-details.jsp").forward(request, response);
     }
