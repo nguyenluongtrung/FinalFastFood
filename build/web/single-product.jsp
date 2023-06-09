@@ -201,7 +201,13 @@
                                 <form action="add-to-cart">
                                     <input type="number" placeholder="0" name="quantity" min="1"><br>
                                     <input type="hidden" name="productID" value="${product.productID}">
-                                    <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                    <c:if test="${product.status == false}">
+                                        <a href="sorry.jsp" class="btn btn-danger px-5 py-3">Sold out</a>
+                                    </c:if>
+                                    <c:if test="${product.status == true}">
+                                        <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                    </c:if>
+                                    
                                 </form><br>
                                 <c:if test="${sessionScope.acc.role != null}">
                                     <a href="add-to-wishlist?productID=${product.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>

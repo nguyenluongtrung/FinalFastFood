@@ -88,6 +88,14 @@
         <servlet-name>StaffPageServlet</servlet-name>
         <servlet-class>controller.StaffPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageOrderServlet</servlet-name>
+        <servlet-class>controller.ManageOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortOrderServlet</servlet-name>
+        <servlet-class>controller.SortOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -193,15 +201,15 @@
         <servlet-class>controller.SearchByCategoryServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchByPrice</servlet-name>
-        <servlet-class>controller.SearchByPrice</servlet-class>
+        <servlet-name>SearchByPriceServlet</servlet-name>
+        <servlet-class>controller.SearchByPriceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SearchByCategoryServlet</servlet-name>
         <url-pattern>/search-category</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SearchByPrice</servlet-name>
+        <servlet-name>SearchByPriceServlet</servlet-name>
         <url-pattern>/search-price</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -256,6 +264,22 @@
         <servlet-name>StaffPageServlet</servlet-name>
         <url-pattern>/staff-page</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageOrderServlet</servlet-name>
+        <url-pattern>/orders-admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortOrderServlet</servlet-name>
+        <url-pattern>/sort-orders-admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatusServlet</servlet-name>
+        <url-pattern>/statusproduct</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>StatusServlet</servlet-name>
+        <servlet-class>controller.StatusServlet</servlet-class>
+    </servlet>
     <session-config>
         <session-timeout>
             30

@@ -266,7 +266,7 @@
                             class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="product-admin" class="list-group-item list-group-item-action bg-transparent second-text active fw-bold"><i
                             class="fas fa-tachometer-alt me-2"></i>Products</a>        
-                    <a href="list-orders-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    <a href="orders-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-gift me-2"></i>Orders</a>
                     <a href="feedback-admin" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-comment-dots me-2"></i>Feedbacks</a>

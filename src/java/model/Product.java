@@ -25,13 +25,13 @@ public class Product {
     private int priceID;
     private String startDate;
     private String endDate;
-    private int price;
+    private float price;
     private boolean status;
 
     public Product() {
     }
 
-    public Product(int priceID, String startDate, String endDate, int price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint, boolean status) {
+    public Product(int priceID, String startDate, String endDate, float price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint, boolean status) {
         this.productID = productID;
         this.name = name;
         this.image = image;
@@ -153,11 +153,11 @@ public class Product {
         this.endDate = endDate;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

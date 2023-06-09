@@ -282,223 +282,91 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </nav>
+                <form action="staff-page" method="post">
+                    <div class="container-fluid px-4">
+                        <div class="row my-5">
+                            <div class="row mb-3">
+                                <h3 class="fs-4 mb-3 d-inline col-sm-8">List of products </h3>
+                                <div class="col-sm-4 float-right" style="padding-left: 60px;">
+                                    <input class="btn btn-dark px-3 py-1" style="width: 100px; color: white" type="button" id="btn1" value="All"/>
+                                    <input class="btn btn-dark px-3 py-1" style="width: 100px; color: white" type="button" id="btn2" value="None"/>
+                                    <button class="btn btn-success px-3 py-1"><a class="view-modal text-decoration-none text-white" href="#"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Submit</a></button>
+                                </div>
 
-                <div class="container-fluid px-4">
-                    <div class="row my-5">
-                        <div class="row mb-3">
-                            <h3 class="fs-4 mb-3 d-inline col-sm-10">List of products </h3>
-                            <button class="btn btn-success px-3 py-1 col-sm-2"><a class="view-modal text-decoration-none text-white" href="#"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Submit</a></button>
-                        </div>
+                            </div>
 
 
-                        <div class="col">
-                            <table class="table bg-white rounded shadow-sm  table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" style="font-size: 90%">Product ID</th>
-                                        <th scope="col" style="font-size: 90%">Name</th>
-                                        <th scope="col" style="font-size: 90%">Image</th>
-                                        <th scope="col" style="font-size: 90%">Category ID</th>
-                                        <th scope="col" style="font-size: 90%">Quantity</th>
-                                        <th scope="col" style="font-size: 90%">Calories</th>
-                                        <th scope="col" style="font-size: 90%">Is Surprise</th>
-                                        <th scope="col" style="font-size: 90%">Rating</th>
-                                        <th scope="col" style="font-size: 90%">Accumulated Point</th>
-                                        <th scope="col" style="font-size: 90%">Exchanged Point</th>
-                                        <th scope="col" style="font-size: 90%">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${list}" var="c">
+                            <div class="col">
+                                <table class="table bg-white rounded shadow-sm  table-hover">
+                                    <thead>
                                         <tr>
-                                            <td>${c.productID}</td>
-                                            <td>${c.name}</td>
-                                            <td><image src="${c.image}" style="width: 40px; height: 40px;"></td>
-                                            <td>${c.categoryID}</td>
-                                            <td>${c.quantity}</td>
-                                            <td>${c.calories}</td>
-                                            <td>${c.isSurprise}</td>
-                                            <td>${c.rating}</td>
-                                            <td>${c.accumulatedPoint}</td>
-                                            <td>${c.exchangedPoint}</td>
-                                            <td><input type='checkbox' name='status'></td>
+                                            <th scope="col" style="font-size: 90%">Name</th>
+                                            <th scope="col" style="font-size: 90%">Image</th>
+                                            <th scope="col" style="font-size: 90%">Category ID</th>
+                                            <th scope="col" style="font-size: 90%">Quantity</th>
+                                            <th scope="col" style="font-size: 90%">Calories</th>
+                                            <th scope="col" style="font-size: 90%">Is Surprise</th>
+                                            <th scope="col" style="font-size: 90%">Rating</th>
+                                            <th scope="col" style="font-size: 90%">Accumulated Point</th>
+                                            <th scope="col" style="font-size: 90%">Exchanged Point</th>
+                                            <th scope="col" style="font-size: 90%">Status</th>
                                         </tr>
-                                    </c:forEach>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${list}" var="c">
+                                            <tr>
+                                                <td>${c.name}</td>
+                                                <td><image src="${c.image}" style="width: 40px; height: 40px;"></td>
+                                                <td>${c.categoryID}</td>
+                                                <td>${c.quantity}</td>
+                                                <td>${c.calories}</td>
+                                                <td>${c.isSurprise}</td>
+                                                <td>${c.rating}</td>
+                                                <td>${c.accumulatedPoint}</td>
+                                                <td>${c.exchangedPoint}</td>
+                                                <td><input type="checkbox" name="status" value="${c.productID}" ${c.status == true ? 'checked' : ''}></td>
+                                            </tr>
+                                        </c:forEach>
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
+                </form>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
-    </div>
-
-    <c:if test="${ok != null}">
-        <div class="popup active" id="popup-2">
-            <div class="overlay"></div>
-            <div class="content2">
-                <div class="close-btn" onclick="togglePopup2()">&times;</div>
-                <p style="font-weight: bold; text-align: center">ADD NEW PRODUCT</p><br>
-                <div>
-                    <form class="form" action="add-product" method="post">
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Product Name</label>
-                                <input type="text" name="name" placeholder="Enter product name" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Price</label>
-                                <input type="number" name="price" placeholder="Enter price" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Quantity</label>
-                                <input type="number" placeholder="0" name="quantity" min="1">
-                            </div>
-                            <div class="input-box">
-                                <label>Image</label>
-                                <input type="text" name="image" placeholder="Enter image source" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label class="mb-2">Category</label>
-                                <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
-                                    <c:forEach items="${cList}" var="c">
-                                        <option value="${c.categoryID}">${c.categoryName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Calories</label>
-                                <input type="number" name="calories" placeholder="Enter calories" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Accumulated Point</label>
-                                <input type="number" name="accPoint" placeholder="Enter accumulated points" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Exchanged Point</label>
-                                <input type="number" name="exPoint" placeholder="Enter exchanged points" required />
-                            </div>
-                        </div>
-                        
-                        <button>Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </c:if>
 
 
-    <c:if test="${okela != null}">
-        <div class="popup active" id="popup-2">
-            <div class="overlay"></div>
-            <div class="content2">
-                <div class="close-btn" onclick="togglePopup2()">&times;</div>
-                <p style="font-weight: bold; text-align: center">UPDATE NEW PRODUCT</p><br>
-                <div>
-                    <form class="form" action="add-product" method="post">
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Product Name</label>
-                                <input type="text" name="name" placeholder="Enter product name" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Price</label>
-                                <input type="number" name="price" placeholder="Enter price" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Quantity</label>
-                                <input type="number" value="${product.name}" placeholder="0" name="quantity" min="1">
-                            </div>
-                            <div class="input-box">
-                                <label>Image</label>
-                                <input type="text" value="${product.name}" name="image" placeholder="Enter image source" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label class="mb-2">Category</label>
-                                <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
-                                    <c:forEach items="${cList}" var="c">
-                                        <option value="${c.categoryID}">${c.categoryName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Calories</label>
-                                <input type="number" name="calories" value="${product.name}" placeholder="Enter calories" required />
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="input-box">
-                                <label>Accumulated Point</label>
-                                <input type="number" name="accPoint" value="${product.name}" placeholder="Enter accumulated points" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Exchanged Point</label>
-                                <input type="number" name="exPoint" value="${product.name}" placeholder="Enter exchanged points" required />
-                            </div>
-                        </div>
-                        <button>Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </c:if>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
+        <!-- Custom JS -->
+        <script src="js/scripts.js"></script>
+        <script>
+            document.getElementById("btn1").onclick = function ()
+            {
+                // Lấy danh sách checkbox
+                var checkboxes = document.getElementsByName('status');
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/scripts.js"></script>
-    <script>
-                    var el = document.getElementById("wrapper");
-                    var toggleButton = document.getElementById("menu-toggle");
+                // Lặp và thiết lập checked
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = true;
+                }
+            };
 
-                    toggleButton.onclick = function () {
-                        el.classList.toggle("toggled");
-                    };
+            document.getElementById("btn2").onclick = function ()
+            {
+                // Lấy danh sách checkbox
+                var checkboxes = document.getElementsByName('status');
 
-                    $(document).ready(function () {
-                        // Activate tooltip
-                        $('[data-toggle="tooltip"]').tooltip();
-
-                        // Select/Deselect checkboxes
-                        var checkbox = $('table tbody input[type="checkbox"]');
-                        $("#selectAll").click(function () {
-                            if (this.checked) {
-                                checkbox.each(function () {
-                                    this.checked = true;
-                                });
-                            } else {
-                                checkbox.each(function () {
-                                    this.checked = false;
-                                });
-                            }
-                        });
-                        checkbox.click(function () {
-                            if (!this.checked) {
-                                $("#selectAll").prop("checked", false);
-                            }
-                        });
-                    });
-
-                    function togglePopup() {
-                        document.getElementById("popup-1").classList.toggle("active");
-                    }
-
-                    function togglePopup2() {
-                        document.getElementById("popup-2").classList.toggle("active");
-                    }
-    </script>
-</body>
+                // Lặp và thiết lập Uncheck
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = false;
+                }
+            };
+        </script>
+    </body>
 </html>

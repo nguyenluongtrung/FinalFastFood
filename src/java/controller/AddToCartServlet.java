@@ -94,6 +94,7 @@ public class AddToCartServlet extends HttpServlet {
 
             session.setAttribute("cart", cart);
             session.setAttribute("subtotal", cart.getTotalMoney());
+            session.setAttribute("count", cart.getItems().size());
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
@@ -125,11 +126,9 @@ public class AddToCartServlet extends HttpServlet {
                     cart = new Cart();
                 } else {
                     cart = (Cart) session.getAttribute("cart");
-                }
-                
-                
-                
+                }      
                 session.setAttribute("cart", cart);
+                session.setAttribute("count", cart.getItems().size());
                 session.setAttribute("subtotal", cart.getTotalMoney()*(1 - sale.getSaleValue()));
                 session.setMaxInactiveInterval(-1);
                 List<Item> items = cart.getItems();
@@ -149,6 +148,7 @@ public class AddToCartServlet extends HttpServlet {
                 }
                 request.setAttribute("ms", "Sale code is invalid!");
                 session.setAttribute("cart", cart);
+                session.setAttribute("count", cart.getItems().size());
                 session.setAttribute("subtotal", cart.getTotalMoney());
                 session.setMaxInactiveInterval(-1);
                 List<Item> items = cart.getItems();

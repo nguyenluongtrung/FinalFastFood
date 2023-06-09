@@ -63,7 +63,7 @@ public class AdminPageServlet extends HttpServlet {
             throws ServletException, IOException {
         List<HotProduct> hList = new ProductDAO().getAllHotProducts();
         List<CategoryRevenue> cList = new ProductDAO().getAllCategoryRevenue();
-        int[] crList = new int[10];
+        float[] crList = new float[10];
         for(int i = 1;i <= 10; i++){
             int ok = 0;
             for(CategoryRevenue c: cList){

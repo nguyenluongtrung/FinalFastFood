@@ -111,6 +111,7 @@ public class CheckoutServlet extends HttpServlet {
         }
         new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
         session.removeAttribute("cart");
+        session.removeAttribute("count");
         request.getRequestDispatcher("thankyou.jsp").forward(request, response);
     }
 

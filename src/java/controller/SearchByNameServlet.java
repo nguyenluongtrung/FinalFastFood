@@ -65,10 +65,13 @@ public class SearchByNameServlet extends HttpServlet {
             index = (int) (request.getAttribute("index"));
         }
         String name = request.getParameter("name");
-        List<Product> products = new ProductDAO().getProductsByName(name,index);
+        List<Product> list = new ProductDAO().getProductsByName(name,index);
         request.setAttribute("tag", index);
         request.setAttribute("name", name);
-        request.setAttribute("list", products);
+        if(list.size() == 0){
+            request.setAttribute("ms", "Your searched products not found!");
+        }
+        else request.setAttribute("list", list);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

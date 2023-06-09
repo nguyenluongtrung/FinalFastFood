@@ -38,7 +38,7 @@ public class PriceDAO {
         }
     }
 
-    public void createNewPrice(int productID, int price) {
+    public void createNewPrice(int productID, float price) {
         try {
             String sql = "INSERT INTO [dbo].[Price]\n"
                     + "           ([StartDate]\n"
@@ -55,7 +55,7 @@ public class PriceDAO {
 
             ps = conn.prepareStatement(sql);
             ps.setInt(1, productID);
-            ps.setInt(2, price);
+            ps.setFloat(2, price);
 
             ps.executeUpdate();
         } catch (Exception ex) {

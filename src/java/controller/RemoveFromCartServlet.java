@@ -68,6 +68,7 @@ public class RemoveFromCartServlet extends HttpServlet {
         }
         int productID = Integer.parseInt(request.getParameter("id"));
         cart.removeItem(productID);
+        session.setAttribute("count", cart.getItems().size());
         session.setAttribute("cart", cart);
         request.getRequestDispatcher("add-to-cart").forward(request, response);
     }

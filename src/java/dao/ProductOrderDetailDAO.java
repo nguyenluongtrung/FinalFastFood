@@ -36,7 +36,7 @@ public class ProductOrderDetailDAO {
             
             rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new ProductOrderDetail(rs.getString(1), rs.getInt(5), rs.getInt(4), rs.getInt(3), rs.getInt(2)));
+                list.add(new ProductOrderDetail(rs.getString(1), rs.getInt(5), rs.getFloat(4), rs.getInt(3), rs.getInt(2)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);

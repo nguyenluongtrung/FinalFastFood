@@ -8,20 +8,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- header -->
 <div class="top-header-area" id="sticker">
-    <div class="container">
+    <div class="container-fluid"  style="background-color: rgba(0,0,0,0.5); padding: 0 100px; margin-top: -25px;" class="justify-content-center align-items-center">
         <div class="row">
-            <div class="col-lg-12 col-sm-12 text-center">
+            <div class="col-lg-12 col-sm-12 text-center"">
                 <div class="main-menu-wrap">
                     <!-- logo -->
                     <div class="site-logo">
-                        <a href="index.html">
-                            <img src="assets/img/logo.png" alt="">
+                        <a href="index.jsp">
+                            <img src="image/abc.png" style="padding: 0; transform: scale(0.9); margin-top: -20px; margin-left: -80px; padding-top: 30px">
                         </a>
                     </div>
                     <!-- logo -->
 
                     <!-- menu start -->
-                    <nav class="main-menu">
+                    <nav class="main-menu" style="padding-top: 30px;">
                         <ul>
                             <li class="current-list-item"><a href="home-control">Home</a>
                             </li>
@@ -39,8 +39,16 @@
 
                                 <div class="header-icons">
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                    <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
-                                        <c:if test="${sessionScope.acc.role == null}">
+                                    <c:if test="${sessionScope.count != null && sessionScope.count != 0}">
+                                        <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i>
+                                            <span class='badge badge-warning rounded-circle' id='lblCartCount'> ${sessionScope.count} </span>
+                                        </a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.count == null || sessionScope.count == 0}">
+                                        <a class="shopping-cart" href="add-to-cart"><i class="fas fa-shopping-cart"></i></a>
+                                    </c:if>
+
+                                    <c:if test="${sessionScope.acc.role == null}">
                                         <a class="" href="login.jsp">Login</a>
                                         <a class="" href="signup.jsp">Sign up</a>
                                     </c:if>

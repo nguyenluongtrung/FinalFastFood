@@ -12,14 +12,14 @@ package model;
 public class ProductOrderDetail {
     private String productName;
     private int productQuantity;
-    private int productPrice;
+    private float productPrice;
     private int calories;
     private int accumulatedPoints;
 
     public ProductOrderDetail() {
     }
 
-    public ProductOrderDetail(String productName, int productQuantity, int productPrice, int calories, int accumulatedPoints) {
+    public ProductOrderDetail(String productName, int productQuantity, float productPrice, int calories, int accumulatedPoints) {
         this.productName = productName;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
@@ -43,11 +43,11 @@ public class ProductOrderDetail {
         this.productQuantity = productQuantity;
     }
 
-    public int getProductPrice() {
+    public float getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(int productPrice) {
+    public void setProductPrice(float productPrice) {
         this.productPrice = productPrice;
     }
 

@@ -77,7 +77,19 @@
                 transition: 0.3s ease-in-out;
             }
 
+            .overlay {
+                position: absolute; 
+                left: 15px;
+                top: 0;
+            }
 
+            .overlay p{
+                background-color: orange;
+                font-weight: bold;
+                font-size: 95%;
+                padding: 13;
+                color: white;
+            }
 
 
 
@@ -146,10 +158,11 @@
                             <p class="bg-orange p-3 text-white font-weight-bold">The amount of price you want:</p>
 
                             <ul class="price-ul">
-                                <li class='mb-2'><a href="search-price?from=${0}&to=${10}">0 - 10$</a></li>
-                            <li class='mb-2'><a href="search-price?from=${10}&to=${20}">10 - 20$</a></li>
-                            <li class='mb-2'><a href="search-price?from=${20}&to=${30}">20 - 30$</a></li>
-                            <li class='mb-2'><a href="search-price?from=${30}&to=${40}">30 - 40$</a></li>
+                                <li class='mb-2'><a href="search-price?from=${1}&to=${10}">1 - 10$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${11}&to=${20}">11 - 20$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${21}&to=${30}">21 - 30$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${31}&to=${40}">31 - 40$</a></li>
+                            <li class='mb-2'><a href="search-price?from=${41}&to=${-1}">41+$</a></li>
                         </ul>
 
                     </div>
@@ -176,38 +189,48 @@
                                 <div class="col-md-12">
                                     <div class="product-filters">
                                         <ul>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'" class="border-0 bg-orange"><a class="text-white" href="search-category?id=${-1}">All</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${1}">Chicken</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${2}">Sandwich</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${3}">Burger</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${4}">Beverage</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${5}">Spaghetti</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${6}">Salad</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${7}">Taco</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${8}">Fresh Fries</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${9}">Dessert</a></li>
-                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor='#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${10}">Slide Dish</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'" class="border-0 bg-orange"><a class="text-white" href="search-category?id=${-1}">All</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${1}">Chicken</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${2}">Sandwich</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${3}">Burger</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${4}">Beverage</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${5}">Spaghetti</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${6}">Salad</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${7}">Taco</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${8}">Fresh Fries</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${9}">Dessert</a></li>
+                                            <li onMouseOver="this.style.backgroundColor = '#000'" onMouseOut="this.style.backgroundColor = '#f28123'"  class="border-0 bg-orange"><a class="text-white" href="search-category?id=${10}">Slide Dish</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row product-lists">
-                                <c:forEach items="${list}" var="c">
-                                    <div class="col-lg-4 col-md-6 text-center strawberry">
-                                        <div class="single-product-item">
-                                            <div class="product-image">
-                                                <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                <c:if test="${ms != null}">
+                                    <p class="w-100 text-center text-secondary">${ms}</p>
+                                </c:if>
+                                <c:if test="${ms == null}">
+                                    <c:forEach items="${list}" var="c">
+                                        <div class="col-lg-4 col-md-6 text-center strawberry">
+                                            <div class="single-product-item">
+                                                <div class="product-image">
+                                                    <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                                </div>
+<!--                                                <div class="overlay">
+                                                    <p class="px-4 py-1">${c.calories} Calories</p> 
+                                                </div>-->
+                                                <h3>${c.name}</h3>
+                                                <p class="product-price"> ${c.price}$ </p>
+                                                <p class="text-secondary">${c.calories} Calories</p>
+                                                <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                                <c:if test="${sessionScope.acc.role != null}">
+                                                    <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
+                                                        </c:if>
                                             </div>
-                                            <h3>${c.name}</h3>
-                                            <p class="product-price"> ${c.price}$ </p>
-                                            <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                                            <c:if test="${sessionScope.acc.role != null}">
-                                                <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
-                                                    </c:if>
                                         </div>
-                                    </div>
-                                </c:forEach>
+                                    </c:forEach>
+                                </c:if>
+
                             </div>
 
                             <div class="row">

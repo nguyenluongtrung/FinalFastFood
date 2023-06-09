@@ -76,7 +76,7 @@ public class OrderDAO {
             ps.setInt(1, accountID);
 
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (Exception ex) {
@@ -84,9 +84,86 @@ public class OrderDAO {
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderByAccountID(4));
+        System.out.println(new OrderDAO().getAllOrders());
     }
 
+    public List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        try {
+            String sql = "SELECT [OrderID]\n"
+                    + "      ,[TotalPrice]\n"
+                    + "      ,[ShippingID]\n"
+                    + "      ,[Note]\n"
+                    + "      ,[Status]\n"
+                    + "      ,[Date]\n"
+                    + "      ,[AccountID]\n"
+                    + "  FROM [dbo].[Order]";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                orders.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
+    }
+
+    public List<Order> sortOrderByPrice(int ok) {
+        List<Order> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (ok == 1) {
+                sql = "SELECT [OrderID]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[ShippingID]\n"
+                        + "      ,[Note]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[AccountID]\n"
+                        + "  FROM [dbo].[Order]\n"
+                        + "  ORDER BY TotalPrice";
+            } else {
+                sql = "SELECT [OrderID]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[ShippingID]\n"
+                        + "      ,[Note]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[AccountID]\n"
+                        + "  FROM [dbo].[Order]\n"
+                        + "  ORDER BY TotalPrice DESC";
+            }
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public void updateOrderStatus(int orderID,String status){
+        try {
+            String sql = "UPDATE [dbo].[Order] SET status = ? WHERE orderID = ?";
+            conn=new DBContext().getConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, orderID);
+            
+            ps.executeUpdate();
+        } catch (Exception e) {
+            Logger.getLogger(PriceDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
 }

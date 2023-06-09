@@ -8,6 +8,8 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +40,7 @@ public class StaffPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffPageServlet</title>");            
+            out.println("<title>Servlet StaffPageServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet StaffPageServlet at " + request.getContextPath() + "</h1>");
@@ -75,7 +77,31 @@ public class StaffPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String productIDs[] = request.getParameterValues("status");
+        List<Product> products = new ProductDAO().getAllProducts();
+        if (productIDs != null) {
+            for (Product product : products) {
+                int ok = 0;
+                for (String productID : productIDs) {
+                    int id = Integer.parseInt(productID);
+                    if (product.getProductID() == id) { // true
+                        ok = 1;
+                        new ProductDAO().updateProductStatus(product.getProductID(), true);
+                        break;
+                    }
+                }
+                if (ok == 0) {
+                    new ProductDAO().updateProductStatus(product.getProductID(), false);
+                }
+            }
+        }
+        else{
+            for (Product product : products) {
+                new ProductDAO().updateProductStatus(product.getProductID(), false);
+            }
+        }
+
+        response.sendRedirect("staff-page");
     }
 
     /**

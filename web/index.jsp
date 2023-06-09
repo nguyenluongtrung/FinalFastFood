@@ -178,20 +178,33 @@
                 </div>
             </div>
             <!-- end features list section -->
-
-            <!-- product section -->
-            <div class="product-section mt-150 mb-150">
+            <!-- shop banner -->
+            <section class="shop-banner">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 offset-lg-2 text-center">
-                            <div class="section-title">	
-                                <h3><span class="orange-text">Our</span> Products</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
-                            </div>
+                    <h3><span class="text-warning">${sale.saleName}</span> sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
+                <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
+                <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
+                <!--Countdown Timer-->
+                <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+
+                <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
+            </div>
+        </section>
+        <!-- end shop banner -->
+
+        <!-- product section -->
+        <div class="product-section mt-150 mb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 text-center">
+                        <div class="section-title">	
+                            <h3><span class="orange-text">Our</span> Products</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
+                <div class="row">
                     <c:forEach items="${someProducts}" var="c">
                         <div class="col-lg-4 col-md-6 text-center">
                             <div class="single-product-item">
@@ -291,19 +304,7 @@
         </div>
         <!-- end advertisement section -->
 
-        <!-- shop banner -->
-        <section class="shop-banner">
-            <div class="container">
-                <h3><span class="text-warning">${sale.saleName}</span> sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
-                <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
-                <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
-                <!--Countdown Timer-->
-                <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
 
-                <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
-            </div>
-        </section>
-        <!-- end shop banner -->
 
         <jsp:include page="footer.jsp"></jsp:include>
 

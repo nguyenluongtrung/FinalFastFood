@@ -63,7 +63,10 @@ public class SearchByCaloriesServlet extends HttpServlet {
         int to = Integer.parseInt(request.getParameter("to"));
         
         List<Product> list = new ProductDAO().searchByCalories(from, to);
-        request.setAttribute("list", list);
+        if(list.size() == 0){
+            request.setAttribute("ms", "Your searched products not found!");
+        }
+        else request.setAttribute("list", list);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

@@ -60,17 +60,15 @@ public class Cart {
         }
     }
     
-    public int getPriceByDate(int productID) throws ParseException{
+    public float getPriceByDate(int productID) throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
         Date cDate = new Date();
         for(Item i : items){
             if(i.getProduct().getProductID() == productID){
                 Date sDate = sdf.parse(i.getProduct().getStartDate());
-                Date eDate = sdf.parse(i.getProduct().getEndDate());
                 int result1 = sDate.compareTo(cDate);
-                int result2 = cDate.compareTo(eDate);
-                if(result1 <= 0 && result2 <= 0){
+                if(result1 <= 0 && i.getProduct().getEndDate() == null){
                     return i.getProduct().getPrice();
                 }
             }
@@ -78,7 +76,7 @@ public class Cart {
         return 0;
     }
     
-    public int getTotalMoney() throws ParseException{
+    public float getTotalMoney() throws ParseException{
         int sum = 0;
         for(Item item : items){
             sum += item.getQuantity()*getPriceByDate(item.getProduct().getProductID());

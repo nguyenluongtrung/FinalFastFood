@@ -11,13 +11,13 @@ package model;
  */
 public class CategoryRevenue {
     private int categoryID;
-    private int totalPrice;
+    private float totalPrice;
     private String categoryName;
 
     public CategoryRevenue() {
     }
 
-    public CategoryRevenue(int categoryID, int totalPrice, String categoryName) {
+    public CategoryRevenue(int categoryID, float totalPrice, String categoryName) {
         this.categoryID = categoryID;
         this.totalPrice = totalPrice;
         this.categoryName = categoryName;
@@ -31,11 +31,11 @@ public class CategoryRevenue {
         this.categoryID = categoryID;
     }
 
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 

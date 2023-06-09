@@ -62,9 +62,12 @@ public class SearchByCategoryServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        List<Product> product = new ProductDAO().getProductsByCategoryID(id);
+        List<Product> list = new ProductDAO().getProductsByCategoryID(id);
         request.setAttribute("id", id);
-        request.setAttribute("list", product);
+        if(list.size() == 0){
+            request.setAttribute("ms", "Your searched products not found!");
+        }
+        else request.setAttribute("list", list);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

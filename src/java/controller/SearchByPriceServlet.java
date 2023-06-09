@@ -18,7 +18,7 @@ import model.Product;
  *
  * @author ASUS
  */
-public class SearchByPrice extends HttpServlet {
+public class SearchByPriceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,10 +58,13 @@ public class SearchByPrice extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int from = Integer.parseInt(request.getParameter("from"));
-        int to = Integer.parseInt(request.getParameter("to"));
-        List<Product> listp = new ProductDAO().searchProductByPrice(from, to);
-        request.setAttribute("list", listp);
+        float from = Integer.parseInt(request.getParameter("from"));
+        float to = Integer.parseInt(request.getParameter("to"));
+        List<Product> list = new ProductDAO().searchProductByPrice(from, to);
+        if(list.size() == 0){
+            request.setAttribute("ms", "Your searched products not found!");
+        }
+        else request.setAttribute("list", list);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

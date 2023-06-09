@@ -94,8 +94,8 @@ public class UpdateProductServlet extends HttpServlet {
         int exPoint = Integer.parseInt(request.getParameter("exPoint"));
         int productID = Integer.parseInt(request.getParameter("productID"));
         String s_date = request.getParameter("s_date");
-        int price = Integer.parseInt(request.getParameter("price"));
-        int original_price = Integer.parseInt(request.getParameter("original_price"));
+        float price = Integer.parseInt(request.getParameter("price"));
+        float original_price = Integer.parseInt(request.getParameter("original_price"));
         new ProductDAO().updateProduct(productID,name,quantity,image,categoryID,calories,accPoint,exPoint);
         
         if(price != original_price){

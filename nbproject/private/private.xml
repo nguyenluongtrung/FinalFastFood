@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/FeedbackAccount.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/single-product.jsp</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/FeedBack.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/header.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/shop.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/AddToCartServlet.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/image/novolo-logo.png</file>
         </group>
     </open-files>
 </project-private>
