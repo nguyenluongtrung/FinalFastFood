@@ -179,17 +179,21 @@
             </div>
             <!-- end features list section -->
             <!-- shop banner -->
+        <c:if test="${ok != null}">
             <section class="shop-banner">
                 <div class="container">
                     <h3><span class="text-warning">${sale.saleName}</span> sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
-                <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
-                <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
-                <!--Countdown Timer-->
-                <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+                    <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
+                    <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
+                    <div class="mb-3"><p class="text-secondary" style="font-style: italic; font-size: 80%">(*) This sale event only applies for: ${wItems}</p></div>
+                    <!--Countdown Timer-->
+                    <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
 
-                <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
-            </div>
-        </section>
+                    <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
+                </div>
+            </section>
+        </c:if>
+
         <!-- end shop banner -->
 
         <!-- product section -->

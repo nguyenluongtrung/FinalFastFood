@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CategoryRevenue;
-import model.HotProduct;
+import model.StatisticalProduct;
 
 /**
  *
@@ -61,7 +61,10 @@ public class AdminPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<HotProduct> hList = new ProductDAO().getAllHotProducts();
+        List<StatisticalProduct> hList = new ProductDAO().getSpecialProducts(1);
+        
+        List<StatisticalProduct> wList = new ProductDAO().getSpecialProducts(0);
+        
         List<CategoryRevenue> cList = new ProductDAO().getAllCategoryRevenue();
         float[] crList = new float[10];
         for(int i = 1;i <= 10; i++){
@@ -80,6 +83,7 @@ public class AdminPageServlet extends HttpServlet {
         
         request.setAttribute("crList", Arrays.toString(crList));
         request.setAttribute("hList", hList);
+        request.setAttribute("wList", wList);
         request.getRequestDispatcher("admin-dashboard.jsp").forward(request, response);
     }
 

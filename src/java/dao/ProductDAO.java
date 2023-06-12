@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CategoryRevenue;
-import model.HotProduct;
+import model.StatisticalProduct;
 import model.Product;
 
 /**
@@ -128,7 +128,7 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductByID(38));
+        System.out.println(new ProductDAO().getSpecialProducts(0));
     }
 
     public void updateQuantity(int productID, int quantity) {
@@ -176,12 +176,20 @@ public class ProductDAO {
         return list;
     }
 
-    public List<HotProduct> getAllHotProducts() {
-        List<HotProduct> list = new ArrayList<>();
+    public List<StatisticalProduct> getSpecialProducts(int type) {
+        List<StatisticalProduct> list = new ArrayList<>();
+        String sql = "";
         try {
-            String sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
+            if(type == 1){
+                sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
                     + "GROUP BY a.ProductID, b.Name\n"
                     + "ORDER BY SUM(a.Quantity) DESC";
+            }
+            else{
+                sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
+                    + "GROUP BY a.ProductID, b.Name\n"
+                    + "ORDER BY SUM(a.Quantity)";
+            }
 
             conn = new DBContext().getConnection();
 
@@ -189,7 +197,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new HotProduct(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+                list.add(new StatisticalProduct(rs.getInt(1), rs.getString(2), rs.getInt(3)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -200,7 +208,7 @@ public class ProductDAO {
     public List<CategoryRevenue> getAllCategoryRevenue() {
         List<CategoryRevenue> list = new ArrayList<>();
         try {
-            String sql = "SELECT b.CategoryID, SUM(c.Price) as TotalPrice, d.CategoryName FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID JOIN Price c ON c.ProductID = b.ProductID JOIN Category d ON d.CategoryID = b.CategoryID GROUP BY b.CategoryID,d.CategoryName";
+            String sql = "SELECT b.CategoryID, SUM(c.Price * a.Quantity) as TotalPrice, d.CategoryName FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID JOIN Price c ON c.ProductID = b.ProductID JOIN Category d ON d.CategoryID = b.CategoryID GROUP BY b.CategoryID,d.CategoryName";
 
             conn = new DBContext().getConnection();
 

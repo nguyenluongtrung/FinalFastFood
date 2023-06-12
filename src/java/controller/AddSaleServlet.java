@@ -5,7 +5,9 @@
  */
 package controller;
 
+import dao.ProductDAO;
 import dao.SaleDAO;
+import dao.SaleProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Sale;
+import model.StatisticalProduct;
 
 /**
  *
@@ -60,8 +63,22 @@ public class AddSaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Sale> sList = new SaleDAO().getAllSales();
+        List<StatisticalProduct> wList =  new ProductDAO().getSpecialProducts(0);
+        String wItems = "";
+        int i = 0;
+        for(StatisticalProduct item : wList){
+            ++i;
+            if(i != wList.size()){
+                wItems += item.getName() + ", ";
+            }
+            else{
+                wItems += item.getName();
+            }
+        }
         request.setAttribute("ok", 1);
         request.setAttribute("sList", sList);
+        request.setAttribute("wList", new ProductDAO().getSpecialProducts(0));
+        request.setAttribute("wItems", wItems);
         request.getRequestDispatcher("admin-sale.jsp").forward(request, response);
     }
 
@@ -81,8 +98,15 @@ public class AddSaleServlet extends HttpServlet {
         String code = request.getParameter("s-code");
         String s_date = request.getParameter("s-start");
         String e_date = request.getParameter("s-end");
+        int quantity = Integer.parseInt(request.getParameter("s-quantity"));
         
-        new SaleDAO().addNewSale(name, value, code, s_date, e_date);
+        int saleID = new SaleDAO().addNewSaleReturnKey(name, value, code, s_date, e_date);
+        
+        List<StatisticalProduct> wList =  new ProductDAO().getSpecialProducts(0);
+        for(StatisticalProduct item : wList){
+            new SaleProductDAO().createNewSaleDetail(item.getProductID(), saleID, quantity);
+        }
+        
         List<Sale> sList = new SaleDAO().getAllSales();
         request.setAttribute("sList", sList);
         request.getRequestDispatcher("admin-sale.jsp").forward(request, response);

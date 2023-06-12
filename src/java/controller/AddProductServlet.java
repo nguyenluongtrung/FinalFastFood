@@ -89,7 +89,7 @@ public class AddProductServlet extends HttpServlet {
         int accPoint = Integer.parseInt(request.getParameter("accPoint"));
         int exPoint = Integer.parseInt(request.getParameter("exPoint"));
         
-        float price = Integer.parseInt(request.getParameter("price"));
+        float price = Float.parseFloat(request.getParameter("price"));
         
         int productID = new ProductDAO().createProductReturnKey(name, quantity, image, categoryID, calories, accPoint, exPoint);
         new PriceDAO().createNewPrice(productID, price);

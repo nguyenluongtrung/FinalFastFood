@@ -9,6 +9,7 @@ import context.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,7 +67,7 @@ public class SaleDAO {
         }
     }
 
-    public void addNewSale(String name, float value, String code, String s_date, String e_date) {
+    public int addNewSaleReturnKey(String name, float value, String code, String s_date, String e_date) {
         try {
             String sql = "INSERT INTO [dbo].[Sale]\n"
                     + "           ([SaleValue]\n"
@@ -79,7 +80,7 @@ public class SaleDAO {
 
             conn = new DBContext().getConnection();
 
-            ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setFloat(1, value );
             ps.setString(2, s_date);
             ps.setString(3, e_date);
@@ -87,9 +88,14 @@ public class SaleDAO {
             ps.setString(5, code);
 
             ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (Exception ex) {
             Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return -1;
     }
 
     public void updateSale(int id, String name, float value, String code, String s_date, String e_date) {

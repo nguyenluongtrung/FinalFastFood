@@ -9,15 +9,15 @@ package model;
  *
  * @author ADMIN
  */
-public class HotProduct {
+public class StatisticalProduct {
     private int productID;
     private String name;
     private int totalQuantity;
 
-    public HotProduct() {
+    public StatisticalProduct() {
     }
 
-    public HotProduct(int productID, String name, int totalQuantity) {
+    public StatisticalProduct(int productID, String name, int totalQuantity) {
         this.productID = productID;
         this.name = name;
         this.totalQuantity = totalQuantity;
@@ -49,8 +49,10 @@ public class HotProduct {
 
     @Override
     public String toString() {
-        return "HotProduct{" + "productID=" + productID + ", name=" + name + ", totalQuantity=" + totalQuantity + '}';
+        return "StatisticalProduct{" + "productID=" + productID + ", name=" + name + ", totalQuantity=" + totalQuantity + '}';
     }
+
+    
     
     
 }

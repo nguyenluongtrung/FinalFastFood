@@ -128,7 +128,7 @@
                 transform: translate(-50%,-50%) scale(0);
                 background: #fff;
                 width: 550px;
-                height: 500px;
+                height: 570px;
                 z-index: 2;
                 padding: 20px;
                 box-sizing: border-box;
@@ -352,9 +352,16 @@
                 <p style="font-weight: bold; text-align: center">ADD NEW SALE</p><br>
                 <div>
                     <form class="form" action="add-sale" method="post">
-                        <div class="input-box">
-                            <label>Sale Name</label>
-                            <input type="text" name="s-name" placeholder="Enter sale name" required />
+
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Sale Name</label>
+                                <input type="text" name="s-name" placeholder="Enter sale name" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Sale Quantity / 1 Product</label>
+                                <input type="number" name="s-quantity" placeholder="Enter sale quantity" required min="1" />
+                            </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
@@ -375,6 +382,9 @@
                                 <label>End Date</label>
                                 <input type="date" name="s-end" placeholder="Enter end date" required />
                             </div>
+                        </div>
+                        <div class="column mt-3">
+                            <p class="text-secondary" style="font-size: 80%; font-style: italic">(*) This sale is only applied for the 5 worst products including: ${wItems}
                         </div>
                         <button>Submit</button>
                     </form>

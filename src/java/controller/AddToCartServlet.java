@@ -7,9 +7,11 @@ package controller;
 
 import dao.ProductDAO;
 import dao.SaleDAO;
+import dao.SaleProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +24,7 @@ import model.Cart;
 import model.Item;
 import model.Product;
 import model.Sale;
+import model.SaleProduct;
 
 /**
  *
@@ -98,7 +101,7 @@ public class AddToCartServlet extends HttpServlet {
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
-            
+
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,45 +121,53 @@ public class AddToCartServlet extends HttpServlet {
             throws ServletException, IOException {
         String code = request.getParameter("code");
         Sale sale = new SaleDAO().getSaleByDate();
-        if (code.equalsIgnoreCase(sale.getSaleCode())) {
+        List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+        HttpSession session = request.getSession();
+        Cart cart = null;
+        if ((Cart) session.getAttribute("cart") == null) {
+            cart = new Cart();
+        } else {
+            cart = (Cart) session.getAttribute("cart");
+        }
+        List<Item> items = cart.getItems();
+        
+        
+        if (sale == null) {
             try {
-                HttpSession session = request.getSession();
-                Cart cart = null;
-                if ((Cart) session.getAttribute("cart") == null) {
-                    cart = new Cart();
-                } else {
-                    cart = (Cart) session.getAttribute("cart");
-                }      
+                request.setAttribute("ms", "There is no sale event happening!");
                 session.setAttribute("cart", cart);
-                session.setAttribute("count", cart.getItems().size());
-                session.setAttribute("subtotal", cart.getTotalMoney()*(1 - sale.getSaleValue()));
+                session.setAttribute("subtotal", cart.getTotalMoney());
                 session.setMaxInactiveInterval(-1);
-                List<Item> items = cart.getItems();
                 request.setAttribute("items", items);
-                
             } catch (ParseException ex) {
                 Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            try {
-                HttpSession session = request.getSession();
-                Cart cart = null;
-                if ((Cart) session.getAttribute("cart") == null) {
-                    cart = new Cart();
-                } else {
-                    cart = (Cart) session.getAttribute("cart");
+            if (code.equalsIgnoreCase(sale.getSaleCode())) {
+                try {
+                    session.setAttribute("cart", cart);
+                    session.setAttribute("subtotal", cart.getTotalMoney(saleList, sale));
+                    session.setMaxInactiveInterval(-1);
+                    request.setAttribute("items", items);
+                    request.setAttribute("saleValue", sale.getSaleValue());
+                    request.setAttribute("saleList", saleList);
+                    request.setAttribute("ok", 1);
+                } catch (ParseException ex) {
+                    Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                request.setAttribute("ms", "Sale code is invalid!");
-                session.setAttribute("cart", cart);
-                session.setAttribute("count", cart.getItems().size());
-                session.setAttribute("subtotal", cart.getTotalMoney());
-                session.setMaxInactiveInterval(-1);
-                List<Item> items = cart.getItems();
-                request.setAttribute("items", items);
-            } catch (ParseException ex) {
-                Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                try {
+                    request.setAttribute("ms", "Sale code is invalid!");
+                    session.setAttribute("cart", cart);
+                    session.setAttribute("subtotal", cart.getTotalMoney());
+                    session.setMaxInactiveInterval(-1);
+                    request.setAttribute("items", items);
+                } catch (ParseException ex) {
+                    Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+
         request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 

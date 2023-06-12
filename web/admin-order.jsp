@@ -294,7 +294,15 @@
                     <div class="row my-5">
                         <div class="row mb-3">
                             <h3 class="fs-4 mb-3 d-inline col-sm-10">List of orders </h3>
-
+                            <div class="dropdown col-sm-2">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                    Sort order by price
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="sort-orders-admin?ok=1">INCREASINGLY</a>
+                                    <a class="dropdown-item" href="sort-orders-admin?ok=0">DECREASINGLY</a>
+                                </div>
+                            </div>
                         </div>
 
                         <form action="statusproduct" method="POST">

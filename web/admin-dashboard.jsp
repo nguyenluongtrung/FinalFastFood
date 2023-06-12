@@ -194,8 +194,9 @@
                     </div>
 
                     <div class="row my-5">
-                        <h3 class="fs-4 mb-3">Top 5 hot products</h3>
-                        <div class="col">
+                        
+                        <div class="col-sm-6">
+                            <h3 class="fs-4 mb-3">Top 5 hot products</h3>
                             <table class="table bg-white rounded shadow-sm  table-hover">
                                 <thead>
                                     <tr>
@@ -206,6 +207,27 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${hList}" var="c">
+                                        <tr>
+                                            <td>${c.productID}</td>
+                                            <td>${c.name}</td>
+                                            <td>${c.totalQuantity}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <h3 class="fs-4 mb-3">The 5 worst products</h3>
+                            <table class="table bg-white rounded shadow-sm  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product ID</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Total Sold Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${wList}" var="c">
                                         <tr>
                                             <td>${c.productID}</td>
                                             <td>${c.name}</td>
@@ -248,7 +270,7 @@
         var barChartOptions = {
             series: [{
                     data: a,
-                    name: "Products",
+                    name: "Dollars",
                 }],
             chart: {
                 type: "bar",

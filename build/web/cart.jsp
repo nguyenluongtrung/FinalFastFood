@@ -40,7 +40,7 @@
         <link rel="stylesheet" href="assets/css/responsive.css">
 
         <style>
-             .continue-btn{
+            .continue-btn{
                 cursor: pointer;
                 border-radius: 30px;
                 background-color: #f28123;
@@ -131,35 +131,39 @@
                                             <td class="product-total">${c.quantity * c.product.price}$</td>
                                         </tr>
                                     </c:forEach>
-                                        
-                                    </tbody>
-                                    
-                                    
-                                </table>
-                                
-                            </div>
-                            <div class="mt-5"><a href="shopping" class="px-5 py-3 mt-5 continue-btn">Continue shopping</a></div>
-                            
-                        </div>
 
-                        <div class="col-lg-4">
+                                </tbody>
+
+
+                            </table>
+
+                        </div>
+                        <div class="mt-5"><a href="shopping" class="px-5 py-3 mt-5 continue-btn">Continue shopping</a></div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <c:if test="${ok == null}">
                             <div class="total-section">
                                 <table class="total-table">
                                     <thead class="total-table-head">
                                         <tr class="table-total-row">
-                                            <th>Total</th>
+                                            <th>Name</th>
                                             <th>Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="total-data">
-                                            <td><strong>Subtotal: </strong></td>
-                                            <td>${subtotal}$</td>
-                                        </tr>
-<!--                                        <tr class="total-data">
-                                            <td><strong>Shipping: </strong></td>
-                                            <td>$50</td>
-                                        </tr>-->
+                                        <c:forEach items="${items}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.product.name}</strong></td>
+                                                <td>${c.product.price * c.quantity}$</td>
+                                            </tr>
+                                        </c:forEach>
+
+                                        <!--                                        <tr class="total-data">
+                                                                                    <td><strong>Shipping: </strong></td>
+                                                                                    <td>$50</td>
+                                                                                </tr>-->
                                         <tr class="total-data">
                                             <td><strong>Total: </strong></td>
                                             <td>${subtotal}$</td>
@@ -170,23 +174,66 @@
                                     <a href="checkout" class="boxed-btn black">Check Out</a>
                                 </div>
                             </div>
+                        </c:if>
 
-                            <div class="coupon-section">
-                                <h3>Apply Coupon</h3>
-                                <div class="coupon-form-wrap">
-                                    <form action="add-to-cart" method="post">
-                                        <input type="hidden" name="productID" value="${productID}">
-                                        <p><input type="text" name="code" placeholder="Coupon"></p>
-                                        <p><input type="submit" value="Apply"></p>
-                                    </form>
-                                        <p class="text-danger">${ms != null ? ms : ""}</p>
+                        <c:if test="${ok != null}">
+                            <div class="total-section">
+                                <table class="total-table">
+                                    <thead class="total-table-head">
+                                        <tr class="table-total-row">
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${items}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.product.name}</strong></td>
+                                                <c:forEach items="${saleList}" var="e">
+                                                    <c:if test="${e.productID == c.product.productID}">
+                                                        <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; ${c.product.price * c.quantity * (1 - saleValue)}$</td>
+                                                        <c:set var="k" value="1"></c:set>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:if test="${k != 1}">
+                                                    <td>${c.product.price * c.quantity}$</td>
+                                                </c:if>
+                                            </tr>
+                                        </c:forEach>
+
+                                        <!--                                        <tr class="total-data">
+                                                                                    <td><strong>Shipping: </strong></td>
+                                                                                    <td>$50</td>
+                                                                                </tr>-->
+                                        <tr class="total-data">
+                                            <td><strong>Total: </strong></td>
+                                            <td>${subtotal}$</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="cart-buttons">
+                                    <a href="checkout" class="boxed-btn black">Check Out</a>
                                 </div>
+                            </div>
+                        </c:if>
+
+
+                        <div class="coupon-section">
+                            <h3>Apply Coupon</h3>
+                            <div class="coupon-form-wrap">
+                                <form action="add-to-cart" method="post">
+                                    <input type="hidden" name="productID" value="${productID}">
+                                    <p><input type="text" name="code" placeholder="Coupon"></p>
+                                    <p><input type="submit" value="Apply"></p>
+                                </form>
+                                <p class="text-danger">${ms != null ? ms : ""}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- end cart -->
+        </div>
+        <!-- end cart -->
 
 
 

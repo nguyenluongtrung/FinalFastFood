@@ -76,10 +76,23 @@ public class Cart {
         return 0;
     }
     
-    public float getTotalMoney() throws ParseException{
-        int sum = 0;
+    public float getTotalMoney(List<SaleProduct> list, Sale sale) throws ParseException{
+        float sum = 0;
+        float saleAmount = 0;
+        if(sale != null){
+            saleAmount = sale.getSaleValue();
+        }
         for(Item item : items){
-            sum += item.getQuantity()*getPriceByDate(item.getProduct().getProductID());
+            int ok = 0;
+            for(SaleProduct saleItem : list){
+                if(item.getProduct().getProductID() == saleItem.getProductID()){
+                    ok = 1;
+                    sum += 1.0 * item.getQuantity()*getPriceByDate(item.getProduct().getProductID())*(1- saleAmount);
+                }
+            }
+            if(ok == 0){
+                sum += item.getQuantity()*getPriceByDate(item.getProduct().getProductID());
+            }
         }
         return sum;
     }
@@ -88,6 +101,14 @@ public class Cart {
         int sum = 0;
         for(Item item : items){
             sum += item.getProduct().getAccumulatedPoint()*item.getQuantity();
+        }
+        return sum;
+    }
+
+    public float getTotalMoney() throws ParseException{
+        int sum = 0;
+        for(Item item : items){
+            sum += item.getQuantity()*getPriceByDate(item.getProduct().getProductID());
         }
         return sum;
     }
