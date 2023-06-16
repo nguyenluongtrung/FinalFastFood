@@ -26,7 +26,7 @@ public class OrderDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    public int addOrderReturnKey(float totalPrice, int shippingID, String note, int accountID) {
+    public int addOrderReturnKey(float totalPrice, int shippingID, String note, int accountID, boolean isSale) {
         try {
             String sql = "INSERT INTO [dbo].[Order]\n"
                     + "           ([TotalPrice]\n"
@@ -34,9 +34,10 @@ public class OrderDAO {
                     + "           ,[Note]\n"
                     + "           ,[Status]\n"
                     + "           ,[Date]\n"
-                    + "           ,[AccountID])\n"
+                    + "           ,[AccountID]"
+                    + "           ,[isSale])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,'PEND',GETDATE(),?)";
+                    + "           (?,?,?,'PEND',GETDATE(),?,?)";
 
             conn = new DBContext().getConnection();
 
@@ -45,6 +46,7 @@ public class OrderDAO {
             ps.setInt(2, shippingID);
             ps.setString(3, note);
             ps.setInt(4, accountID);
+            ps.setBoolean(5, isSale);
 
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
@@ -67,7 +69,8 @@ public class OrderDAO {
                     + "      ,[Status]\n"
                     + "      ,[Date]\n"
                     + "      ,[AccountID]\n"
-                    + "  FROM [FastFood].[dbo].[Order]\n"
+                    + "      ,[isSale]\n"
+                    + "  FROM [dbo].[Order]"
                     + "  WHERE AccountID = ?";
 
             conn = new DBContext().getConnection();
@@ -77,7 +80,7 @@ public class OrderDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getBoolean(8)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +89,7 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderByID(26));
+        System.out.println(new OrderDAO().getAllOrders());
     }
 
     public List<Order> getAllOrders() {
@@ -99,6 +102,7 @@ public class OrderDAO {
                     + "      ,[Status]\n"
                     + "      ,[Date]\n"
                     + "      ,[AccountID]\n"
+                    + "      ,[isSale]\n"
                     + "  FROM [dbo].[Order]";
 
             conn = new DBContext().getConnection();
@@ -107,7 +111,7 @@ public class OrderDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                orders.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                orders.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getBoolean(8)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,7 +131,8 @@ public class OrderDAO {
                         + "      ,[Status]\n"
                         + "      ,[Date]\n"
                         + "      ,[AccountID]\n"
-                        + "  FROM [dbo].[Order]\n"
+                        + "      ,[isSale]\n"
+                        + "  FROM [dbo].[Order]"
                         + "  ORDER BY TotalPrice";
             } else {
                 sql = "SELECT [OrderID]\n"
@@ -137,7 +142,8 @@ public class OrderDAO {
                         + "      ,[Status]\n"
                         + "      ,[Date]\n"
                         + "      ,[AccountID]\n"
-                        + "  FROM [dbo].[Order]\n"
+                        + "      ,[isSale]\n"
+                        + "  FROM [dbo].[Order]"
                         + "  ORDER BY TotalPrice DESC";
             }
 
@@ -145,7 +151,7 @@ public class OrderDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getBoolean(8)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -176,7 +182,8 @@ public class OrderDAO {
                     + "      ,[Status]\n"
                     + "      ,[Date]\n"
                     + "      ,[AccountID]\n"
-                    + "  FROM [dbo].[Order]\n"
+                    + "      ,[isSale]\n"
+                    + "  FROM [dbo].[Order]"
                     + "  WHERE OrderID = ?";
 
             conn = new DBContext().getConnection();
@@ -185,8 +192,8 @@ public class OrderDAO {
             ps.setInt(1, id);
 
             rs = ps.executeQuery();
-            if(rs.next()){
-                return new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+            if (rs.next()) {
+                return new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getBoolean(8));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);

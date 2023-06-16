@@ -201,4 +201,8 @@ public class SaleDAO {
         }
         return null;
     }
+
+    public static void main(String[] args) {
+        System.out.println(new OrderDAO().getOrderByID(49).getDate());
+    }
 }

@@ -17,11 +17,12 @@ public class Order {
     private String status;
     private String date;
     private int accountID;
+    private boolean isSale;
 
     public Order() {
     }
 
-    public Order(int orderID, float totalPrice, int shippingID, String note, String status, String date, int accountID) {
+    public Order(int orderID, float totalPrice, int shippingID, String note, String status, String date, int accountID, boolean isSale) {
         this.orderID = orderID;
         this.totalPrice = totalPrice;
         this.shippingID = shippingID;
@@ -29,6 +30,7 @@ public class Order {
         this.status = status;
         this.date = date;
         this.accountID = accountID;
+        this.isSale = isSale;
     }
 
     public int getOrderID() {
@@ -87,10 +89,20 @@ public class Order {
         this.accountID = accountID;
     }
 
+    public boolean isIsSale() {
+        return isSale;
+    }
+
+    public void setIsSale(boolean isSale) {
+        this.isSale = isSale;
+    }
+
     @Override
     public String toString() {
-        return "Order{" + "orderID=" + orderID + ", totalPrice=" + totalPrice + ", shippingID=" + shippingID + ", note=" + note + ", status=" + status + ", date=" + date + ", accountID=" + accountID + '}';
+        return "Order{" + "orderID=" + orderID + ", totalPrice=" + totalPrice + ", shippingID=" + shippingID + ", note=" + note + ", status=" + status + ", date=" + date + ", accountID=" + accountID + ", isSale=" + isSale + '}';
     }
+
+    
     
     
 }

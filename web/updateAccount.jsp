@@ -233,6 +233,7 @@
                                                 <th>Total Price</th>
                                                 <th>Note</th>
                                                 <th>Status</th>
+                                                <th>Is sale</th>
                                                 <th>View details</th>
                                             </tr>
                                             <c:forEach items="${orders}" var="c">
@@ -241,6 +242,7 @@
                                                     <td>${c.totalPrice}</td>
                                                     <td>${c.note}</td>
                                                     <td>${c.status}</td>
+                                                    <td>${c.isSale}</td>
                                                     <td><a href="view-order-details?id=${c.orderID}">View</a></td>
                                                 </tr>
                                             </c:forEach>

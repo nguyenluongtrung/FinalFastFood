@@ -111,9 +111,19 @@ public class CheckoutServlet extends HttpServlet {
         Account acc = (Account) session.getAttribute("acc");
         Cart cart = (Cart) session.getAttribute("cart");
         int accountID = acc.getAccountID();
+        
+        List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+        Sale sale = new SaleDAO().getSaleByDate();
 
         float totalPrice = (float) session.getAttribute("subtotal");
-        int orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID);
+        int orderID = 0;
+        if ((sale != null) && (request.getParameter("code") != "") ){
+            orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID, true);
+        }
+        else{
+            orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID, false);
+        }
+        
         List<Item> items = cart.getItems();
         for (Item i : items) {
             int productID = i.getProduct().getProductID();
@@ -121,9 +131,6 @@ public class CheckoutServlet extends HttpServlet {
             new OrderDetailDAO().addOrderDetail(orderID, productID, quantity);
             new ProductDAO().updateQuantity(productID, quantity);
         }
-        System.out.println("--------------------------");
-        List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
-        Sale sale = new SaleDAO().getSaleByDate();
         
         if ((sale != null) && (request.getParameter("code") != "") ) {
             for (Item i : items) {

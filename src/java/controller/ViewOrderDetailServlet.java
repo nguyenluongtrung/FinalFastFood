@@ -87,7 +87,7 @@ public class ViewOrderDetailServlet extends HttpServlet {
         Order order = new OrderDAO().getOrderByID(id);
         Sale sale = new SaleDAO().getSaleByOrderDate(order.getDate());
         System.out.println(sale);
-        if(sale != null){
+        if(sale != null && order.isIsSale()){
             request.setAttribute("saleValue", sale.getSaleValue());
             List<SaleProduct> saleList = new SaleProductDAO().getAllSaleProductsBySaleID(sale.getSaleID());
             System.out.println(sale.getSaleValue());

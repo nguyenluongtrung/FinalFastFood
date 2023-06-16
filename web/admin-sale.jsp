@@ -409,10 +409,6 @@
                                 <label>Sale Name</label>
                                 <input type="text" name="s-name" placeholder="Enter sale name" required value="${sale.saleName}"/>
                             </div>
-                            <div class="input-box">
-                                <label>Sale Quantity / 1 Product</label>
-                                <input type="number" name="s-quantity" placeholder="Enter sale quantity" required min="1" />
-                            </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
