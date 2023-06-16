@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,6 +133,7 @@
                                                     <p><input type="email" placeholder="Email"value="${sessionScope.acc.email}" name="email"></p>
                                                     <p><input type="text" placeholder="Address" value="${sessionScope.acc.address}" name="address"></p>
                                                     <p><input type="text" placeholder="Phone" value="${sessionScope.acc.phone}" name="phone"></p>
+                                                    <p><input type="hidden" value="${code}" name="code"></p>
                                                     <p><textarea name="note" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
                                                     <button type="submit" class="boxed-btn place-btn px-4 py-2">Place Order</button>
                                                 </form>
@@ -159,13 +161,37 @@
                                         <td>Product</td>
                                         <td>Total</td>
                                     </tr>
+                                    <c:if test="${ok != null}">
+                                        <c:forEach items="${items}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.product.name}</strong></td>
+                                                <c:forEach items="${saleList}" var="e">
+                                                    <c:if test="${(e.productID == c.product.productID) && (e.saleQuantity > 0)}">
+                                                        <c:if test="${c.quantity > e.saleQuantity}">
+                                                            <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; <fmt:formatNumber value="${c.product.price * e.saleQuantity * (1 - saleValue) + c.product.price * (c.quantity - e.saleQuantity)}" pattern="#.##" />$</td>
+                                                        </c:if>
+                                                        <c:if test="${c.quantity <= e.saleQuantity}">
+                                                            <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; <fmt:formatNumber value="${c.product.price * c.quantity * (1 - saleValue)}" pattern="#.##" />$</td>
+                                                        </c:if>
+                                                        <c:set var="k" value="1"></c:set>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:if test="${k != 1}">
+                                                    <td>${c.product.price * c.quantity}$</td>
+                                                </c:if>
+                                                <c:set var="k" value="0"></c:set>
+                                                </tr>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${ok == null}">
+                                        <c:forEach items="${items}" var="c">                             
+                                            <tr>
+                                                <td>${c.product.name}</td>
+                                                <td>${c.product.price}$</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
 
-                                    <c:forEach items="${items}" var="c">                             
-                                        <tr>
-                                            <td>${c.product.name}</td>
-                                            <td>${c.product.price}$</td>
-                                        </tr>
-                                    </c:forEach>
 
 
                                 </tbody>

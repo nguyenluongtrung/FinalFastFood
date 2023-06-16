@@ -87,7 +87,12 @@ public class Cart {
             for(SaleProduct saleItem : list){
                 if(item.getProduct().getProductID() == saleItem.getProductID()){
                     ok = 1;
-                    sum += 1.0 * item.getQuantity()*getPriceByDate(item.getProduct().getProductID())*(1- saleAmount);
+                    if(item.getQuantity() > saleItem.getSaleQuantity()){
+                        sum += 1.0 * saleItem.getSaleQuantity()*getPriceByDate(item.getProduct().getProductID())*(1- saleAmount) + (item.getQuantity() - saleItem.getSaleQuantity())*getPriceByDate(item.getProduct().getProductID());
+                    }
+                    else {
+                        sum += 1.0 * item.getQuantity()*getPriceByDate(item.getProduct().getProductID())*(1- saleAmount);
+                    }
                 }
             }
             if(ok == 0){

@@ -27,7 +27,7 @@ public class ProductOrderDetailDAO {
     public List<ProductOrderDetail> getAllProductOrderDetailByOrderID(int orderID){
         List<ProductOrderDetail> list = new ArrayList<>();
         try {
-            String sql = "SELECT c.[Name], c.AccumulatedPoint, c.Calories, d.Price, b.Quantity FROM [Order] a JOIN OrderDetail b ON a.OrderID = b.OrderID JOIN Product c ON b.ProductID = c.ProductID JOIN Price d ON d.ProductID = c.ProductID WHERE (a.OrderID = ?) AND d.EndDate is null";
+            String sql = "SELECT c.ProductID, c.[Name], c.AccumulatedPoint, c.Calories, d.Price, b.Quantity FROM [Order] a JOIN OrderDetail b ON a.OrderID = b.OrderID JOIN Product c ON b.ProductID = c.ProductID JOIN Price d ON d.ProductID = c.ProductID WHERE (a.OrderID = ?) AND d.EndDate is null";
             
             conn = new DBContext().getConnection();
             
@@ -36,7 +36,7 @@ public class ProductOrderDetailDAO {
             
             rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new ProductOrderDetail(rs.getString(1), rs.getInt(5), rs.getFloat(4), rs.getInt(3), rs.getInt(2)));
+                list.add(new ProductOrderDetail(rs.getInt(1), rs.getString(2), rs.getInt(6), rs.getFloat(5), rs.getInt(4), rs.getInt(3)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductOrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);

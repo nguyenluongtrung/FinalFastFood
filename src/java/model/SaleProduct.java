@@ -11,16 +11,26 @@ package model;
  */
 public class SaleProduct {
     private int saleID;
+    private String productName;
     private int productID;
     private int saleQuantity;
 
     public SaleProduct() {
     }
 
-    public SaleProduct(int saleID, int productID, int saleQuantity) {
+    public SaleProduct(int saleID, int productID,String productName, int saleQuantity) {
         this.saleID = saleID;
         this.productID = productID;
+        this.productName = productName;
         this.saleQuantity = saleQuantity;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getSaleID() {

@@ -77,7 +77,7 @@ public class OrderDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +86,7 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getAllOrders());
+        System.out.println(new OrderDAO().getOrderByID(26));
     }
 
     public List<Order> getAllOrders() {
@@ -107,7 +107,7 @@ public class OrderDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                orders.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                orders.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +145,7 @@ public class OrderDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,17 +153,44 @@ public class OrderDAO {
         return list;
     }
 
-    public void updateOrderStatus(int orderID,String status){
+    public void updateOrderStatus(int orderID, String status) {
         try {
             String sql = "UPDATE [dbo].[Order] SET status = ? WHERE orderID = ?";
-            conn=new DBContext().getConnection();
-            ps=conn.prepareStatement(sql);
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
             ps.setString(1, status);
             ps.setInt(2, orderID);
-            
+
             ps.executeUpdate();
         } catch (Exception e) {
             Logger.getLogger(PriceDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    public Order getOrderByID(int id) {
+        try {
+            String sql = "SELECT [OrderID]\n"
+                    + "      ,[TotalPrice]\n"
+                    + "      ,[ShippingID]\n"
+                    + "      ,[Note]\n"
+                    + "      ,[Status]\n"
+                    + "      ,[Date]\n"
+                    + "      ,[AccountID]\n"
+                    + "  FROM [dbo].[Order]\n"
+                    + "  WHERE OrderID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Order(rs.getInt(1), rs.getFloat(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

@@ -81,7 +81,7 @@ public class SaleDAO {
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setFloat(1, value );
+            ps.setFloat(1, value);
             ps.setString(2, s_date);
             ps.setString(3, e_date);
             ps.setString(4, name);
@@ -164,6 +164,33 @@ public class SaleDAO {
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Sale(rs.getInt(1), rs.getFloat(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Sale getSaleByOrderDate(String date) {
+        try {
+            String sql = "SELECT [SaleID]\n"
+                    + "      ,[SaleValue]\n"
+                    + "      ,[StartDate]\n"
+                    + "      ,[EndDate]\n"
+                    + "      ,[SaleName]\n"
+                    + "      ,[SaleCode]\n"
+                    + "  FROM [FastFood].[dbo].[Sale]\n"
+                    + "  WHERE StartDate <= ? and ? <= EndDate";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, date);
+            ps.setString(2, date);
 
             rs = ps.executeQuery();
             if (rs.next()) {

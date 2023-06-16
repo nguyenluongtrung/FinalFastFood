@@ -9,6 +9,8 @@ import dao.AccountDAO;
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
 import dao.ProductDAO;
+import dao.SaleDAO;
+import dao.SaleProductDAO;
 import dao.ShippingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Cart;
 import model.Item;
+import model.Sale;
+import model.SaleProduct;
 
 /**
  *
@@ -48,7 +52,7 @@ public class CheckoutServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckoutServlet</title>");            
+            out.println("<title>Servlet CheckoutServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CheckoutServlet at " + request.getContextPath() + "</h1>");
@@ -72,6 +76,14 @@ public class CheckoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
         List<Item> items = cart.getItems();
+        if (request.getParameter("okela") != null) {
+            Sale sale = new SaleDAO().getSaleByDate();
+            List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+            request.setAttribute("saleValue", sale.getSaleValue());
+            request.setAttribute("saleList", saleList);
+            request.setAttribute("code", request.getParameter("code"));
+            request.setAttribute("ok", 1);
+        }
         float subtotal = (float) session.getAttribute("subtotal");
         request.setAttribute("subtotal", subtotal);
         request.setAttribute("items", items);
@@ -99,16 +111,37 @@ public class CheckoutServlet extends HttpServlet {
         Account acc = (Account) session.getAttribute("acc");
         Cart cart = (Cart) session.getAttribute("cart");
         int accountID = acc.getAccountID();
-        
+
         float totalPrice = (float) session.getAttribute("subtotal");
         int orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID);
         List<Item> items = cart.getItems();
-        for(Item i: items){
+        for (Item i : items) {
             int productID = i.getProduct().getProductID();
             int quantity = i.getQuantity();
             new OrderDetailDAO().addOrderDetail(orderID, productID, quantity);
             new ProductDAO().updateQuantity(productID, quantity);
         }
+        System.out.println("--------------------------");
+        List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+        Sale sale = new SaleDAO().getSaleByDate();
+        
+        if ((sale != null) && (request.getParameter("code") != "") ) {
+            for (Item i : items) {
+                for (SaleProduct pro : saleList) {
+                    if (i.getProduct().getProductID() == pro.getProductID()) {
+                        if (i.getQuantity() > pro.getSaleQuantity()) {
+                            int quantity = pro.getSaleQuantity();
+                            new SaleProductDAO().updateQuantity(i.getProduct().getProductID(), quantity, sale.getSaleID());
+                        } else {
+                            int quantity = i.getQuantity();
+                            new SaleProductDAO().updateQuantity(i.getProduct().getProductID(), quantity, sale.getSaleID());
+                        }
+
+                    }
+                }
+            }
+        }
+
         new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
         session.removeAttribute("cart");
         session.removeAttribute("count");

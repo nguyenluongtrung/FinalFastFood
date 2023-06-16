@@ -10,6 +10,7 @@ package model;
  * @author ADMIN
  */
 public class ProductOrderDetail {
+    private int productID;
     private String productName;
     private int productQuantity;
     private float productPrice;
@@ -19,12 +20,21 @@ public class ProductOrderDetail {
     public ProductOrderDetail() {
     }
 
-    public ProductOrderDetail(String productName, int productQuantity, float productPrice, int calories, int accumulatedPoints) {
+    public ProductOrderDetail(int productID, String productName, int productQuantity, float productPrice, int calories, int accumulatedPoints) {
+        this.productID = productID;
         this.productName = productName;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.calories = calories;
         this.accumulatedPoints = accumulatedPoints;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
@@ -69,8 +79,10 @@ public class ProductOrderDetail {
 
     @Override
     public String toString() {
-        return "ProductOrderDetail{" + "productName=" + productName + ", productQuantity=" + productQuantity + ", productPrice=" + productPrice + ", calories=" + calories + ", accumulatedPoints=" + accumulatedPoints + '}';
+        return "ProductOrderDetail{" + "productID=" + productID + ", productName=" + productName + ", productQuantity=" + productQuantity + ", productPrice=" + productPrice + ", calories=" + calories + ", accumulatedPoints=" + accumulatedPoints + '}';
     }
+
+    
     
     
 }

@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,19 +187,47 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:set var="cnt" value="0"></c:set>
                                         <c:forEach items="${items}" var="c">
                                             <tr class="total-data">
                                                 <td><strong>${c.product.name}</strong></td>
                                                 <c:forEach items="${saleList}" var="e">
-                                                    <c:if test="${e.productID == c.product.productID}">
-                                                        <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; ${c.product.price * c.quantity * (1 - saleValue)}$</td>
+                                                    <c:if test="${(e.productID == c.product.productID) && (e.saleQuantity > 0)}">
+                                                        <c:if test="${c.quantity > e.saleQuantity}">
+                                                            <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; <fmt:formatNumber value="${c.product.price * e.saleQuantity * (1 - saleValue) + c.product.price * (c.quantity - e.saleQuantity)}" pattern="#.##" />$</td>
+                                                            <c:set var="cnt" value="${cnt + 1}"></c:set>
+                                                            <c:if test="${cnt == 1}">
+                                                                <c:set var="q1" value="${e.saleQuantity}"></c:set>
+                                                                <c:set var="n1" value="${c.product.name}"></c:set>
+                                                            </c:if>
+                                                            <c:if test="${cnt == 2}">
+                                                                <c:set var="q2" value="${e.saleQuantity}"></c:set>
+                                                                <c:set var="n2" value="${c.product.name}"></c:set>
+                                                            </c:if>
+                                                            <c:if test="${cnt == 3}">
+                                                                <c:set var="q3" value="${e.saleQuantity}"></c:set>
+                                                                <c:set var="n3" value="${c.product.name}"></c:set>
+                                                            </c:if>
+                                                            <c:if test="${cnt == 4}">
+                                                                <c:set var="q4" value="${e.saleQuantity}"></c:set>
+                                                                <c:set var="n4" value="${c.product.name}"></c:set>
+                                                            </c:if>
+                                                            <c:if test="${cnt == 5}">
+                                                                <c:set var="q5" value="${e.saleQuantity}"></c:set>
+                                                                <c:set var="n5" value="${c.product.name}"></c:set>
+                                                            </c:if>
+                                                        </c:if>
+                                                        <c:if test="${c.quantity <= e.saleQuantity}">
+                                                            <td><del class="text-danger">${c.product.price * c.quantity}$</del> &nbsp; <fmt:formatNumber value="${c.product.price * c.quantity * (1 - saleValue)}" pattern="#.##" />$</td>
+                                                        </c:if>
                                                         <c:set var="k" value="1"></c:set>
                                                     </c:if>
                                                 </c:forEach>
                                                 <c:if test="${k != 1}">
                                                     <td>${c.product.price * c.quantity}$</td>
                                                 </c:if>
-                                            </tr>
+                                                <c:set var="k" value="0"></c:set>
+                                                </tr>
                                         </c:forEach>
 
                                         <!--                                        <tr class="total-data">
@@ -211,8 +240,19 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                        <c:if test="${cnt == 1}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products.</p></c:if>
+                                        <c:if test="${cnt == 2}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products.</p></c:if>
+                                        <c:if test="${cnt == 3}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products.</p></c:if>
+                                        <c:if test="${cnt == 4}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products.</p></c:if>
+                                        <c:if test="${cnt == 5}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products, ${n5} with ${q5} products.</p></c:if>
+                                        
                                 <div class="cart-buttons">
-                                    <a href="checkout" class="boxed-btn black">Check Out</a>
+                                    <c:if test="${(saleList != null) && (code != null)}">
+                                        <a href="checkout?okela=${1}&code=${code}" class="boxed-btn black">Check Out</a>
+                                    </c:if>
+                                    <c:if test="${(saleList == null) || (code == null)}">
+                                        <a href="checkout" class="boxed-btn black">Check Out</a>
+                                    </c:if>
                                 </div>
                             </div>
                         </c:if>

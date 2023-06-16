@@ -146,12 +146,14 @@ public class AddToCartServlet extends HttpServlet {
             if (code.equalsIgnoreCase(sale.getSaleCode())) {
                 try {
                     session.setAttribute("cart", cart);
-                    session.setAttribute("subtotal", cart.getTotalMoney(saleList, sale));
+                    float subtotal = (float) Math.round(cart.getTotalMoney(saleList, sale) * 100) / 100;
+                    session.setAttribute("subtotal", subtotal);
                     session.setMaxInactiveInterval(-1);
                     request.setAttribute("items", items);
                     request.setAttribute("saleValue", sale.getSaleValue());
                     request.setAttribute("saleList", saleList);
                     request.setAttribute("ok", 1);
+                    request.setAttribute("code", code);
                 } catch (ParseException ex) {
                     Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -314,6 +314,7 @@
                                         <th scope="col">Start Date</th>
                                         <th scope="col">End Date</th>
                                         <th scope="col">Sale Code</th>
+                                        <th scope="col">See Details</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -326,6 +327,7 @@
                                             <td>${c.startDate}</td>
                                             <td>${c.endDate}</td>
                                             <td>${c.saleCode}</td>
+                                            <td><a href="view-sale-products?id=${c.saleID}"><i class="view-modal fa-solid fa-eye text-dark text-center"></i></a></td>
                                             <td>
                                                 <a href="update-sale?id=${c.saleID}" class="edit"><i class="view-modal fa-sharp fa-regular fa-pen-to-square  text-dark"></i></a> &nbsp;&nbsp;&nbsp;
                                                 <a href="delete-sale?id=${c.saleID}" class="delete"><i class="fa-sharp fa-solid fa-trash  text-dark"></i></a>
@@ -402,9 +404,15 @@
                 <div>
                     <form class="form" action="update-sale" method="post">
                         <input type="hidden" name="id" value="${id}">
-                        <div class="input-box">
-                            <label>Sale Name</label>
-                            <input type="text" name="s-name" placeholder="Enter sale name" required value="${sale.saleName}" />
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Sale Name</label>
+                                <input type="text" name="s-name" placeholder="Enter sale name" required value="${sale.saleName}"/>
+                            </div>
+                            <div class="input-box">
+                                <label>Sale Quantity / 1 Product</label>
+                                <input type="number" name="s-quantity" placeholder="Enter sale quantity" required min="1" />
+                            </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
@@ -428,6 +436,38 @@
                         </div>
                         <button>Submit</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <c:if test="${oki != null}">
+        <div class="popup active" id="popup-2" >
+            <div class="overlay"></div>
+            <div class="content2" style='height: 400px;'>
+                <div class="close-btn" onclick="togglePopup2()">&times;</div>
+                <p style="font-weight: bold; text-align: center">SALE PRODUCTS' DETAILS</p><br>
+                <div>
+                    <table class="table bg-white rounded shadow-sm  table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sale ID</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Product ID</th>
+                                <th scope="col">Sale Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${saleProducts}" var="c">
+                                <tr>
+                                    <td>${c.saleID}</td>
+                                    <td>${c.productName}</td>
+                                    <td>${c.productID}</td>
+                                    <td>${c.saleQuantity}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

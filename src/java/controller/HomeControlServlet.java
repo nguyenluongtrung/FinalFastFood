@@ -7,6 +7,7 @@ package controller;
 
 import dao.ProductDAO;
 import dao.SaleDAO;
+import dao.SaleProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Sale;
+import model.SaleProduct;
 import model.StatisticalProduct;
 
 /**
@@ -64,18 +66,26 @@ public class HomeControlServlet extends HttpServlet {
 
         Sale sale = new SaleDAO().getSaleByDate();
         if (sale != null) {
-            List<StatisticalProduct> wList = new ProductDAO().getSpecialProducts(0);
+            List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
             String wItems = "";
             int i = 0;
-            for (StatisticalProduct item : wList) {
+            for (SaleProduct item : saleList) {
                 ++i;
-                if (i != wList.size()) {
-                    wItems += item.getName() + ", ";
-                } else {
-                    wItems += item.getName();
+                if (item.getSaleQuantity() > 0) {
+                    if (i != saleList.size()) {
+                        wItems += item.getProductName() + ", ";
+                    } else {
+                        wItems += item.getProductName();
+                    }
+                }
+                else{
+                    if(i == saleList.size()){
+                        wItems = wItems.substring(0, wItems.length() - 2);
+                    }
                 }
             }
             float saleValue = (float) Math.round(sale.getSaleValue() * 100) / 100 * 100;
+
             request.setAttribute("wItems", wItems);
             request.setAttribute("saleValue", saleValue);
             request.setAttribute("sale", new SaleDAO().getSaleByDate());

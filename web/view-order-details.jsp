@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -270,17 +271,37 @@
                                                 <th>Quantity</th>
                                                 <th>Price / a product</th>
                                             </tr>
-                                            <c:forEach items="${orderDetails}" var="c">
-                                                <tr>
-                                                    <td>${c.productName}</td>
-                                                    <td>${c.calories}</td>
-                                                    <td>${c.accumulatedPoints * c.productQuantity}</td>
-                                                    <td>${c.productQuantity}</td>
-                                                    <td>${c.productPrice}$</td>
-                                                </tr>
-                                            </c:forEach>
-
-
+                                            <c:if test="${ok != null}">
+                                                <c:forEach items="${orderDetails}" var="c">
+                                                    <tr>
+                                                        <td>${c.productName}</td>
+                                                        <td>${c.calories}</td>
+                                                        <td>${c.accumulatedPoints * c.productQuantity}</td>
+                                                        <td>${c.productQuantity}</td>
+                                                        <c:forEach items="${saleList}" var="e">
+                                                            <c:if test="${e.productID == c.productID}">
+                                                                <td><fmt:formatNumber value="${c.productPrice * (1 - saleValue)}" pattern="#.##" />$</td>
+                                                                <c:set var="k" value="1"></c:set>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        <c:if test="${k != 1}">
+                                                        <td>${c.productPrice}$</td>
+                                                    </c:if>
+                                                    <c:set var="k" value="0"></c:set>
+                                                        </tr>
+                                                </c:forEach>
+                                            </c:if>
+                                            <c:if test="${ok == null}">
+                                                <c:forEach items="${orderDetails}" var="c">
+                                                    <tr>
+                                                        <td>${c.productName}</td>
+                                                        <td>${c.calories}</td>
+                                                        <td>${c.accumulatedPoints * c.productQuantity}</td>
+                                                        <td>${c.productQuantity}</td>
+                                                        <td>${c.productPrice}$</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:if>
                                         </table>
                                     </div>
 
