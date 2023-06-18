@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/UpdateAccountServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/admin-sale.jsp</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/CheckoutServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/view-order-details.jsp</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/SaleDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/model/Order.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/OrderDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/ViewOrderDetailServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/UpdateSaleServlet.java</file>
-            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/updateAccount.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/web/staff-combo.jsp</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/ComboDAO.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/dao/ComboProductDAO.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/UpdateComboServlet.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/FastFoodRestaurant/src/java/controller/AddComboServlet.java</file>
         </group>
     </open-files>
 </project-private>

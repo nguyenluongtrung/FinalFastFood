@@ -235,6 +235,7 @@
                                                 <th>Status</th>
                                                 <th>Is sale</th>
                                                 <th>View details</th>
+                                                <th>Buy again</th>
                                             </tr>
                                             <c:forEach items="${orders}" var="c">
                                                 <tr>
@@ -244,6 +245,12 @@
                                                     <td>${c.status}</td>
                                                     <td>${c.isSale}</td>
                                                     <td><a href="view-order-details?id=${c.orderID}">View</a></td>
+                                                    <c:if test="${c.status != 'SUCC'}">
+                                                        <td><a href="buy-again?id=${c.orderID}" style="pointer-events: none;"><i class="fa-sharp fa-solid fa-shop text-dark"></i></a></td>
+                                                    </c:if>
+                                                    <c:if test="${c.status == 'SUCC'}">
+                                                        <td><a href="buy-again?id=${c.orderID}"><i class="fa-sharp fa-solid fa-shop text-dark"></i></a></td>
+                                                    </c:if>
                                                 </tr>
                                             </c:forEach>
 

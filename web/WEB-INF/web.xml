@@ -100,6 +100,38 @@
         <servlet-name>ViewSaleProductServlet</servlet-name>
         <servlet-class>controller.ViewSaleProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BuyAgainServlet</servlet-name>
+        <servlet-class>controller.BuyAgainServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddComboServlet</servlet-name>
+        <servlet-class>controller.AddComboServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchProductByCategoryIDServlet</servlet-name>
+        <servlet-class>controller.SearchProductByCategoryIDServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewAllComboServlet</servlet-name>
+        <servlet-class>controller.ViewAllComboServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ComboDetailServlet</servlet-name>
+        <servlet-class>controller.ComboDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageComboServlet</servlet-name>
+        <servlet-class>controller.ManageComboServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteComboServlet</servlet-name>
+        <servlet-class>controller.DeleteComboServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateComboServlet</servlet-name>
+        <servlet-class>controller.UpdateComboServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -287,6 +319,38 @@
     <servlet-mapping>
         <servlet-name>ViewSaleProductServlet</servlet-name>
         <url-pattern>/view-sale-products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuyAgainServlet</servlet-name>
+        <url-pattern>/buy-again</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddComboServlet</servlet-name>
+        <url-pattern>/add-combo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchProductByCategoryIDServlet</servlet-name>
+        <url-pattern>/search-product-by-category</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAllComboServlet</servlet-name>
+        <url-pattern>/view-all-combo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComboDetailServlet</servlet-name>
+        <url-pattern>/combo-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageComboServlet</servlet-name>
+        <url-pattern>/manage-combo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteComboServlet</servlet-name>
+        <url-pattern>/delete-combo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateComboServlet</servlet-name>
+        <url-pattern>/update-combo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
