@@ -182,12 +182,28 @@
                                                 <c:set var="k" value="0"></c:set>
                                                 </tr>
                                         </c:forEach>
+                                        <c:forEach items="${comboItems}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.combo.comboName}</strong></td>
+                                                <td>
+                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
                                     </c:if>
                                     <c:if test="${ok == null}">
                                         <c:forEach items="${items}" var="c">                             
                                             <tr>
                                                 <td>${c.product.name}</td>
                                                 <td>${c.product.price}$</td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:forEach items="${comboItems}" var="c">
+                                            <tr class="total-data">
+                                                <td>${c.combo.comboName}</td>
+                                                <td>
+                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </c:if>
@@ -198,7 +214,7 @@
                                 <tbody class="checkout-details">
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td>$${subtotal}</td>
+                                        <td>${subtotal}$</td>
                                     </tr>
                                     <!--                                    <tr>
                                                                             <td>Shipping</td>
@@ -206,7 +222,7 @@
                                                                         </tr>-->
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
-                                        <td>$${subtotal}</td>
+                                        <td>${subtotal}$</td>
                                     </tr>
                                 </tbody>
                             </table>

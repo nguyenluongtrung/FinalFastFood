@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ComboDAO;
+import dao.ComboProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Combo;
+import model.ComboDetails;
 
 /**
  *
@@ -61,8 +63,20 @@ public class ComboDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Combo combo = new ComboDAO().getComboByID(id);
+        List<ComboDetails> comboDetails = new ComboProductDAO().getAllComboDetails(id);
+        String details = "This combo includes ";
+        int cnt = 0;
+        for(ComboDetails c : comboDetails){
+            ++cnt;
+            if(cnt == comboDetails.size()){
+                details += c.getProductQuantity() + " " + c.getProductName();
+            }
+            else
+                details += c.getProductQuantity() + " " + c.getProductName() + ", ";
+        }
         List<Combo> combos = new ComboDAO().getRelatedCombos(id);
         request.setAttribute("combos", combos);
+        request.setAttribute("details", details);
         request.setAttribute("combo", combo);
         request.getRequestDispatcher("combo-detail.jsp").forward(request, response);
     }

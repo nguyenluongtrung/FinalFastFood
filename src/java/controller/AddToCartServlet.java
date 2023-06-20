@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.ComboDAO;
 import dao.ProductDAO;
 import dao.SaleDAO;
 import dao.SaleProductDAO;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Cart;
+import model.Combo;
+import model.ComboCart;
+import model.ComboItem;
 import model.Item;
 import model.Product;
 import model.Sale;
@@ -95,12 +99,39 @@ public class AddToCartServlet extends HttpServlet {
                 request.setAttribute("productID", productID);
             }
 
+            // ------------------------------------------------------------
+            ComboCart comboCart = null;
+            if ((ComboCart) session.getAttribute("comboCart") == null) {
+                comboCart = new ComboCart();
+            } else {
+                comboCart = (ComboCart) session.getAttribute("comboCart");
+            }
+
+            String comboID_raw = request.getParameter("comboID");
+
+            if (comboID_raw != null) {
+                int comboID = Integer.parseInt(comboID_raw);
+                Combo combo = new ComboDAO().getComboByID(comboID);
+                int quantity = 0;
+                if (request.getParameter("c_quantity") != null) {
+                    quantity = Integer.parseInt(request.getParameter("c_quantity"));
+                } else {
+                    quantity = 1;
+                }
+                ComboItem comboItem = new ComboItem(combo, quantity);
+                comboCart.addItemToCart(comboItem);
+                request.setAttribute("comboItem", comboItem);
+            }
+
             session.setAttribute("cart", cart);
-            session.setAttribute("subtotal", cart.getTotalMoney());
+            session.setAttribute("comboCart", comboCart);
+            session.setAttribute("subtotal", cart.getTotalMoney() + comboCart.getTotalMoney());
             session.setAttribute("count", cart.getItems().size());
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
+            List<ComboItem> comboItems = comboCart.getComboItems();
+            request.setAttribute("comboItems", comboItems);
 
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (ParseException ex) {
@@ -122,6 +153,7 @@ public class AddToCartServlet extends HttpServlet {
         String code = request.getParameter("code");
         Sale sale = new SaleDAO().getSaleByDate();
         List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+
         HttpSession session = request.getSession();
         Cart cart = null;
         if ((Cart) session.getAttribute("cart") == null) {
@@ -129,16 +161,24 @@ public class AddToCartServlet extends HttpServlet {
         } else {
             cart = (Cart) session.getAttribute("cart");
         }
+        ComboCart comboCart = null;
+        if ((ComboCart) session.getAttribute("comboCart") == null) {
+            comboCart = new ComboCart();
+        } else {
+            comboCart = (ComboCart) session.getAttribute("comboCart");
+        }
         List<Item> items = cart.getItems();
-        
-        
+        List<ComboItem> comboItems = comboCart.getComboItems();
+
         if (sale == null) {
             try {
                 request.setAttribute("ms", "There is no sale event happening!");
                 session.setAttribute("cart", cart);
-                session.setAttribute("subtotal", cart.getTotalMoney());
+                session.setAttribute("comboCart", comboCart);
+                session.setAttribute("subtotal", cart.getTotalMoney() + comboCart.getTotalMoney());
                 session.setMaxInactiveInterval(-1);
                 request.setAttribute("items", items);
+                request.setAttribute("comboItems", comboItems);
             } catch (ParseException ex) {
                 Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,10 +186,12 @@ public class AddToCartServlet extends HttpServlet {
             if (code.equalsIgnoreCase(sale.getSaleCode())) {
                 try {
                     session.setAttribute("cart", cart);
-                    float subtotal = (float) Math.round(cart.getTotalMoney(saleList, sale) * 100) / 100;
+                    session.setAttribute("comboCart", comboCart);
+                    float subtotal = (float) Math.round((cart.getTotalMoney(saleList, sale) + comboCart.getTotalMoney()) * 100) / 100;
                     session.setAttribute("subtotal", subtotal);
                     session.setMaxInactiveInterval(-1);
                     request.setAttribute("items", items);
+                    request.setAttribute("comboItems", comboItems);
                     request.setAttribute("saleValue", sale.getSaleValue());
                     request.setAttribute("saleList", saleList);
                     request.setAttribute("ok", 1);
@@ -161,9 +203,12 @@ public class AddToCartServlet extends HttpServlet {
                 try {
                     request.setAttribute("ms", "Sale code is invalid!");
                     session.setAttribute("cart", cart);
-                    session.setAttribute("subtotal", cart.getTotalMoney());
+                    session.setAttribute("comboCart", comboCart);
+                    session.setAttribute("subtotal", cart.getTotalMoney() + comboCart.getTotalMoney());
                     session.setMaxInactiveInterval(-1);
                     request.setAttribute("items", items);
+                    request.setAttribute("comboItems", comboItems);
+
                 } catch (ParseException ex) {
                     Logger.getLogger(AddToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

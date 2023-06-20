@@ -44,4 +44,26 @@ public class OrderDetailDAO {
         }
     }
 
+    public void addComboOrderDetail(int orderID, int comboID, int quantity) {
+        try {
+            String sql = "INSERT INTO [dbo].[Combo_OrderDetail]\n"
+                    + "           ([OrderID]\n"
+                    + "           ,[ComboID]\n"
+                    + "           ,[Quantity])\n"
+                    + "     VALUES\n"
+                    + "           (?,?,?)";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, orderID);
+            ps.setInt(2, comboID);
+            ps.setInt(3, quantity);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDetailDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Cart;
+import model.ComboCart;
 
 /**
  *
@@ -37,7 +38,7 @@ public class RemoveFromCartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RemoveFromCartServlet</title>");            
+            out.println("<title>Servlet RemoveFromCartServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RemoveFromCartServlet at " + request.getContextPath() + "</h1>");
@@ -60,16 +61,30 @@ public class RemoveFromCartServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Cart cart = null;
-        if((Cart) session.getAttribute("cart") == null){
+        if ((Cart) session.getAttribute("cart") == null) {
             cart = new Cart();
-        }
-        else{
+        } else {
             cart = (Cart) session.getAttribute("cart");
         }
-        int productID = Integer.parseInt(request.getParameter("id"));
-        cart.removeItem(productID);
+
+        ComboCart comboCart = null;
+        if ((ComboCart) session.getAttribute("comboCart") == null) {
+            comboCart = new ComboCart();
+        } else {
+            comboCart = (ComboCart) session.getAttribute("comboCart");
+        }
+        if (request.getParameter("id") != null) {
+            int productID = Integer.parseInt(request.getParameter("id"));
+            cart.removeItem(productID);
+        }
+        if (request.getParameter("c_id") != null) {
+            int comboID = Integer.parseInt(request.getParameter("c_id"));
+            comboCart.removeItem(comboID);
+        }
+        
         session.setAttribute("count", cart.getItems().size());
         session.setAttribute("cart", cart);
+        session.setAttribute("comboCart", comboCart);
         request.getRequestDispatcher("add-to-cart").forward(request, response);
     }
 

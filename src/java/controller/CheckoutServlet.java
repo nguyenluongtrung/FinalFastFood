@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Cart;
+import model.ComboCart;
+import model.ComboItem;
 import model.Item;
 import model.Sale;
 import model.SaleProduct;
@@ -75,7 +77,9 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
+        ComboCart comboCart = (ComboCart) session.getAttribute("comboCart");
         List<Item> items = cart.getItems();
+        List<ComboItem> comboItems = comboCart.getComboItems();
         if (request.getParameter("okela") != null) {
             Sale sale = new SaleDAO().getSaleByDate();
             List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
@@ -87,6 +91,7 @@ public class CheckoutServlet extends HttpServlet {
         float subtotal = (float) session.getAttribute("subtotal");
         request.setAttribute("subtotal", subtotal);
         request.setAttribute("items", items);
+        request.setAttribute("comboItems", comboItems);
         request.getRequestDispatcher("checkout.jsp").forward(request, response);
     }
 
@@ -109,7 +114,17 @@ public class CheckoutServlet extends HttpServlet {
         int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("acc");
-        Cart cart = (Cart) session.getAttribute("cart");
+        
+        Cart cart = null;
+        if(session.getAttribute("cart") != null){
+            cart = (Cart) session.getAttribute("cart");
+        }
+        
+        ComboCart comboCart = null;
+        if(session.getAttribute("comboCart") != null){
+            comboCart = (ComboCart) session.getAttribute("comboCart");
+        }
+        
         int accountID = acc.getAccountID();
         
         List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
@@ -123,13 +138,20 @@ public class CheckoutServlet extends HttpServlet {
         else{
             orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID, false);
         }
+        System.out.println("Code: " + request.getParameter("code"));
         
         List<Item> items = cart.getItems();
         for (Item i : items) {
             int productID = i.getProduct().getProductID();
             int quantity = i.getQuantity();
             new OrderDetailDAO().addOrderDetail(orderID, productID, quantity);
-            new ProductDAO().updateQuantity(productID, quantity);
+        }
+        
+        List<ComboItem> comboItems = comboCart.getComboItems();
+        for (ComboItem i : comboItems) {
+            int comboID = i.getCombo().getComboID();
+            int quantity = i.getQuantity();
+            new OrderDetailDAO().addComboOrderDetail(orderID, comboID, quantity);
         }
         
         if ((sale != null) && (request.getParameter("code") != "") ) {
@@ -151,6 +173,7 @@ public class CheckoutServlet extends HttpServlet {
 
         new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
         session.removeAttribute("cart");
+        session.removeAttribute("comboCart");
         session.removeAttribute("count");
         request.getRequestDispatcher("thankyou.jsp").forward(request, response);
     }

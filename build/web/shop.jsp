@@ -242,7 +242,7 @@
                                                     <h3>${c.comboName}</h3>
                                                     <p class="product-price"> ${c.totalPrice}$ </p>
                                                     <p class="text-secondary">${c.totalCalories} Calories</p>
-                                                    <a href="#" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                                    <a href="add-to-cart?comboID=${c.comboID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                                                     <c:if test="${sessionScope.acc.role != null}">
                                                         <a href="#"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
                                                     </c:if>

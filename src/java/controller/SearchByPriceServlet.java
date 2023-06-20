@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.ComboDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Combo;
 import model.Product;
 
 /**
@@ -60,11 +62,23 @@ public class SearchByPriceServlet extends HttpServlet {
             throws ServletException, IOException {
         float from = Integer.parseInt(request.getParameter("from"));
         float to = Integer.parseInt(request.getParameter("to"));
-        List<Product> list = new ProductDAO().searchProductByPrice(from, to);
-        if(list.size() == 0){
+        List<Product> listProduct = new ProductDAO().searchProductByPrice(from, to);
+        List<Combo> listCombo = new ComboDAO().searchComboByPrice(from, to);
+        if(listProduct.size() == 0 && listCombo.size() == 0){
             request.setAttribute("ms", "Your searched products not found!");
         }
-        else request.setAttribute("list", list);
+        else if(listProduct.size() > 0 && listCombo.size() > 0){
+            request.setAttribute("list", listProduct);
+            request.setAttribute("listCombo", listCombo);
+            request.setAttribute("isCombo", 1);
+        }
+        else if(listProduct.size() > 0){
+            request.setAttribute("list", listProduct);
+        }
+        else if(listCombo.size() > 0){
+            request.setAttribute("listCombo", listCombo);
+            request.setAttribute("isCombo", 1);
+        }
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

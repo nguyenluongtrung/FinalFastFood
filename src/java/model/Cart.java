@@ -111,9 +111,9 @@ public class Cart {
     }
 
     public float getTotalMoney() throws ParseException{
-        int sum = 0;
+        float sum = 0;
         for(Item item : items){
-            sum += item.getQuantity()*getPriceByDate(item.getProduct().getProductID());
+            sum += 1.0*item.getQuantity()*getPriceByDate(item.getProduct().getProductID());
         }
         return sum;
     }

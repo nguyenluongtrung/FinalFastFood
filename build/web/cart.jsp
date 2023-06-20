@@ -132,6 +132,16 @@
                                             <td class="product-total">${c.quantity * c.product.price}$</td>
                                         </tr>
                                     </c:forEach>
+                                    <c:forEach items="${comboItems}" var="c">
+                                        <tr class="table-body-row">
+                                            <td class="product-remove"><a href="remove-from-cart?c_id=${c.combo.comboID}"><i class="far fa-window-close"></i></a></td>
+                                            <td class="product-image"><img src="${c.combo.image}" alt="" style="height: 50px; width: 50px;"></td>
+                                            <td class="product-name">${c.combo.comboName}</td>
+                                            <td class="product-price">${c.combo.totalPrice}$</td>
+                                            <td class="product-quantity"><input type="number" readonly placeholder="${c.quantity}"></td>
+                                            <td class="product-total"><fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$</td>
+                                        </tr>
+                                    </c:forEach>
 
                                 </tbody>
 
@@ -158,6 +168,14 @@
                                             <tr class="total-data">
                                                 <td><strong>${c.product.name}</strong></td>
                                                 <td>${c.product.price * c.quantity}$</td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:forEach items="${comboItems}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.combo.comboName}</strong></td>
+                                                <td>
+                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                </td>
                                             </tr>
                                         </c:forEach>
 
@@ -228,6 +246,14 @@
                                                 </c:if>
                                                 <c:set var="k" value="0"></c:set>
                                                 </tr>
+                                        </c:forEach>
+                                        <c:forEach items="${comboItems}" var="c">
+                                            <tr class="total-data">
+                                                <td><strong>${c.combo.comboName}</strong></td>
+                                                <td>
+                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                </td>
+                                            </tr>
                                         </c:forEach>
 
                                         <!--                                        <tr class="total-data">

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Combo;
+import model.Product;
 
 /**
  *
@@ -95,7 +96,7 @@ public class ComboDAO {
     }
 
     public static void main(String[] args) {
-        new ComboDAO().deleteComboByID(3);
+        System.out.println(new ComboDAO().searchComboByPrice(41f, -1));
     }
 
     public Combo getComboByID(int id) {
@@ -195,4 +196,95 @@ public class ComboDAO {
             Logger.getLogger(ComboDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public List<Combo> searchComboByPrice(float from, float to) {
+        List<Combo> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE (TotalPrice >= ?) and (TotalPrice <= ?)";
+            } else {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE TotalPrice >= ?";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setFloat(1, from);
+                ps.setFloat(2, to);
+            } else {
+                ps.setFloat(1, from);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<Combo> searchByCalories(int from, int to) {
+        List<Combo> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE (TotalCalories >= ?) and (TotalCalories <= ?)";
+            } else {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE TotalCalories >= ?";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setFloat(1, from);
+                ps.setFloat(2, to);
+            } else {
+                ps.setFloat(1, from);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
 }

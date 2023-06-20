@@ -196,10 +196,11 @@
                             <p class="single-product-pricing">${combo.totalPrice}$</p>
                             <div class="single-product-form">
                                 <p>Calories: ${combo.totalCalories}</p>
+                                <p class="font-italic">${details}</p>
                                 <p><strong>Rating: ${combo.rating}/5.0</strong></p>
                                 <form action="add-to-cart">
-                                    <input type="number" placeholder="0" name="quantity" min="1"><br>
-                                    <input type="hidden" name="productID" value="${combo.comboID}">
+                                    <input type="number" placeholder="0" name="c_quantity" min="1"><br>
+                                    <input type="hidden" name="comboID" value="${combo.comboID}">
                                     <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                                 </form><br>
                                 <c:if test="${sessionScope.acc.role != null}">
@@ -314,7 +315,7 @@
                         <div class="col-lg-4 col-md-6 text-center">
                             <div class="single-product-item">
                                 <div class="product-image">
-                                    <a href="#"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                    <a href="combo-detail?id=${c.comboID}"><img src="${c.image}" style='width:100%;height:250px'></a>
                                 </div>
                                 <h3>${c.comboName}</h3>
                                 <p class="product-price"> ${c.totalPrice}$ </p>
