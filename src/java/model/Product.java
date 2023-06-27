@@ -16,7 +16,6 @@ public class Product {
     private String name;
     private String image;
     private int categoryID;
-    private int quantity;
     private int calories;
     private boolean isSurprise;
     private float rating;
@@ -27,16 +26,17 @@ public class Product {
     private String endDate;
     private float price;
     private boolean status;
+    private String p_startDate;
+    private String p_endDate;
 
     public Product() {
     }
 
-    public Product(int priceID, String startDate, String endDate, float price, int productID, String name, String image, int categoryID, int quantity, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint, boolean status) {
+    public Product(int priceID, String startDate, String endDate, float price, int productID, String name, String image, int categoryID, int calories, boolean isSurprise, float rating, int accumulatedPoint, int exchangedPoint, boolean status, String p_startDate, String p_endDate) {
         this.productID = productID;
         this.name = name;
         this.image = image;
         this.categoryID = categoryID;
-        this.quantity = quantity;
         this.calories = calories;
         this.isSurprise = isSurprise;
         this.rating = rating;
@@ -47,6 +47,8 @@ public class Product {
         this.endDate = endDate;
         this.price = price;
         this.status = status;
+        this.p_startDate = p_startDate;
+        this.p_endDate = p_endDate;
     }
 
     public int getProductID() {
@@ -79,14 +81,6 @@ public class Product {
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public int getCalories() {
@@ -168,17 +162,28 @@ public class Product {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
+    public String getP_startDate() {
+        return p_startDate;
+    }
+
+    public void setP_startDate(String p_startDate) {
+        this.p_startDate = p_startDate;
+    }
+
+    public String getP_endDate() {
+        return p_endDate;
+    }
+
+    public void setP_endDate(String p_endDate) {
+        this.p_endDate = p_endDate;
+    }
 
     @Override
     public String toString() {
-        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", quantity=" + quantity + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + ", priceID=" + priceID + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", status=" + status + '}';
+        return "Product{" + "productID=" + productID + ", name=" + name + ", image=" + image + ", categoryID=" + categoryID + ", calories=" + calories + ", isSurprise=" + isSurprise + ", rating=" + rating + ", accumulatedPoint=" + accumulatedPoint + ", exchangedPoint=" + exchangedPoint + ", priceID=" + priceID + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", status=" + status + ", p_startDate=" + p_startDate + ", p_endDate=" + p_endDate + '}';
     }
+
     
-    public static void main(String[] args) {
-    }
-    
-    
-    
-    
+
 }

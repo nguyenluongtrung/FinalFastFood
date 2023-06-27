@@ -66,11 +66,16 @@ public class UpdateProductServlet extends HttpServlet {
         List<Product> list = new ProductDAO().getAllProducts();
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = new ProductDAO().getProductByID(id);
-        System.out.println(product);
+        if(product.isIsSurprise() == false){
+            request.setAttribute("okela", 1);
+        }
+        else{
+            request.setAttribute("okelala", 1);
+        }
         request.setAttribute("product", product);
         request.setAttribute("list", list);
         request.setAttribute("cList", cList);
-        request.setAttribute("okela", 1);
+        
         request.getRequestDispatcher("admin-product.jsp").forward(request, response);
     }
 
@@ -86,7 +91,6 @@ public class UpdateProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String name = request.getParameter("name");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
         String image = request.getParameter("image");
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         int calories = Integer.parseInt(request.getParameter("calories"));
@@ -96,8 +100,17 @@ public class UpdateProductServlet extends HttpServlet {
         String s_date = request.getParameter("s_date");
         float price = Float.parseFloat(request.getParameter("price"));
         float original_price = Float.parseFloat(request.getParameter("original_price"));
-        new ProductDAO().updateProduct(productID,name,quantity,image,categoryID,calories,accPoint,exPoint);
         
+        Product product = new ProductDAO().getProductByID(productID);
+        if(product.isIsSurprise() == false){
+            new ProductDAO().updateProduct(productID,name,image,categoryID,calories,accPoint,exPoint);
+        }
+        else{
+            String p_startDate = request.getParameter("p_startDate");
+            String p_endDate = request.getParameter("p_endDate");
+            new ProductDAO().updateProduct(productID,name,image,categoryID,calories,accPoint,exPoint,p_startDate,p_endDate);
+        }
+  
         if(price != original_price){
             int priceID = new PriceDAO().getPriceID(productID, s_date);
             new PriceDAO().updatePriceByPriceID(priceID);

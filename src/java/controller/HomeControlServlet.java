@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Product;
 import model.Sale;
 import model.SaleProduct;
 import model.StatisticalProduct;
@@ -65,7 +66,8 @@ public class HomeControlServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Sale sale = new SaleDAO().getSaleByDate();
-        if (sale != null) {
+        Product surpriseProduct = new ProductDAO().getSurpriseProduct();
+        if (sale != null && surpriseProduct == null) {
             List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
             String wItems = "";
             int i = 0;
@@ -77,9 +79,8 @@ public class HomeControlServlet extends HttpServlet {
                     } else {
                         wItems += item.getProductName();
                     }
-                }
-                else{
-                    if(i == saleList.size()){
+                } else {
+                    if (i == saleList.size()) {
                         wItems = wItems.substring(0, wItems.length() - 2);
                     }
                 }
@@ -90,6 +91,34 @@ public class HomeControlServlet extends HttpServlet {
             request.setAttribute("saleValue", saleValue);
             request.setAttribute("sale", new SaleDAO().getSaleByDate());
             request.setAttribute("ok", 1);
+        } else if (sale == null && surpriseProduct != null) {
+            request.setAttribute("surpriseProduct", surpriseProduct);
+            request.setAttribute("okela", 1);
+        } else if(sale != null && surpriseProduct != null) {
+            List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
+            String wItems = "";
+            int i = 0;
+            for (SaleProduct item : saleList) {
+                ++i;
+                if (item.getSaleQuantity() > 0) {
+                    if (i != saleList.size()) {
+                        wItems += item.getProductName() + ", ";
+                    } else {
+                        wItems += item.getProductName();
+                    }
+                } else {
+                    if (i == saleList.size()) {
+                        wItems = wItems.substring(0, wItems.length() - 2);
+                    }
+                }
+            }
+            float saleValue = (float) Math.round(sale.getSaleValue() * 100) / 100 * 100;
+
+            request.setAttribute("wItems", wItems);
+            request.setAttribute("saleValue", saleValue);
+            request.setAttribute("sale", new SaleDAO().getSaleByDate());
+            request.setAttribute("surpriseProduct", surpriseProduct);
+            request.setAttribute("okelala", 1);
         }
         request.setAttribute("someProducts", new ProductDAO().getSomeProducts());
         request.getRequestDispatcher("index.jsp").forward(request, response);

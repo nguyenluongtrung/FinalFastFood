@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.AccountDAO;
 import dao.ComboDAO;
 import dao.ProductDAO;
 import dao.SaleDAO;
@@ -126,12 +127,13 @@ public class AddToCartServlet extends HttpServlet {
             session.setAttribute("cart", cart);
             session.setAttribute("comboCart", comboCart);
             session.setAttribute("subtotal", cart.getTotalMoney() + comboCart.getTotalMoney());
-            session.setAttribute("count", cart.getItems().size());
+            session.setAttribute("count", cart.getItems().size() + comboCart.getComboItems().size());
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
             List<ComboItem> comboItems = comboCart.getComboItems();
             request.setAttribute("comboItems", comboItems);
+            
 
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (ParseException ex) {

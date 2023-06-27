@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="java.time.LocalDate"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -112,8 +113,8 @@
                 left: 50%;
                 transform: translate(-50%,-50%) scale(0);
                 background: #fff;
-                width: 500px;
-                height: 500px;
+                width: 630px;
+                height: 600px;
                 z-index: 2;
                 padding: 20px;
                 box-sizing: border-box;
@@ -127,7 +128,7 @@
                 transform: translate(-50%,-50%) scale(0);
                 background: #fff;
                 width: 630px;
-                height: 600px;
+                height: 690px;
                 z-index: 2;
                 padding: 20px;
                 box-sizing: border-box;
@@ -309,7 +310,6 @@
                                         <th scope="col" style="font-size: 90%">Name</th>
                                         <th scope="col" style="font-size: 90%">Image</th>
                                         <th scope="col" style="font-size: 90%">Category ID</th>
-                                        <th scope="col" style="font-size: 90%">Quantity</th>
                                         <th scope="col" style="font-size: 90%">Calories</th>
                                         <th scope="col" style="font-size: 90%">Is Surprise</th>
                                         <th scope="col" style="font-size: 90%">Rating</th>
@@ -327,7 +327,6 @@
                                             <td>${c.name}</td>
                                             <td><image src="${c.image}" style="width: 40px; height: 40px;"></td>
                                             <td>${c.categoryID}</td>
-                                            <td>${c.quantity}</td>
                                             <td>${c.calories}</td>
                                             <td>${c.isSurprise}</td>
                                             <td>${c.rating}</td>
@@ -363,27 +362,23 @@
                     <form class="form" action="add-product" method="post">
                         <div class="column">
                             <div class="input-box">
-                                <label>Product Name</label>
+                                <label>Product Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" placeholder="Enter product name" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Price</label>
-                                <input type="number" name="price" placeholder="Enter price" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Quantity</label>
-                                <input type="number" placeholder="0" name="quantity" min="1">
+                                <label>Price <span class="text-danger">*</span></label>
+                                <input type="number" name="price" placeholder="Enter price" required />
                             </div>
                             <div class="input-box">
-                                <label>Image</label>
+                                <label>Image <span class="text-danger">*</span></label>
                                 <input type="text" name="image" placeholder="Enter image source" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label class="mb-2">Category</label>
+                                <label class="mb-2">Category <span class="text-danger">*</span></label>
                                 <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
                                     <c:forEach items="${cList}" var="c">
                                         <option value="${c.categoryID}">${c.categoryName}</option>
@@ -391,21 +386,31 @@
                                 </select>
                             </div>
                             <div class="input-box">
-                                <label>Calories</label>
+                                <label>Calories <span class="text-danger">*</span></label>
                                 <input type="number" name="calories" placeholder="Enter calories" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Accumulated Point</label>
+                                <label>Accumulated Point <span class="text-danger">*</span></label>
                                 <input type="number" name="accPoint" placeholder="Enter accumulated points" required />
                             </div>
                             <div class="input-box">
-                                <label>Exchanged Point</label>
+                                <label>Exchanged Point <span class="text-danger">*</span></label>
                                 <input type="number" name="exPoint" placeholder="Enter exchanged points" required />
                             </div>
                         </div>
-                        
+                        <c:if test="${surpriseProduct != null}">
+                            <div class="column">
+                                <div class="input-box">
+                                    <label>Surprise start day</label>
+                                    <input type="date" name="p_startDate" min="<%= LocalDate.now()%>"/>
+                                </div><div class="input-box">
+                                    <label>Surprise end day</label>
+                                    <input type="date" name="p_endDate"  min="<%= LocalDate.now()%>"/>
+                                </div>
+                            </div>
+                        </c:if>
                         <button>Submit</button>
                     </form>
                 </div>
@@ -414,8 +419,67 @@
     </c:if>
 
 
-    
+
     <c:if test="${okela != null}">
+        <div class="popup active" id="popup-2">
+            <div class="overlay"></div>
+            <div class="content">
+                <div class="close-btn" onclick="togglePopup2()">&times;</div>
+                <p style="font-weight: bold; text-align: center">UPDATE NEW PRODUCT</p><br>
+                <div>
+                    <form class="form" action="update-product" method="post">
+                        <input type="hidden" name="original_price" value="${product.price}">
+                        <input type="hidden" name="s_date" value="${product.startDate}">
+                        <input type="hidden" name="productID" value="${product.productID}">
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Product Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" value="${product.name}" placeholder="Enter product name" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Price <span class="text-danger">*</span></label>
+                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Image <span class="text-danger">*</span></label>
+                                <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label class="mb-2">Category <span class="text-danger">*</span></label>
+                                <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
+                                    <c:forEach items="${cList}" var="c">
+                                        <option ${c.categoryID == product.categoryID ? "selected" : ""} value="${c.categoryID}">${c.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Calories <span class="text-danger">*</span></label>
+                                <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Accumulated Point <span class="text-danger">*</span></label>
+                                <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required />
+                            </div>
+                            <div class="input-box">
+                                <label>Exchanged Point <span class="text-danger">*</span></label>
+                                <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required />
+                            </div>
+                        </div>
+
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <c:if test="${okelala != null}">
         <div class="popup active" id="popup-2">
             <div class="overlay"></div>
             <div class="content2">
@@ -428,27 +492,23 @@
                         <input type="hidden" name="productID" value="${product.productID}">
                         <div class="column">
                             <div class="input-box">
-                                <label>Product Name</label>
+                                <label>Product Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" value="${product.name}" placeholder="Enter product name" required />
-                            </div>
-                            <div class="input-box">
-                                <label>Price</label>
-                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Quantity</label>
-                                <input type="number" value="${product.quantity}" placeholder="0" name="quantity" min="1">
+                                <label>Price <span class="text-danger">*</span></label>
+                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required />
                             </div>
                             <div class="input-box">
-                                <label>Image</label>
+                                <label>Image <span class="text-danger">*</span></label>
                                 <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label class="mb-2">Category</label>
+                                <label class="mb-2">Category <span class="text-danger">*</span></label>
                                 <select name="categoryID" class="w-100 rounded" style="padding: 13px 13px; border-color: #e7e6e7">
                                     <c:forEach items="${cList}" var="c">
                                         <option ${c.categoryID == product.categoryID ? "selected" : ""} value="${c.categoryID}">${c.categoryName}</option>
@@ -456,18 +516,27 @@
                                 </select>
                             </div>
                             <div class="input-box">
-                                <label>Calories</label>
+                                <label>Calories <span class="text-danger">*</span></label>
                                 <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
-                                <label>Accumulated Point</label>
+                                <label>Accumulated Point <span class="text-danger">*</span></label>
                                 <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required />
                             </div>
                             <div class="input-box">
-                                <label>Exchanged Point</label>
+                                <label>Exchanged Point <span class="text-danger">*</span></label>
                                 <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required />
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="input-box">
+                                <label>Surprise start day <span class="text-danger">*</span></label>
+                                <input type="date" name="p_startDate"/>
+                            </div><div class="input-box">
+                                <label>Surprise end day <span class="text-danger">*</span></label>
+                                <input type="date" name="p_endDate"/>
                             </div>
                         </div>
                         <button>Submit</button>

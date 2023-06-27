@@ -8,13 +8,19 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CategoryRevenue;
+import model.Product;
 import model.StatisticalProduct;
 
 /**
@@ -40,7 +46,7 @@ public class AdminPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminPageServlet</title>");            
+            out.println("<title>Servlet AdminPageServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AdminPageServlet at " + request.getContextPath() + "</h1>");
@@ -62,25 +68,42 @@ public class AdminPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<StatisticalProduct> hList = new ProductDAO().getSpecialProducts(1);
-        
+
         List<StatisticalProduct> wList = new ProductDAO().getSpecialProducts(0);
-        
+
         List<CategoryRevenue> cList = new ProductDAO().getAllCategoryRevenue();
         float[] crList = new float[10];
-        for(int i = 1;i <= 10; i++){
+        for (int i = 1; i <= 10; i++) {
             int ok = 0;
-            for(CategoryRevenue c: cList){
-                if(i == c.getCategoryID()){
-                    crList[i-1] = c.getTotalPrice();
+            for (CategoryRevenue c : cList) {
+                if (i == c.getCategoryID()) {
+                    crList[i - 1] = c.getTotalPrice();
                     ok = 1;
                     break;
                 }
             }
-            if(ok == 0)
-                crList[i-1] = 0;
+            if (ok == 0) {
+                crList[i - 1] = 0;
+            }
         }
-        System.out.println(Arrays.toString(crList));
-        
+
+        Product surpriseProduct = new ProductDAO().getSurpriseProduct();
+
+        if (surpriseProduct != null) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date p_endDate = sdf.parse(surpriseProduct.getP_endDate());
+                Date cDate = new Date();
+
+                int result = cDate.compareTo(p_endDate);
+                if (result > 0) {
+                    new ProductDAO().updateProductStatus(surpriseProduct.getProductID(), false);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(ManageProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         request.setAttribute("crList", Arrays.toString(crList));
         request.setAttribute("hList", hList);
         request.setAttribute("wList", wList);

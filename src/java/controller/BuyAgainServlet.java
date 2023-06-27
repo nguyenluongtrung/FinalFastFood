@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.ComboDAO;
 import dao.OrderDAO;
 import dao.ProductDAO;
 import dao.ProductOrderDetailDAO;
@@ -20,6 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Cart;
+import model.Combo;
+import model.ComboCart;
+import model.ComboInfoOrderDetail;
+import model.ComboItem;
 import model.Item;
 import model.Order;
 import model.Product;
@@ -72,12 +77,21 @@ public class BuyAgainServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             List<ProductOrderDetail> orderDetails = new ProductOrderDetailDAO().getAllProductOrderDetailByOrderID(id);
+            List<ComboInfoOrderDetail> comboOrderDetails = new ComboDAO().getAllComboOrderDetailByOrderID(id);
+            
             HttpSession session = request.getSession();
             Cart cart = null;
             if ((Cart) session.getAttribute("cart") == null) {
                 cart = new Cart();
             } else {
                 cart = (Cart) session.getAttribute("cart");
+            }
+            
+            ComboCart comboCart = null;
+            if ((ComboCart) session.getAttribute("comboCart") == null) {
+                comboCart = new ComboCart();
+            } else {
+                comboCart = (ComboCart) session.getAttribute("comboCart");
             }
             
             for(ProductOrderDetail pro : orderDetails){
@@ -88,12 +102,23 @@ public class BuyAgainServlet extends HttpServlet {
                 cart.addItemToCart(item);
             }
             
+            for(ComboInfoOrderDetail com : comboOrderDetails){
+                int quantity = com.getQuantity();
+                int comboID = com.getComboID();
+                Combo combo = new ComboDAO().getComboByID(comboID);
+                ComboItem comboItem = new ComboItem(combo, quantity);
+                comboCart.addItemToCart(comboItem);
+            }
+            
             session.setAttribute("cart", cart);
-            session.setAttribute("subtotal", cart.getTotalMoney());
-            session.setAttribute("count", cart.getItems().size());
+            session.setAttribute("comboCart", comboCart);
+            session.setAttribute("subtotal", cart.getTotalMoney() + comboCart.getTotalMoney());
+            session.setAttribute("count", cart.getItems().size() + comboCart.getComboItems().size());
             session.setMaxInactiveInterval(-1);
             List<Item> items = cart.getItems();
             request.setAttribute("items", items);
+            List<ComboItem> comboItems = comboCart.getComboItems();
+            request.setAttribute("comboItems", comboItems);
 
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         } catch (ParseException ex) {

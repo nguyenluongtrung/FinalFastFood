@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="java.time.LocalDate"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -378,11 +379,11 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Start Date</label>
-                                <input type="date" name="s-start" placeholder="Enter start date" required />
+                                <input type="date" name="s-start" placeholder="Enter start date"  min="<%= LocalDate.now() %>" required />
                             </div>
                             <div class="input-box">
                                 <label>End Date</label>
-                                <input type="date" name="s-end" placeholder="Enter end date" required />
+                                <input type="date" name="s-end" placeholder="Enter end date"  min="<%= LocalDate.now() %>" required />
                             </div>
                         </div>
                         <div class="column mt-3">

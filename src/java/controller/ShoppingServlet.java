@@ -8,7 +8,13 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +44,7 @@ public class ShoppingServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ShoppingServlet</title>");            
+            out.println("<title>Servlet ShoppingServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ShoppingServlet at " + request.getContextPath() + "</h1>");
@@ -59,11 +65,28 @@ public class ShoppingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Product> list = new ProductDAO().getAllProducts();
-        
-        request.setAttribute("list", list);
-        
-        request.getRequestDispatcher("shop.jsp").forward(request, response);
+        try {
+            List<Product> list = new ProductDAO().getAllProducts();
+
+            Product surpriseProduct = new ProductDAO().getSurpriseProduct();
+            
+            if (surpriseProduct != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date p_endDate = sdf.parse(surpriseProduct.getP_endDate());
+                Date cDate = new Date();
+
+                int result = cDate.compareTo(p_endDate);
+                if (result > 0) {
+                    new ProductDAO().updateProductStatus(surpriseProduct.getProductID(), false);
+                }
+            }
+
+            request.setAttribute("list", list);
+
+            request.getRequestDispatcher("shop.jsp").forward(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(ShoppingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

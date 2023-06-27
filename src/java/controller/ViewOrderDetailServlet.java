@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.ComboDAO;
 import dao.FeedbackDAO;
 import dao.OrderDAO;
 import dao.ProductDAO;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
+import model.ComboInfoOrderDetail;
 import model.FeedBack;
 import model.Order;
 import model.Product;
@@ -84,6 +86,7 @@ public class ViewOrderDetailServlet extends HttpServlet {
         List<FeedBack> feeds = new FeedbackDAO().getFeedbacksByAccountID(accountID);
         int id = Integer.parseInt(request.getParameter("id"));
         List<ProductOrderDetail> orderDetails = new ProductOrderDetailDAO().getAllProductOrderDetailByOrderID(id);
+        List<ComboInfoOrderDetail> comboOrderDetails = new ComboDAO().getAllComboOrderDetailByOrderID(id);
         Order order = new OrderDAO().getOrderByID(id);
         Sale sale = new SaleDAO().getSaleByOrderDate(order.getDate());
         System.out.println(sale);
@@ -98,6 +101,7 @@ public class ViewOrderDetailServlet extends HttpServlet {
         request.setAttribute("orders", orders);
         request.setAttribute("feeds", feeds);
         request.setAttribute("orderDetails", orderDetails);
+        request.setAttribute("comboOrderDetails", comboOrderDetails);
         request.getRequestDispatcher("view-order-details.jsp").forward(request, response);
     }
 

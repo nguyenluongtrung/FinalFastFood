@@ -41,7 +41,7 @@ public class AddProductServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddProductServlet</title>");            
+            out.println("<title>Servlet AddProductServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet AddProductServlet at " + request.getContextPath() + "</h1>");
@@ -64,6 +64,10 @@ public class AddProductServlet extends HttpServlet {
             throws ServletException, IOException {
         List<Category> cList = new CategoryDAO().getAllCategory();
         List<Product> list = new ProductDAO().getAllProducts();
+        Product surpriseProduct = new ProductDAO().getSurpriseProduct();
+        if(surpriseProduct == null){
+            request.setAttribute("surpriseProduct", 1);
+        }
         request.setAttribute("list", list);
         request.setAttribute("cList", cList);
         request.setAttribute("ok", 1);
@@ -82,18 +86,24 @@ public class AddProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String name = request.getParameter("name");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
         String image = request.getParameter("image");
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         int calories = Integer.parseInt(request.getParameter("calories"));
         int accPoint = Integer.parseInt(request.getParameter("accPoint"));
         int exPoint = Integer.parseInt(request.getParameter("exPoint"));
-        
+
         float price = Float.parseFloat(request.getParameter("price"));
-        
-        int productID = new ProductDAO().createProductReturnKey(name, quantity, image, categoryID, calories, accPoint, exPoint);
+
+        int productID = 0;
+        if ((request.getParameter("p_startDate") != null) && (request.getParameter("p_endDate") != null)) {
+            String p_startDate = request.getParameter("p_startDate");
+            String p_endDate = request.getParameter("p_endDate");
+            productID = new ProductDAO().createProductReturnKey(name, image, categoryID, calories, accPoint, exPoint, p_startDate, p_endDate);
+        } else {
+            productID = new ProductDAO().createProductReturnKey(name, image, categoryID, calories, accPoint, exPoint);
+        }
         new PriceDAO().createNewPrice(productID, price);
-        
+
         List<Product> list = new ProductDAO().getAllProducts();
         request.setAttribute("list", list);
         request.getRequestDispatcher("admin-product.jsp").forward(request, response);

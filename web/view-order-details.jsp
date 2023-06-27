@@ -290,6 +290,16 @@
                                                     <c:set var="k" value="0"></c:set>
                                                         </tr>
                                                 </c:forEach>
+                                                        
+                                                <c:forEach items="${comboOrderDetails}" var="c">
+                                                    <tr>
+                                                        <td>${c.comboName}</td>
+                                                        <td>${c.totalCalories}</td>
+                                                        <td>${c.accPoint * c.quantity}</td>
+                                                        <td>${c.quantity}</td>
+                                                        <td>${c.totalPrice}$</td>
+                                                    </tr>
+                                                </c:forEach>
                                             </c:if>
                                             <c:if test="${ok == null}">
                                                 <c:forEach items="${orderDetails}" var="c">
@@ -299,6 +309,16 @@
                                                         <td>${c.accumulatedPoints * c.productQuantity}</td>
                                                         <td>${c.productQuantity}</td>
                                                         <td>${c.productPrice}$</td>
+                                                    </tr>
+                                                </c:forEach>
+                                                    
+                                                <c:forEach items="${comboOrderDetails}" var="c">
+                                                    <tr>
+                                                        <td>${c.comboName}</td>
+                                                        <td>${c.totalCalories}</td>
+                                                        <td>${c.accPoint * c.quantity}</td>
+                                                        <td>${c.quantity}</td>
+                                                        <td>${c.totalPrice}$</td>
                                                     </tr>
                                                 </c:forEach>
                                             </c:if>

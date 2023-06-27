@@ -137,7 +137,24 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    </c:forEach>             
+                                    </c:forEach>     
+                                    <c:forEach items="${combos}" var="c">
+                                        <tr class="table-body-row">
+                                            <!--<td class="product-remove"><a href="remove-from-cart?id=${c.comboID}"><i class="far fa-window-close"></i></a></td>-->
+                                            <td class="product-image"><img src="${c.image}" alt="" style="height: 50px; width: 50px;"></td>
+                                            <td class="product-name">${c.comboName}</td>
+                                            <td class="product-price">${c.totalPrice}$</td>
+                                            <td class="product-detail"><a href="combo-detail?id=${c.comboID}">See Detail</a></td>
+                                            <!--<td class="product-delete"><a>Thêm Button Delete</a></td>-->
+                                            <td class="product-delete">
+                                                <a href="remove-wishlist?comboID=${c.comboID}">
+                                                    <button class="btn btn-danger px-5 py-3">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>     
                                 </tbody> 
                             </table>
                         </div>   

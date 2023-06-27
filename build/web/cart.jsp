@@ -54,6 +54,15 @@
                 color: #f28123;
                 border: none;
             }
+
+            .btn-orange{
+                cursor: pointer;
+                border-radius: 30px;
+                background-color: #f28123;
+                color: white;
+                border:none;
+                padding: 15px;
+            }
         </style>
     </head>
     <body>
@@ -154,6 +163,7 @@
                     </div>
 
                     <div class="col-lg-4">
+
                         <c:if test="${ok == null}">
                             <div class="total-section">
                                 <table class="total-table">
@@ -161,36 +171,55 @@
                                         <tr class="table-total-row">
                                             <th>Name</th>
                                             <th>Price</th>
+                                                <c:if test="${sessionScope.acc.role != null}">
+                                                <th>Exchanged points</th>
+                                                </c:if>
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${items}" var="c">
                                             <tr class="total-data">
                                                 <td><strong>${c.product.name}</strong></td>
-                                                <td>${c.product.price * c.quantity}$</td>
+                                                <td id="price_${c.product.productID}">${c.product.price * c.quantity}$</td>
+                                                <c:if test="${sessionScope.acc.role != null}">
+                                                    <td>${c.product.exchangedPoint * c.quantity} points <input type="checkbox" id="check_${c.product.productID}" name="accPoint" onclick="useAccPoints('${c.product.productID}', ${c.product.price * c.quantity}, ${c.product.exchangedPoint * c.quantity})"/></td>
+                                                    </c:if>
                                             </tr>
                                         </c:forEach>
                                         <c:forEach items="${comboItems}" var="c">
                                             <tr class="total-data">
                                                 <td><strong>${c.combo.comboName}</strong></td>
                                                 <td>
-                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                    <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
                                                 </td>
+                                                <c:if test="${sessionScope.acc.role != null}">
+                                                    <td><input type="checkbox" name="accPoint"/></td>
+                                                    </c:if>
                                             </tr>
                                         </c:forEach>
-
-                                        <!--                                        <tr class="total-data">
-                                                                                    <td><strong>Shipping: </strong></td>
-                                                                                    <td>$50</td>
-                                                                                </tr>-->
                                         <tr class="total-data">
                                             <td><strong>Total: </strong></td>
-                                            <td>${subtotal}$</td>
+                                            <td id="subtotalCell">${subtotal}$</td>
+                                            <c:if test="${sessionScope.acc.role != null}">
+                                                <td></td>
+                                            </c:if>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="cart-buttons">
-                                    <a href="checkout" class="boxed-btn black">Check Out</a>
+
+
+                                    <form action="checkout">
+                                        <c:if test="${sessionScope.acc.role != null}">
+                                            <p>Your points are: <span id="my-point">${sessionScope.acc.totalAccumulatedPoint} points</span></p>
+                                        </c:if>
+
+                                        <input type="hidden" name="subtotal" id="subtotalInput" value="<c:out value="${subtotal}"/>" />
+                                        <input type="hidden" name="my_point" id="my-point2" value="<c:out value="${sessionScope.acc.totalAccumulatedPoint}"/>" />
+                                        <button type="submit" class="btn-orange">Check Out</button>
+                                    </form>
+
                                 </div>
                             </div>
                         </c:if>
@@ -251,7 +280,7 @@
                                             <tr class="total-data">
                                                 <td><strong>${c.combo.comboName}</strong></td>
                                                 <td>
-                                                <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
+                                                    <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -266,13 +295,13 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                        <c:if test="${cnt == 1}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products.</p></c:if>
-                                        <c:if test="${cnt == 2}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products.</p></c:if>
-                                        <c:if test="${cnt == 3}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products.</p></c:if>
-                                        <c:if test="${cnt == 4}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products.</p></c:if>
-                                        <c:if test="${cnt == 5}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products, ${n5} with ${q5} products.</p></c:if>
-                                        
-                                <div class="cart-buttons">
+                                <c:if test="${cnt == 1}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products.</p></c:if>
+                                <c:if test="${cnt == 2}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products.</p></c:if>
+                                <c:if test="${cnt == 3}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products.</p></c:if>
+                                <c:if test="${cnt == 4}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products.</p></c:if>
+                                <c:if test="${cnt == 5}"><p class="text-danger" style="font-size: 80%; font-style: italic;">(*) Note: We only apply the sale value for ${n1} with ${q1} products, ${n2} with ${q2} products, ${n3} with ${q3} products, ${n4} with ${q4} products, ${n5} with ${q5} products.</p></c:if>
+
+                                    <div class="cart-buttons">
                                     <c:if test="${(saleList != null) && (code != null)}">
                                         <a href="checkout?okela=${1}&code=${code}" class="boxed-btn black">Check Out</a>
                                     </c:if>
@@ -305,6 +334,50 @@
 
         <jsp:include page="footer.jsp"></jsp:include>
 
+        <script>
+            function useAccPoints(productId, original_price, original_points) {
+                // Get the table cell element for the price
+                var priceCell = document.getElementById("price_" + productId);
+                const subtotalCell = document.getElementById('subtotalCell');
+                let subtotalInput = document.getElementById('subtotalInput');
+                let my_point = document.getElementById("my-point");
+                let my_point2 = document.getElementById("my-point2");
+                const check = document.getElementById('check_' + productId);
+
+                if (check.checked) {
+                    if (parseInt(my_point.innerText) >= original_points) {
+                        // Check the current price value
+                        var currentPrice = priceCell.innerText;
+
+                        // Toggle the price between original and 0
+                        if (currentPrice === "0$") {
+                            // Revert to the original price
+                            priceCell.innerText = original_price + "$";
+                            subtotalCell.innerText = parseFloat(subtotalCell.innerText) + original_price;
+                            my_point.innerText = parseInt(my_point.innerText) + original_points;
+                        } else {
+                            // Set the price to 0
+                            priceCell.innerText = "0$";
+                            subtotalCell.innerText = parseFloat(subtotalCell.innerText) - original_price;
+                            my_point.innerText = parseInt(my_point.innerText) - original_points;
+                        }
+                        subtotalInput.value = subtotalCell.innerText;
+                        my_point2.value = my_point.innerText;
+                    } else {
+                        check.checked = false;
+                    }
+                } else {
+                    priceCell.innerText = original_price + "$";
+                    subtotalCell.innerText = parseFloat(subtotalCell.innerText) + original_price;
+                    my_point.innerText = parseInt(my_point.innerText) + original_points;
+                }
+
+
+
+            }
+
+
+        </script>
 
         <!-- jquery -->
         <script src="assets/js/jquery-1.11.3.min.js"></script>

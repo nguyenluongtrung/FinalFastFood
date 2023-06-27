@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
+import model.Combo;
+import model.ComboWishList;
 import model.Product;
 import model.WishList;
 
@@ -42,10 +44,19 @@ public class GetListWishlistServlet extends HttpServlet {
             //Lấy wishList ra
             wlist = (WishList) session.getAttribute("wlist");
         }
+        ComboWishList cwlist = null;
+        if((ComboWishList) session.getAttribute("cwlist") == null){
+            cwlist = new ComboWishList();
+        }
+        else{
+            cwlist = (ComboWishList) session.getAttribute("cwlist");
+        }
         //set lên session
         List<Product> products = wlist.getProducts();
         request.setAttribute("products", products);
-        session.setAttribute("wlist", wlist);
+    
+        List<Combo> combos = cwlist.getCombos();
+        request.setAttribute("combos", combos);
         //Bay về wishList
         request.getRequestDispatcher("wishList.jsp").forward(request, response);
     }

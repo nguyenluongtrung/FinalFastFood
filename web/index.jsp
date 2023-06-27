@@ -38,6 +38,9 @@
         <link rel="stylesheet" href="assets/css/main.css">
         <!-- responsive -->
         <link rel="stylesheet" href="assets/css/responsive.css">
+        <style>
+
+        </style>
 
     </head>
     <body>
@@ -194,6 +197,74 @@
             </section>
         </c:if>
 
+        <c:if test="${okelala != null}">
+            <div class="testimonail-section mt-150">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 p-0">
+                            <div class="testimonial-sliders">
+                                <div class="single-testimonial-slider">
+                                    <section class="shop-banner">
+                                        <div class="container">
+                                            <h3><span class="text-warning">${sale.saleName}</span> sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
+                                            <div class="sale-percent"><span>Sale! <br> Upto</span>${saleValue}%<span>off</span></div>
+                                            <div class="mb-3"><span>Sale code: <span class="text-danger font-weight-bold">${sale.saleCode}</span></span></div>
+                                            <div class="mb-3"><p class="text-secondary" style="font-style: italic; font-size: 80%">(*) This sale event only applies for: ${wItems}</p></div>
+                                            <!--Countdown Timer-->
+                                            <div class="time-counter"><div class="time-countdown clearfix" data-countdown="${sale.endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span>Days</div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+                                            <a href="shopping" class="cart-btn btn-lg">Shop Now</a>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="single-testimonial-slider">
+                                    <section class="w-100" style="background-image: url('https://pbsapos.com.au/wp-content/uploads/2019/12/fastfood.jpg'); 
+                                             position: relative;
+                                             background-color: #f5f5f5;
+                                             background-size: cover;
+                                             padding: 110px 0px 115px;
+                                             height: 95vh">
+                                        <div class="container-fluid ml-5 pl-5">
+                                            <h1 class="text-white" style="font-size: 320%; margin-bottom: 30px">Surprise meal is on!</h1>
+                                            <div class="mb-5"><span class="text-white">To satisfy your taste buds and cravings for the homely cooked food, prepared by the <br>women expert in their own areas, by offering an opportunity to the household women in Bangalore & Aligarh.
+                                                </span></div><br>
+                                            <!--Countdown Timer-->
+                                            <div class="time-counter mb-5"><div class="time-countdown clearfix" data-countdown="${surpriseProduct.p_endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span><p style="color: white">Days</p></div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+
+                                            <a href="single-product?id=${surpriseProduct.productID}" class="cart-btn btn-lg">Shop Now</a>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+
+        <c:if test="${okela != null}">
+            <section class="surprise-banner" style="background-image: url('https://pbsapos.com.au/wp-content/uploads/2019/12/fastfood.jpg'); 
+                     position: relative;
+                     background-color: #f5f5f5;
+                     background-size: cover;
+                     padding: 110px 0px 115px;
+                     height: 95vh">
+                <div class="container-fluid ml-5 pl-5">
+                    <h1 class="text-white" style="font-size: 320%; margin-bottom: 30px">Surprise meal is on!</h1>
+                    <div class="mb-5"><span class="text-white">To satisfy your taste buds and cravings for the homely cooked food, prepared by the <br>women expert in their own areas, by offering an opportunity to the household women in Bangalore & Aligarh.
+                        </span></div><br>
+                    <!--Countdown Timer-->
+                    <div class="time-counter mb-5"><div class="time-countdown clearfix" data-countdown="${surpriseProduct.p_endDate}"><div class="counter-column"><div class="inner"><span class="count">00</span><p>Days</p></div></div> <div class="counter-column"><div class="inner"><span class="count">00</span>Hours</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Mins</div></div>  <div class="counter-column"><div class="inner"><span class="count">00</span>Secs</div></div></div></div>
+
+                    <a href="single-product?id=${surpriseProduct.productID}" class="cart-btn btn-lg">Shop Now</a>
+                </div>
+            </section>
+        </c:if>
+
+
+
+
+        <br>
+
         <!-- end shop banner -->
 
         <!-- product section -->
@@ -311,7 +382,9 @@
 
 
         <jsp:include page="footer.jsp"></jsp:include>
+        <style>
 
+        </style>
 
 
 

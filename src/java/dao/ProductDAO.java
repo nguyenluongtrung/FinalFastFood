@@ -39,7 +39,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,7 +59,25 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                return new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15));
+                return new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public Product getSurpriseProduct() {
+        try {
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE b.isSurprise = 1 AND b.ProductStatus = 1 AND a.EndDate is null";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,7 +98,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,7 +118,7 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,34 +137,12 @@ public class ProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new ProductDAO().getSpecialProducts(0));
-    }
-
-    public void updateQuantity(int productID, int quantity) {
-        try {
-            String sql = "UPDATE [dbo].[Product]\n"
-                    + "   SET [Quantity] = [Quantity] - ?\n"
-                    + " WHERE ProductID = ?";
-
-            conn = new DBContext().getConnection();
-
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, quantity);
-            ps.setInt(2, productID);
-
-            ps.executeUpdate();
-        } catch (Exception ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public List<Product> searchByCalories(int from, int to) {
@@ -168,7 +164,7 @@ public class ProductDAO {
             }
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -180,15 +176,14 @@ public class ProductDAO {
         List<StatisticalProduct> list = new ArrayList<>();
         String sql = "";
         try {
-            if(type == 1){
+            if (type == 1) {
                 sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
-                    + "GROUP BY a.ProductID, b.Name\n"
-                    + "ORDER BY SUM(a.Quantity) DESC";
-            }
-            else{
+                        + "GROUP BY a.ProductID, b.Name\n"
+                        + "ORDER BY SUM(a.Quantity) DESC";
+            } else {
                 sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
-                    + "GROUP BY a.ProductID, b.Name\n"
-                    + "ORDER BY SUM(a.Quantity)";
+                        + "GROUP BY a.ProductID, b.Name\n"
+                        + "ORDER BY SUM(a.Quantity)";
             }
 
             conn = new DBContext().getConnection();
@@ -237,8 +232,7 @@ public class ProductDAO {
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    Product product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15));
-                    list.add(product);
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
                 }
             } else {
                 sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.CategoryID = ?) AND a.EndDate is null";
@@ -249,8 +243,7 @@ public class ProductDAO {
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    Product product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15));
-                    list.add(product);
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
                 }
             }
 
@@ -279,7 +272,7 @@ public class ProductDAO {
             }
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getInt(10), rs.getBoolean(11), rs.getFloat(12), rs.getInt(13), rs.getInt(14), rs.getBoolean(15)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -302,20 +295,19 @@ public class ProductDAO {
         }
     }
 
-    public int createProductReturnKey(String name, int quantity, String image, int categoryID, int calories, int accPoint, int exPoint) {
+    public int createProductReturnKey(String name, String image, int categoryID, int calories, int accPoint, int exPoint) {
         try {
             String sql = "INSERT INTO [dbo].[Product]\n"
                     + "           ([Name]\n"
                     + "           ,[Image]\n"
                     + "           ,[CategoryID]\n"
-                    + "           ,[Quantity]\n"
                     + "           ,[Calories]\n"
                     + "           ,[isSurprise]\n"
                     + "           ,[Rating]\n"
                     + "           ,[AccumulatedPoint]\n"
                     + "           ,[ExchangedPoint])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,?,?,0,5,?,?)";
+                    + "           (?,?,?,?,0,5,?,?)";
 
             conn = new DBContext().getConnection();
 
@@ -323,10 +315,9 @@ public class ProductDAO {
             ps.setString(1, name);
             ps.setString(2, image);
             ps.setInt(3, categoryID);
-            ps.setInt(4, quantity);
-            ps.setInt(5, calories);
-            ps.setInt(6, accPoint);
-            ps.setInt(7, exPoint);
+            ps.setInt(4, calories);
+            ps.setInt(5, accPoint);
+            ps.setInt(6, exPoint);
 
             ps.executeUpdate();
 
@@ -356,13 +347,12 @@ public class ProductDAO {
         }
     }
 
-    public void updateProduct(int productID, String name, int quantity, String image, int categoryID, int calories, int accPoint, int exPoint) {
+    public void updateProduct(int productID, String name, String image, int categoryID, int calories, int accPoint, int exPoint) {
         try {
             String sql = "UPDATE [dbo].[Product]\n"
                     + "   SET [Name] = ?\n"
                     + "      ,[Image] = ?\n"
                     + "      ,[CategoryID] = ?\n"
-                    + "      ,[Quantity] = ?\n"
                     + "      ,[Calories] = ?\n"
                     + "      ,[AccumulatedPoint] = ?\n"
                     + "      ,[ExchangedPoint] = ?\n"
@@ -374,18 +364,17 @@ public class ProductDAO {
             ps.setString(1, name);
             ps.setString(2, image);
             ps.setInt(3, categoryID);
-            ps.setInt(4, quantity);
-            ps.setInt(5, calories);
-            ps.setInt(6, accPoint);
-            ps.setInt(7, exPoint);
-            ps.setInt(8, productID);
+            ps.setInt(4, calories);
+            ps.setInt(5, accPoint);
+            ps.setInt(6, exPoint);
+            ps.setInt(7, productID);
 
             ps.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void updateProductStatus(int productId, boolean status) {
         try {
             String sql = "UPDATE [dbo].[Product]\n"
@@ -403,6 +392,91 @@ public class ProductDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(new ProductDAO().getSurpriseProduct());
+    }
+
+    public int createProductReturnKey(String name, String image, int categoryID, int calories, int accPoint, int exPoint, String p_startDate, String p_endDate) {
+        try {
+            String sql = "INSERT INTO [dbo].[Product]\n"
+                    + "           ([Name]\n"
+                    + "           ,[Image]\n"
+                    + "           ,[CategoryID]\n"
+                    + "           ,[Calories]\n"
+                    + "           ,[isSurprise]\n"
+                    + "           ,[Rating]\n"
+                    + "           ,[AccumulatedPoint]\n"
+                    + "           ,[ExchangedPoint]\n"
+                    + "           ,[StartDate]\n"
+                    + "           ,[EndDate])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,1\n"
+                    + "           ,5\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, name);
+            ps.setString(2, image);
+            ps.setInt(3, categoryID);
+            ps.setInt(4, calories);
+            ps.setInt(5, accPoint);
+            ps.setInt(6, exPoint);
+            ps.setString(7, p_startDate);
+            ps.setString(8, p_endDate);
+
+            ps.executeUpdate();
+
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public void updateProduct(int productID, String name, String image, int categoryID, int calories, int accPoint, int exPoint, String p_startDate, String p_endDate) {
+        try {
+            String sql = "UPDATE [dbo].[Product]\n"
+                    + "   SET [Name] = ?\n"
+                    + "      ,[Image] = ?\n"
+                    + "      ,[CategoryID] = ?\n"
+                    + "      ,[Calories] = ?\n"
+                    + "      ,[AccumulatedPoint] = ?\n"
+                    + "      ,[ExchangedPoint] = ?\n"
+                    + "      ,[StartDate] = ?\n"
+                    + "      ,[EndDate] = ?\n"
+                    + " WHERE ProductID = ? ";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, image);
+            ps.setInt(3, categoryID);
+            ps.setInt(4, calories);
+            ps.setInt(5, accPoint);
+            ps.setInt(6, exPoint);
+            ps.setString(7, p_startDate);
+            ps.setString(8, p_endDate);
+            ps.setInt(9, productID);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 }
-
-

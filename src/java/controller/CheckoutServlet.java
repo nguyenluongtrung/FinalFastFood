@@ -76,6 +76,7 @@ public class CheckoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("acc");
         Cart cart = (Cart) session.getAttribute("cart");
         ComboCart comboCart = (ComboCart) session.getAttribute("comboCart");
         List<Item> items = cart.getItems();
@@ -88,7 +89,10 @@ public class CheckoutServlet extends HttpServlet {
             request.setAttribute("code", request.getParameter("code"));
             request.setAttribute("ok", 1);
         }
-        float subtotal = (float) session.getAttribute("subtotal");
+        int my_point = Integer.parseInt(request.getParameter("my_point"));
+        float subtotal = Float.parseFloat(request.getParameter("subtotal"));
+        request.setAttribute("my_point", my_point);
+        session.setAttribute("subtotal", subtotal);
         request.setAttribute("subtotal", subtotal);
         request.setAttribute("items", items);
         request.setAttribute("comboItems", comboItems);
@@ -111,9 +115,14 @@ public class CheckoutServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         String note = request.getParameter("note");
+       
         int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("acc");
+        
+        int my_point = Integer.parseInt(request.getParameter("my_point"));
+        new AccountDAO().updateAccumulatedPoints(acc.getAccountID(), my_point, 2);
+        
         
         Cart cart = null;
         if(session.getAttribute("cart") != null){
@@ -129,10 +138,21 @@ public class CheckoutServlet extends HttpServlet {
         
         List<SaleProduct> saleList = new SaleProductDAO().getAllCurrentSaleProducts();
         Sale sale = new SaleDAO().getSaleByDate();
+        
+        // check exist sale product in cart
+        int isOke = 0;
+        for(Item item : cart.getItems()){
+            for(SaleProduct saleProduct : saleList){
+                if(item.getProduct().getProductID() == saleProduct.getProductID()){
+                    isOke = 1;
+                    break;
+                }
+            }
+        }
 
         float totalPrice = (float) session.getAttribute("subtotal");
         int orderID = 0;
-        if ((sale != null) && (request.getParameter("code") != "") ){
+        if ((sale != null) && (request.getParameter("code") != "") && (isOke ==  1)){
             orderID = new OrderDAO().addOrderReturnKey(totalPrice, shippingID, note, accountID, true);
         }
         else{
@@ -171,7 +191,8 @@ public class CheckoutServlet extends HttpServlet {
             }
         }
 
-        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints());
+        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
+        acc.setTotalAccumulatedPoint(my_point+cart.getTotalAccumulatedPoints());
         session.removeAttribute("cart");
         session.removeAttribute("comboCart");
         session.removeAttribute("count");

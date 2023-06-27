@@ -204,7 +204,7 @@
                                     <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                                 </form><br>
                                 <c:if test="${sessionScope.acc.role != null}">
-                                    <a href="#"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
+                                    <a href="add-to-wishlist?comboID=${combo.comboID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
                                 </c:if>
                             </div>
                             <h4>Share:</h4>

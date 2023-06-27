@@ -91,6 +91,10 @@
                 color: white;
             }
 
+            .bg-yellow {
+                background-color: pink;
+            }
+
 
 
         </style>
@@ -213,23 +217,24 @@
                                 <c:if test="${ms == null}">
                                     <c:if test="${isCombo == null}">
                                         <c:forEach items="${list}" var="c">
-                                            <div class="col-lg-4 col-md-6 text-center strawberry">
-                                                <div class="single-product-item">
-                                                    <div class="product-image">
-                                                        <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                            <c:if test="${(c.isSurprise == true && c.status == true) || (c.isSurprise == false)}">
+                                                <div class="col-lg-4 col-md-6 text-center strawberry">
+                                                    <div class="single-product-item ${c.isSurprise ? "bg-yellow" : ''}" >
+                                                        <div class="product-image">
+                                                            <a href="single-product?id=${c.productID}"><img src="${c.image}" style='width:100%;height:250px'></a>
+                                                        </div>
+                                                        <h3 style="${c.isSurprise ? "color: grey" : ''}">${c.name}</h3>
+                                                        <p style="${c.isSurprise ? "color: grey" : ''}" class="product-price"> ${c.price}$ </p>
+                                                        <p class="${c.isSurprise ? "text-white" : 'text-secondary'}">${c.calories} Calories</p>
+                                                        <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                                                        <c:if test="${sessionScope.acc.role != null}">
+                                                            <c:if test="${c.isSurprise == false}">
+                                                                <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
+                                                                    </c:if>
+                                                                </c:if>
                                                     </div>
-                                                    <!--                                                <div class="overlay">
-                                                                                                        <p class="px-4 py-1">${c.calories} Calories</p> 
-                                                                                                    </div>-->
-                                                    <h3>${c.name}</h3>
-                                                    <p class="product-price"> ${c.price}$ </p>
-                                                    <p class="text-secondary">${c.calories} Calories</p>
-                                                    <a href="add-to-cart?productID=${c.productID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                                                    <c:if test="${sessionScope.acc.role != null}">
-                                                        <a href="add-to-wishlist?productID=${c.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
-                                                            </c:if>
                                                 </div>
-                                            </div>
+                                            </c:if>
                                         </c:forEach>
                                     </c:if>
                                     <c:if test="${isCombo != null}">
@@ -244,8 +249,8 @@
                                                     <p class="text-secondary">${c.totalCalories} Calories</p>
                                                     <a href="add-to-cart?comboID=${c.comboID}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                                                     <c:if test="${sessionScope.acc.role != null}">
-                                                        <a href="#"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
-                                                    </c:if>
+                                                        <a href="add-to-wishlist?comboID=${c.comboID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart" onclick="changeColor(this)"></i></button></a>
+                                                            </c:if>
                                                 </div>
                                             </div>
                                         </c:forEach>

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Combo;
+import model.ComboInfoOrderDetail;
 import model.Product;
 
 /**
@@ -96,7 +97,7 @@ public class ComboDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ComboDAO().searchComboByPrice(41f, -1));
+        System.out.println(new ComboDAO().getAllComboOrderDetailByOrderID(71));
     }
 
     public Combo getComboByID(int id) {
@@ -283,6 +284,26 @@ public class ComboDAO {
             }
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<ComboInfoOrderDetail> getAllComboOrderDetailByOrderID(int id) {
+        List<ComboInfoOrderDetail> list = new ArrayList<>();
+        try {
+            String sql = "SELECT b.ComboID, b.Quantity, c.ComboName, c.TotalPrice, c.TotalCalories, c.AccumulatedPoint FROM [Order] a JOIN Combo_OrderDetail b ON a.OrderID = b.OrderID JOIN Combo c ON c.ComboID = b.ComboID WHERE a.OrderID = ?";
+            
+            conn = new DBContext().getConnection();
+            
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new ComboInfoOrderDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getInt(6)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ComboDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }

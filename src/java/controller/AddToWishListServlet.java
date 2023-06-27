@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.ComboDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Cart;
+import model.Combo;
+import model.ComboWishList;
 import model.Item;
 import model.Product;
 import model.WishList;
@@ -64,16 +67,33 @@ public class AddToWishListServlet extends HttpServlet {
         else{
             wlist = (WishList) session.getAttribute("wlist");
         }
+        
+        ComboWishList cwlist = null;
+        if((ComboWishList) session.getAttribute("cwlist") == null){
+            cwlist = new ComboWishList();
+        }
+        else{
+            cwlist = (ComboWishList) session.getAttribute("cwlist");
+        }
         String productID_raw = request.getParameter("productID");
         if(productID_raw != null){
             int productID = Integer.parseInt(productID_raw);
             Product product = new ProductDAO().getProductByID(productID);
             wlist.addProductToWishList(product);
         }
+        String comboID_raw = request.getParameter("comboID");
+        if(comboID_raw != null){
+            int comboID = Integer.parseInt(request.getParameter("comboID"));
+            Combo combo = new ComboDAO().getComboByID(comboID);
+            cwlist.addComboToWishList(combo);
+        }
         session.setAttribute("wlist", wlist);
+        session.setAttribute("cwlist", cwlist);
         session.setMaxInactiveInterval(-1);
         List<Product> products = wlist.getProducts();
         request.setAttribute("products", products);
+        List<Combo> combos = cwlist.getCombos();
+        request.setAttribute("combos", combos);
         request.getRequestDispatcher("wishList.jsp").forward(request, response);
     }
 

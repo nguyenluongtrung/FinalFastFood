@@ -134,6 +134,7 @@
                                                     <p><input type="text" placeholder="Address" value="${sessionScope.acc.address}" name="address"></p>
                                                     <p><input type="text" placeholder="Phone" value="${sessionScope.acc.phone}" name="phone"></p>
                                                     <p><input type="hidden" value="${code}" name="code"></p>
+                                                    <p><input type="hidden" value="${my_point}" name="my_point"></p>
                                                     <p><textarea name="note" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
                                                     <button type="submit" class="boxed-btn place-btn px-4 py-2">Place Order</button>
                                                 </form>

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Combo;
+import model.ComboWishList;
 import model.Product;
 import model.WishList;
 
@@ -44,12 +46,30 @@ public class RemoveFromWishlistServlet extends HttpServlet {
         } else {
             wlist = (WishList) session.getAttribute("wlist");
         }
-        int productID = Integer.parseInt(request.getParameter("productID"));
-        wlist.removeProduct(productID);
-        session.setAttribute("wlist", wlist);
+        ComboWishList cwlist = null;
+        if((ComboWishList) session.getAttribute("cwlist") == null){
+            cwlist = new ComboWishList();
+        }
+        else{
+            cwlist = (ComboWishList) session.getAttribute("cwlist");
+        }
+        if(request.getParameter("productID") != null){
+            int productID = Integer.parseInt(request.getParameter("productID"));
+            wlist.removeProduct(productID);
+            session.setAttribute("wlist", wlist);
+        }
+        
+        if(request.getParameter("comboID") != null){
+            int comboID = Integer.parseInt(request.getParameter("comboID"));
+            cwlist.removeProduct(comboID);
+            session.setAttribute("cwlist", cwlist);
+        }
+
         session.setMaxInactiveInterval(-1);
         List<Product> products = wlist.getProducts();
         request.setAttribute("products", products);
+        List<Combo> combos = cwlist.getCombos();
+        request.setAttribute("combos", combos);
         request.getRequestDispatcher("wishList.jsp").forward(request, response);
     }
 

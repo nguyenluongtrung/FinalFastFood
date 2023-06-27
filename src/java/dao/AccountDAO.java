@@ -108,7 +108,7 @@ public class AccountDAO {
     }
 
     public static void main(String[] args) {
-        new AccountDAO().create(new Account(0, "US", "", "Trung", "Da Nang", "0905870827", "trung@gmail.com", "2003-08-08", true, 0, "12345"));
+        System.out.println(new AccountDAO().getAccountByID(4));
     }
 
     public Account getAccountByEmail(String email) {
@@ -160,11 +160,18 @@ public class AccountDAO {
         }
     }
 
-    public void updateAccumulatedPoints(int accountID, int totalAccumulatedPoints) {
+    public void updateAccumulatedPoints(int accountID, int totalAccumulatedPoints, int type) {
         try {
-            String sql = "UPDATE [dbo].[Account]\n"
-                    + "   SET [TotalAccumulatedPoint] = [TotalAccumulatedPoint] + ?\n"
-                    + " WHERE AccountID = ?";
+            String sql = "";
+            if (type == 1) {
+                sql = "UPDATE [dbo].[Account]\n"
+                        + "   SET [TotalAccumulatedPoint] = [TotalAccumulatedPoint] + ?\n"
+                        + " WHERE AccountID = ?";
+            } else {
+                sql = "UPDATE [dbo].[Account]\n"
+                        + "   SET [TotalAccumulatedPoint] = ?\n"
+                        + " WHERE AccountID = ?";
+            }
 
             conn = new DBContext().getConnection();
 
@@ -177,4 +184,36 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Account getAccountByID(int id) {
+        try {
+            String sql = "SELECT [AccountID]\n"
+                    + "      ,[Role]\n"
+                    + "      ,[CreatedDate]\n"
+                    + "      ,[Name]\n"
+                    + "      ,[Address]\n"
+                    + "      ,[Phone]\n"
+                    + "      ,[Email]\n"
+                    + "      ,[Dob]\n"
+                    + "      ,[Gender]\n"
+                    + "      ,[TotalAccumulatedPoint]\n"
+                    + "      ,[Password]\n"
+                    + "  FROM [dbo].[Account]\n"
+                    + "  WHERE AccountID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getBoolean(9), rs.getInt(10), rs.getString(11));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
