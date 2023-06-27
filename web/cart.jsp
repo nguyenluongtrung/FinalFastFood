@@ -190,11 +190,11 @@
                                         <c:forEach items="${comboItems}" var="c">
                                             <tr class="total-data">
                                                 <td><strong>${c.combo.comboName}</strong></td>
-                                                <td>
+                                                <td id="price2_${c.combo.comboID}">
                                                     <fmt:formatNumber value="${c.combo.totalPrice * c.quantity}" pattern="#.##" />$
                                                 </td>
                                                 <c:if test="${sessionScope.acc.role != null}">
-                                                    <td><input type="checkbox" name="accPoint"/></td>
+                                                    <td>${c.combo.exchangedPoint * c.quantity} points <input type="checkbox" id="check2_${c.combo.comboID}" name="accPoint" onclick="useAccPoints2('${c.combo.comboID}', ${c.combo.totalPrice * c.quantity}, ${c.combo.exchangedPoint * c.quantity})"/></td>
                                                     </c:if>
                                             </tr>
                                         </c:forEach>
@@ -375,7 +375,47 @@
 
 
             }
+            
+            function useAccPoints2(comboId, original_price, original_points) {
+                // Get the table cell element for the price
+                var priceCell = document.getElementById("price2_" + comboId);
+                const subtotalCell = document.getElementById('subtotalCell');
+                let subtotalInput = document.getElementById('subtotalInput');
+                let my_point = document.getElementById("my-point");
+                let my_point2 = document.getElementById("my-point2");
+                const check = document.getElementById('check2_' + comboId);
 
+                if (check.checked) {
+                    if (parseInt(my_point.innerText) >= original_points) {
+                        // Check the current price value
+                        var currentPrice = priceCell.innerText;
+
+                        // Toggle the price between original and 0
+                        if (currentPrice === "0$") {
+                            // Revert to the original price
+                            priceCell.innerText = original_price + "$";
+                            subtotalCell.innerText = parseFloat(subtotalCell.innerText) + original_price;
+                            my_point.innerText = parseInt(my_point.innerText) + original_points;
+                        } else {
+                            // Set the price to 0
+                            priceCell.innerText = "0$";
+                            subtotalCell.innerText = parseFloat(subtotalCell.innerText) - original_price;
+                            my_point.innerText = parseInt(my_point.innerText) - original_points;
+                        }
+                        subtotalInput.value = subtotalCell.innerText;
+                        my_point2.value = my_point.innerText;
+                    } else {
+                        check.checked = false;
+                    }
+                } else {
+                    priceCell.innerText = original_price + "$";
+                    subtotalCell.innerText = parseFloat(subtotalCell.innerText) + original_price;
+                    my_point.innerText = parseInt(my_point.innerText) + original_points;
+                }
+
+
+
+            }
 
         </script>
 

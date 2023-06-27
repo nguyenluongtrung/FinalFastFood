@@ -196,7 +196,7 @@
                                         <c:forEach items="${items}" var="c">                             
                                             <tr>
                                                 <td>${c.product.name}</td>
-                                                <td>${c.product.price}$</td>
+                                                <td>${c.product.price * c.quantity}$</td>
                                             </tr>
                                         </c:forEach>
                                         <c:forEach items="${comboItems}" var="c">
