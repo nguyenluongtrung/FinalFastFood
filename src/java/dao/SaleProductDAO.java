@@ -56,15 +56,13 @@ public class SaleProductDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new SaleProduct(rs.getInt(1), rs.getInt(2),rs.getString(4), rs.getInt(3)));
+                list.add(new SaleProduct(rs.getInt(1), rs.getInt(2), rs.getString(4), rs.getInt(3)));
             }
         } catch (Exception ex) {
             Logger.getLogger(SaleProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
-
-    
 
     public List<SaleProduct> getAllSaleProductsBySaleID(int saleID) {
         List<SaleProduct> list = new ArrayList<>();
@@ -77,7 +75,7 @@ public class SaleProductDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new SaleProduct(rs.getInt(1), rs.getInt(2),rs.getString(4), rs.getInt(3)));
+                list.add(new SaleProduct(rs.getInt(1), rs.getInt(2), rs.getString(4), rs.getInt(3)));
             }
         } catch (Exception ex) {
             Logger.getLogger(SaleProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,8 +99,24 @@ public class SaleProductDAO {
             Logger.getLogger(SaleProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void main(String[] args) {
         new SaleProductDAO().updateQuantity(2, 6, 6);
+    }
+
+    public void deleteSaleProductByID(int id) {
+        try {
+            String sql = "DELETE FROM [dbo].[SaleProduct]\n"
+                    + "      WHERE SaleID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SaleProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

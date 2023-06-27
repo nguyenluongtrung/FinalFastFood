@@ -6,6 +6,7 @@
 package controller;
 
 import dao.SaleDAO;
+import dao.SaleProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -58,6 +59,7 @@ public class DeleteSaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        new SaleProductDAO().deleteSaleProductByID(id);
         new SaleDAO().deleteSaleByID(id);
         request.getRequestDispatcher("sale-admin").forward(request, response);
     }

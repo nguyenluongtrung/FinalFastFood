@@ -89,15 +89,17 @@ public class CheckoutServlet extends HttpServlet {
             request.setAttribute("code", request.getParameter("code"));
             request.setAttribute("ok", 1);
         }
-        if(request.getParameter("my_point") != null){
+        if (request.getParameter("my_point") != null) {
             int my_point = Integer.parseInt(request.getParameter("my_point"));
             request.setAttribute("my_point", my_point);
         }
-        
-        System.out.println(request.getParameter("subtotal"));
-        float subtotal = Float.parseFloat(request.getParameter("subtotal"));
-        session.setAttribute("subtotal", subtotal);
-        request.setAttribute("subtotal", subtotal);
+
+        if (request.getParameter("subtotal") != null) {
+            float subtotal = Float.parseFloat(request.getParameter("subtotal"));
+            session.setAttribute("subtotal", subtotal);
+            request.setAttribute("subtotal", subtotal);
+        }
+
         request.setAttribute("items", items);
         request.setAttribute("comboItems", comboItems);
         request.getRequestDispatcher("checkout.jsp").forward(request, response);
@@ -123,9 +125,6 @@ public class CheckoutServlet extends HttpServlet {
         int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("acc");
-
-        int my_point = Integer.parseInt(request.getParameter("my_point"));
-        new AccountDAO().updateAccumulatedPoints(acc.getAccountID(), my_point, 2);
 
         Cart cart = null;
         if (session.getAttribute("cart") != null) {
@@ -193,15 +192,31 @@ public class CheckoutServlet extends HttpServlet {
             }
         }
 
-        if (comboCart != null && cart != null) {
-            new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
-            acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
-        } else if (comboCart != null && cart == null) {
-            new AccountDAO().updateAccumulatedPoints(accountID, comboCart.getTotalAccumulatedPoints(), 1);
-            acc.setTotalAccumulatedPoint(my_point + comboCart.getTotalAccumulatedPoints());
-        } else if (comboCart == null && cart != null) {
-            new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
-            acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints());
+        if ((request.getParameter("my_point") != "") && (request.getParameter("my_point") != null)) {
+            int my_point = Integer.parseInt(request.getParameter("my_point"));
+            new AccountDAO().updateAccumulatedPoints(acc.getAccountID(), my_point, 2);
+            if (comboCart != null && cart != null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
+            } else if (comboCart != null && cart == null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, comboCart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(my_point + comboCart.getTotalAccumulatedPoints());
+            } else if (comboCart == null && cart != null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints());
+            }
+        }
+        else{
+            if (comboCart != null && cart != null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
+            } else if (comboCart != null && cart == null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, comboCart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + comboCart.getTotalAccumulatedPoints());
+            } else if (comboCart == null && cart != null) {
+                new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
+                acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints());
+            }
         }
 
         session.removeAttribute("cart");
