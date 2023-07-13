@@ -4,6 +4,7 @@
     Author     : PC
 --%>
 
+<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,32 +31,35 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4">
                         <div class="login-wrap p-0">
-                            <form action="signup" class="signin-form" method="POST">
+                            <form action="signup" class="signin-form" method="POST" onsubmit="return validateForm()">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Name" name="name">
+                                    <input type="text" class="form-control" placeholder="Your Name" name="name" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Address" name="address">
+                                    <input type="text" class="form-control" placeholder="Address" name="address" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Phone number" name="phone">
+                                    <input type="text" class="form-control" placeholder="Phone number" name="phone" required>
+                                    <div id="error-phone" class="text-warning"></div>
                                 </div><!-- comment -->
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email" name="email">
+                                    <input type="email" class="form-control" placeholder="Email" name="email" required>
+                                    <div id="error-email" class="text-warning"></div>
                                 </div><!-- comment -->
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Date of birth" name="dob">
+                                    <input type="date" class="form-control" placeholder="Date of birth" name="dob" min="1900-01-01" max="<%= LocalDate.now()%>" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="form-control" name="gender">
+                                    <select required class="form-control" name="gender">
                                         <option value="1">Male</option>
                                         <option value="0">Female</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input id="password-field" type="password" class="form-control" placeholder="Password" name="pass">
+                                    <input required id="password-field" type="password" class="form-control" placeholder="Password" name="pass">
                                     <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    <div id="error-pass" class="text-warning"></div>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
@@ -69,12 +73,56 @@
                                     </div>
                                 </div>
                             </form>
-                           
+
                         </div>
                     </div>
                 </div>
+                                
             </div>
         </section>
+
+        <script>
+            function validateForm() {
+
+                const phone = document.getElementsByName('phone')[0].value;
+                const email = document.getElementsByName('email')[0].value;
+                const pass = document.getElementsByName('pass')[0].value;
+
+
+                let errorPhone = document.getElementById('error-phone');
+                let errorEmail = document.getElementById('error-email');
+                let errorPass = document.getElementById('error-pass');
+
+                const emailRegex = /^[^\s@]+@[^\s@]+(\.[^\s@]+)+$/;
+                const phoneRegex = /^0(\d){9,10}$/;
+                const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+
+                let isValid = true;
+
+                // Clear error messages
+                errorPhone.innerText = '';
+                errorEmail.innerText = '';
+                errorPass.innerText = '';
+
+
+                if (!phoneRegex.test(phone)) {
+                    errorPhone.innerText = 'Phone is invalid!';
+                    isValid = false;
+                }
+
+                if (!emailRegex.test(email)) {
+                    errorEmail.innerText = 'Email is invalid!';
+                    isValid = false;
+                }
+
+                if (!passRegex.test(pass)) {
+                    errorPass.innerText = 'Password is invalid!';
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+        </script>
 
         <script src="js/jquery.min.js"></script>
         <script src="js/popper.js"></script>

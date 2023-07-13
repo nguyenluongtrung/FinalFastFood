@@ -61,8 +61,23 @@ public class SortOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int ok = Integer.parseInt(request.getParameter("ok"));
-        List<Order> sortList = new OrderDAO().sortOrderByPrice(ok);
+        
+        List<Order> sortList = new ArrayList<>();
+        if(request.getParameter("index") != null){
+            int index = Integer.parseInt(request.getParameter("index"));
+            sortList = new OrderDAO().sortOrderByPrice(ok, index);
+        }
+        else{
+            sortList = new OrderDAO().sortOrderByPrice(ok, 1);
+        }
+        
+        
+        int numberPage = new OrderDAO().getNumberPageOrder();
+        request.setAttribute("numberPage", numberPage);
         request.setAttribute("list", sortList);
+        request.setAttribute("sort", 1);
+        request.setAttribute("ok", ok);
+        
         request.getRequestDispatcher("admin-order.jsp").forward(request, response);
     }
 

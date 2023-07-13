@@ -7,6 +7,7 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,20 +59,24 @@ public class SearchByNameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int index = 0;
-        if (request.getAttribute("index") == null) {
-            index = 1;
-        } else {
-            index = (int) (request.getAttribute("index"));
-        }
+        
         String name = request.getParameter("name");
-        List<Product> list = new ProductDAO().getProductsByName(name,index);
-        request.setAttribute("tag", index);
-        request.setAttribute("name", name);
+        List<Product> list = new ArrayList<>();
+        if (request.getParameter("index") == null) {
+            list = new ProductDAO().getProductsByName(name,1);
+        } else {
+            int index = Integer.parseInt(request.getParameter("index"));
+            list = new ProductDAO().getProductsByName(name,index);
+        }
+        
         if(list.size() == 0){
             request.setAttribute("ms", "Your searched products not found!");
         }
         else request.setAttribute("list", list);
+        
+        request.setAttribute("s_name", 1);
+        request.setAttribute("name", name);
+        request.setAttribute("pageNumber", new ProductDAO().getProductsByName(name));
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

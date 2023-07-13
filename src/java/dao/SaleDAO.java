@@ -51,6 +51,32 @@ public class SaleDAO {
         return list;
     }
 
+    public int getNumberPageSale() {
+        try {
+            String sql = "SELECT count(*)\n"
+                    + "  FROM [FastFood].[dbo].[Sale]";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int num = rs.getInt(1);
+                if(num % 20 == 0){
+                    return num / 20;
+                }
+                else{
+                    return num / 20 + 1;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+
+    }
+
     public void deleteSaleByID(int id) {
         try {
             String sql = "DELETE FROM [dbo].[Sale]\n"
@@ -203,6 +229,32 @@ public class SaleDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderByID(49).getDate());
+        System.out.println(new SaleDAO().getNumberPageSale());
+    }
+
+    public List<Sale> getAllSalesByPaging(int index) {
+        List<Sale> list = new ArrayList<>();
+        try {
+            String sql = "SELECT [SaleID]\n"
+                    + "      ,[SaleValue]\n"
+                    + "      ,[StartDate]\n"
+                    + "      ,[EndDate]\n"
+                    + "      ,[SaleName]\n"
+                    + "      ,[SaleCode]\n"
+                    + "  FROM [dbo].[Sale] Order by SaleID OFFSET ? ROWS FETCH FIRST 20 ROWS ONLY";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (index - 1)*20);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Sale(rs.getInt(1), rs.getFloat(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 }

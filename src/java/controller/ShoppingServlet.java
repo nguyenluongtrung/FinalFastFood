@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,7 +67,7 @@ public class ShoppingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<Product> list = new ProductDAO().getAllProducts();
+            List<Product> list = new ArrayList<>();
 
             Product surpriseProduct = new ProductDAO().getSurpriseProduct();
             
@@ -81,7 +82,14 @@ public class ShoppingServlet extends HttpServlet {
                 }
             }
 
+            if(request.getParameter("index") == null){
+                list = new ProductDAO().getAllProductsByPaging(1);
+            }else{
+                int index = Integer.parseInt(request.getParameter("index"));
+                list = new ProductDAO().getAllProductsByPaging(index);
+            }
             request.setAttribute("list", list);
+            request.setAttribute("pageNumber", new ProductDAO().getPageNumberShopping());
 
             request.getRequestDispatcher("shop.jsp").forward(request, response);
         } catch (ParseException ex) {

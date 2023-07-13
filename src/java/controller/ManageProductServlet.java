@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -80,7 +81,23 @@ public class ManageProductServlet extends HttpServlet {
                 Logger.getLogger(ManageProductServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        List<Product> list = new ProductDAO().getAllProducts();
+        List<Product> list = new ArrayList<>();
+        if(request.getParameter("index") == null){
+            list = new ProductDAO().getAllProductsByPaging(1);
+        }else{
+            int index = Integer.parseInt(request.getParameter("index"));
+            list = new ProductDAO().getAllProductsByPaging(index);
+        }
+        
+        int pageNumber = 0;
+        int listSize = new ProductDAO().getNumberOfProductsAdmin();
+        if(listSize % 15 == 0){
+            pageNumber = listSize / 15;
+        }
+        else {
+            pageNumber = listSize / 15 + 1;
+        }
+        request.setAttribute("pageNumber", pageNumber);
         request.setAttribute("list", list);
         request.getRequestDispatcher("admin-product.jsp").forward(request, response);
     }

@@ -9,6 +9,7 @@ import dao.ComboDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +41,7 @@ public class SearchByCaloriesServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchByCaloriesServlet</title>");            
+            out.println("<title>Servlet SearchByCaloriesServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SearchByCaloriesServlet at " + request.getContextPath() + "</h1>");
@@ -63,26 +64,38 @@ public class SearchByCaloriesServlet extends HttpServlet {
             throws ServletException, IOException {
         int from = Integer.parseInt(request.getParameter("from"));
         int to = Integer.parseInt(request.getParameter("to"));
-        
-        List<Product> listProduct = new ProductDAO().searchByCalories(from, to);
-        List<Combo> listCombo = new ComboDAO().searchByCalories(from, to);
-        
-        if(listProduct.size() == 0 && listCombo.size() == 0){
+
+        List<Product> listProduct = new ArrayList<>();
+        List<Combo> listCombo = new ArrayList<>();
+        if (request.getParameter("index") == null) {
+            listProduct = new ProductDAO().searchByCalories(from, to, 1);
+            listCombo = new ComboDAO().searchByCalories(from, to, 1);
+        } else {
+            int index = Integer.parseInt(request.getParameter("index"));
+            listProduct = new ProductDAO().searchByCalories(from, to, index);
+            listCombo = new ComboDAO().searchByCalories(from, to, index);
+        }
+
+        if (listProduct.size() == 0 && listCombo.size() == 0) {
+            request.setAttribute("pageNumber", 1);
             request.setAttribute("ms", "Your searched products not found!");
-        }
-        else if(listProduct.size() > 0 && listCombo.size() > 0){
+        } else if (listProduct.size() > 0 && listCombo.size() > 0) {
+            request.setAttribute("pageNumber", new ProductDAO().searchByCalories(from, to) + new ComboDAO().searchByCalories(from, to));
             request.setAttribute("list", listProduct);
             request.setAttribute("listCombo", listCombo);
             request.setAttribute("isCombo", 1);
-        }
-        else if(listProduct.size() > 0){
+        } else if (listProduct.size() > 0) {
+            request.setAttribute("pageNumber", new ProductDAO().searchByCalories(from, to));
             request.setAttribute("list", listProduct);
-        }
-        else if(listCombo.size() > 0){
+        } else if (listCombo.size() > 0) {
+            request.setAttribute("pageNumber", new ComboDAO().searchByCalories(from, to));
             request.setAttribute("listCombo", listCombo);
             request.setAttribute("isCombo", 1);
         }
-        
+
+        request.setAttribute("calo", 1);
+        request.setAttribute("from", from);
+        request.setAttribute("to", to);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

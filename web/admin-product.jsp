@@ -344,6 +344,18 @@
                                 </tbody>
                             </table>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="pagination-wrap text-center">
+                                    <ul class="d-flex text-center justify-content-center" style="margin-top: 10px">
+                                        <c:forEach begin="1" end="${pageNumber}" var="i">
+                                            <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="product-admin?index=${i}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -359,7 +371,7 @@
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
                 <p style="font-weight: bold; text-align: center">ADD NEW PRODUCT</p><br>
                 <div>
-                    <form class="form" action="add-product" method="post">
+                    <form class="form" action="add-product" method="post" onsubmit="return validateForm()">
                         <div class="column">
                             <div class="input-box">
                                 <label>Product Name <span class="text-danger">*</span></label>
@@ -369,11 +381,12 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Price <span class="text-danger">*</span></label>
-                                <input type="number" name="price" placeholder="Enter price" required />
+                                <input type="number" name="price" placeholder="Enter price" required min="0" />
                             </div>
                             <div class="input-box">
-                                <label>Image <span class="text-danger">*</span></label>
+                                <label>Image <span class="text-danger">*</span> &nbsp; &nbsp;<span class="text-danger" id="error-image"></span></label>
                                 <input type="text" name="image" placeholder="Enter image source" required />
+
                             </div>
                         </div>
                         <div class="column">
@@ -387,17 +400,17 @@
                             </div>
                             <div class="input-box">
                                 <label>Calories <span class="text-danger">*</span></label>
-                                <input type="number" name="calories" placeholder="Enter calories" required />
+                                <input type="number" name="calories" placeholder="Enter calories" required min="0" />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
                                 <label>Accumulated Point <span class="text-danger">*</span></label>
-                                <input type="number" name="accPoint" placeholder="Enter accumulated points" required />
+                                <input type="number" name="accPoint" placeholder="Enter accumulated points" required min="0"/>
                             </div>
                             <div class="input-box">
                                 <label>Exchanged Point <span class="text-danger">*</span></label>
-                                <input type="number" name="exPoint" placeholder="Enter exchanged points" required />
+                                <input type="number" name="exPoint" placeholder="Enter exchanged points" required min="0" />
                             </div>
                         </div>
                         <c:if test="${surpriseProduct != null}">
@@ -411,7 +424,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <button>Submit</button>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -427,7 +440,7 @@
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
                 <p style="font-weight: bold; text-align: center">UPDATE NEW PRODUCT</p><br>
                 <div>
-                    <form class="form" action="update-product" method="post">
+                    <form class="form" action="update-product" method="post" onsubmit="return validateForm2()">
                         <input type="hidden" name="original_price" value="${product.price}">
                         <input type="hidden" name="s_date" value="${product.startDate}">
                         <input type="hidden" name="productID" value="${product.productID}">
@@ -440,11 +453,11 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Price <span class="text-danger">*</span></label>
-                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required />
+                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required min="0"/>
                             </div>
                             <div class="input-box">
-                                <label>Image <span class="text-danger">*</span></label>
-                                <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required />
+                                <label>Image <span class="text-danger">*</span>&nbsp; &nbsp;<span class="text-danger" id="error-imageu1"></span></label>
+                                <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required id="imageu1"/>
                             </div>
                         </div>
                         <div class="column">
@@ -458,21 +471,21 @@
                             </div>
                             <div class="input-box">
                                 <label>Calories <span class="text-danger">*</span></label>
-                                <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required />
+                                <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required min="0" />
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
                                 <label>Accumulated Point <span class="text-danger">*</span></label>
-                                <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required />
+                                <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required min="0" />
                             </div>
                             <div class="input-box">
                                 <label>Exchanged Point <span class="text-danger">*</span></label>
-                                <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required />
+                                <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required min="0" />
                             </div>
                         </div>
 
-                        <button>Submit</button>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -486,7 +499,7 @@
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
                 <p style="font-weight: bold; text-align: center">UPDATE NEW PRODUCT</p><br>
                 <div>
-                    <form class="form" action="update-product" method="post">
+                    <form class="form" action="update-product" method="post" onsubmit="return validateForm3()">
                         <input type="hidden" name="original_price" value="${product.price}">
                         <input type="hidden" name="s_date" value="${product.startDate}">
                         <input type="hidden" name="productID" value="${product.productID}">
@@ -499,11 +512,11 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Price <span class="text-danger">*</span></label>
-                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required />
+                                <input type="number" name="price" value="${product.price}" placeholder="Enter price" required min="0"/>
                             </div>
                             <div class="input-box">
-                                <label>Image <span class="text-danger">*</span></label>
-                                <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required />
+                                <label>Image <span class="text-danger">*</span>&nbsp; &nbsp;<span class="text-danger" id="error-imageu2"></span></label>
+                                <input type="text" value="${product.image}" name="image" placeholder="Enter image source" required id="imageu2"/>
                             </div>
                         </div>
                         <div class="column">
@@ -517,26 +530,27 @@
                             </div>
                             <div class="input-box">
                                 <label>Calories <span class="text-danger">*</span></label>
-                                <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required />
+                                <input type="number" name="calories" value="${product.calories}" placeholder="Enter calories" required min="0"/>
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
                                 <label>Accumulated Point <span class="text-danger">*</span></label>
-                                <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required />
+                                <input type="number" name="accPoint" value="${product.accumulatedPoint}" placeholder="Enter accumulated points" required min="0"/>
                             </div>
                             <div class="input-box">
                                 <label>Exchanged Point <span class="text-danger">*</span></label>
-                                <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required />
+                                <input type="number" name="exPoint" value="${product.exchangedPoint}" placeholder="Enter exchanged points" required min="0"/>
                             </div>
                         </div>
                         <div class="column">
                             <div class="input-box">
                                 <label>Surprise start day <span class="text-danger">*</span></label>
-                                <input type="date" name="p_startDate"/>
+                                <input type="date" name="p_startDate" id="p_startDateu2" required/>
                             </div><div class="input-box">
-                                <label>Surprise end day <span class="text-danger">*</span></label>
-                                <input type="date" name="p_endDate"/>
+                                <label>Surprise end day <span class="text-danger">*</span>&nbsp; &nbsp; <span id="error-endDateu2" class="text-danger"></span></label>
+                                <input type="date" name="p_endDate" id="p_endDateu2" required/>
+                                
                             </div>
                         </div>
                         <button>Submit</button>
@@ -551,44 +565,104 @@
     <!-- Custom JS -->
     <script src="js/scripts.js"></script>
     <script>
-                    var el = document.getElementById("wrapper");
-                    var toggleButton = document.getElementById("menu-toggle");
+                        var el = document.getElementById("wrapper");
+                        var toggleButton = document.getElementById("menu-toggle");
 
-                    toggleButton.onclick = function () {
-                        el.classList.toggle("toggled");
-                    };
+                        toggleButton.onclick = function () {
+                            el.classList.toggle("toggled");
+                        };
 
-                    $(document).ready(function () {
-                        // Activate tooltip
-                        $('[data-toggle="tooltip"]').tooltip();
+                        $(document).ready(function () {
+                            // Activate tooltip
+                            $('[data-toggle="tooltip"]').tooltip();
 
-                        // Select/Deselect checkboxes
-                        var checkbox = $('table tbody input[type="checkbox"]');
-                        $("#selectAll").click(function () {
-                            if (this.checked) {
-                                checkbox.each(function () {
-                                    this.checked = true;
-                                });
-                            } else {
-                                checkbox.each(function () {
-                                    this.checked = false;
-                                });
-                            }
+                            // Select/Deselect checkboxes
+                            var checkbox = $('table tbody input[type="checkbox"]');
+                            $("#selectAll").click(function () {
+                                if (this.checked) {
+                                    checkbox.each(function () {
+                                        this.checked = true;
+                                    });
+                                } else {
+                                    checkbox.each(function () {
+                                        this.checked = false;
+                                    });
+                                }
+                            });
+                            checkbox.click(function () {
+                                if (!this.checked) {
+                                    $("#selectAll").prop("checked", false);
+                                }
+                            });
                         });
-                        checkbox.click(function () {
-                            if (!this.checked) {
-                                $("#selectAll").prop("checked", false);
+
+                        function togglePopup() {
+                            document.getElementById("popup-1").classList.toggle("active");
+                        }
+
+                        function togglePopup2() {
+                            document.getElementById("popup-2").classList.toggle("active");
+                        }
+
+                        function validateForm() {
+                            const image = document.getElementsByName('image')[0].value;
+
+                            let errorImage = document.getElementById('error-image');
+
+                            let isValid = true;
+
+                            // Clear error messages
+                            errorImage.innerText = '';
+                            if (!image.startsWith("image")) {
+                                errorImage.innerText = 'Image is invalid!';
+                                isValid = false;
                             }
-                        });
-                    });
 
-                    function togglePopup() {
-                        document.getElementById("popup-1").classList.toggle("active");
-                    }
+                            return isValid;
+                        }
 
-                    function togglePopup2() {
-                        document.getElementById("popup-2").classList.toggle("active");
-                    }
+                        function validateForm2() {
+                            const image = document.getElementById('imageu1').value;
+
+                            let errorImage = document.getElementById('error-imageu1');
+
+                            let isValid = true;
+
+                            // Clear error messages
+                            errorImage.innerText = '';
+                            if (!image.startsWith("image")) {
+                                errorImage.innerText = 'Image is invalid!';
+                                isValid = false;
+                            }
+
+                            return isValid;
+                        }
+
+                        function validateForm3() {
+                            const image = document.getElementById('imageu2').value;
+                            const p_startDateu2 = document.getElementById('p_startDateu2').value;
+                            const p_endDateu2 = document.getElementById('p_endDateu2').value;
+
+                            let errorImage = document.getElementById('error-imageu2');
+                            let errorEndDate = document.getElementById('error-endDateu2');
+
+                            let isValid = true;
+
+                            // Clear error messages
+                            errorImage.innerText = '';
+                            errorEndDate.innerText = '';
+                            if (!image.startsWith("image")) {
+                                errorImage.innerText = 'Image is invalid!';
+                                isValid = false;
+                            }
+
+                            if (new Date(p_endDateu2) <= new Date(p_startDateu2)) {
+                                errorEndDate.innerText = 'End Date is invalid!';
+                                isValid = false;
+                            }
+
+                            return isValid;
+                        }
     </script>
 </body>
 </html>

@@ -351,72 +351,72 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Main course</td>
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
-                                                    <option value="">Select</option>
+                                    <tr>
+                                        <td>Main course</td>
+                                        <td>
+                                            <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                                <option value="">Select</option>
                                                     <option value="search-product-by-category?id=${1}&ok=${1}">Chicken</option>
                                                     <option value="search-product-by-category?id=${3}&ok=${1}">Burger</option>
                                                     <option value="search-product-by-category?id=${5}&ok=${1}">Spaghetti</option>
                                                     <option value="search-product-by-category?id=${7}&ok=${1}">Taco</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="main">
-                                                    <c:if test="${mainCourse != null}">
-                                                        <c:forEach items="${mainCourse}" var="c">
-                                                            <option class="py-1" value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="m_quantity" min="1"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Side dish</td>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select required style="width: 200px;" name="main">
+                                                <c:if test="${mainCourse != null}">
+                                                    <c:forEach items="${mainCourse}" var="c">
+                                                        <option class="py-1" value="${c.productID}">${c.name}</option>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="m_quantity" min="1" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Side dish</td>
 
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                        <td>
+                                            <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
                                                     <option value="">Select</option>
-                                                    <option value="search-product-by-category?id=${2}&ok=${2}">Sandwich</option>
-                                                    <option value="search-product-by-category?id=${6}&ok=${2}">Salad</option>
+                                                    <option  value="search-product-by-category?id=${2}&ok=${2}">Sandwich</option>
+                                                    <option  value="search-product-by-category?id=${6}&ok=${2}">Salad</option>
                                                     <option value="search-product-by-category?id=${8}&ok=${2}">French Fries</option>
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="side">
-                                                    <c:if test="${sideDish != null}">
-                                                        <c:forEach items="${sideDish}" var="c">
-                                                            <option value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
+                                        </td>
+                                        <td>
+                                            <select required style="width: 200px;" name="side">
+                                                <c:if test="${sideDish != null}">
+                                                    <c:forEach items="${sideDish}" var="c">
+                                                        <option value="${c.productID}">${c.name}</option>
+                                                    </c:forEach>
 
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="s_quantity" min="1"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bevarage</td>
+                                                </c:if>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="s_quantity" min="1" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bevarage</td>
 
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                        <td>
+                                            <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
                                                     <option value="">Select</option>
                                                     <option value="search-product-by-category?id=${4}&ok=${3}">Bevarage</option>
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="bevarage">
-                                                    <c:if test="${bevarage != null}">
-                                                        <c:forEach items="${bevarage}" var="c">
-                                                            <option value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
+                                        </td>
+                                        <td>
+                                            <select required style="width: 200px;" name="bevarage">
+                                                <c:if test="${bevarage != null}">
+                                                    <c:forEach items="${bevarage}" var="c">
+                                                        <option value="${c.productID}">${c.name}</option>
+                                                    </c:forEach>
 
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="b_quantity" min="1"></td>
-                                        </tr>
+                                                </c:if>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="b_quantity" min="1" required></td>
+                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -432,10 +432,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input class="py-1" type="text" name="comboName" placeholder="Please give a name..."></td>
-                                            <td><input class="py-1" type="number" name="exPoint" min="1"></td>
-                                            <td><input class="py-1" type="number" name="accPoint" min="1"></td>
-                                            <td><input class="py-1" type="text" name="discount"></td>
+                                            <td><input class="py-1" type="text" name="comboName" placeholder="Please give a name..." required></td>
+                                            <td><input class="py-1" type="number" name="exPoint" min="1" required></td>
+                                            <td><input class="py-1" type="number" name="accPoint" min="1" required></td>
+                                            <td><input class="py-1" type="number" name="discount" min="0" max="1" step="0.01" required></td>
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -450,8 +450,8 @@
                     </div>
                 </div>
             </c:if>
-            
-            
+
+
             <c:if test="${okela != null}">
                 <div class="popup active" id="popup-2">
                     <div class="overlay"></div>
@@ -472,71 +472,71 @@
                                     <tbody>
                                         <tr>
                                     <input type="hidden" name="comboID" value="${id}">
-                                            <td>Main course</td>
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
-                                                    <option value="">Select</option>
-                                                    <option value="search-product-by-category?id=${1}&ok=${1}">Chicken</option>
-                                                    <option value="search-product-by-category?id=${3}&ok=${1}">Burger</option>
-                                                    <option value="search-product-by-category?id=${5}&ok=${1}">Spaghetti</option>
-                                                    <option value="search-product-by-category?id=${7}&ok=${1}">Taco</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="main">
-                                                    <c:if test="${mainCourse != null}">
-                                                        <c:forEach items="${mainCourse}" var="c">
-                                                            <option class="py-1" value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="m_quantity" min="1"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Side dish</td>
+                                    <td>Main course</td>
+                                    <td>
+                                        <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                            <option value="">Select</option>
+                                            <option value="search-product-by-category?id=${1}&ok=${1}">Chicken</option>
+                                            <option value="search-product-by-category?id=${3}&ok=${1}">Burger</option>
+                                            <option value="search-product-by-category?id=${5}&ok=${1}">Spaghetti</option>
+                                            <option value="search-product-by-category?id=${7}&ok=${1}">Taco</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select required style="width: 200px;" name="main">
+                                            <c:if test="${mainCourse != null}">
+                                                <c:forEach items="${mainCourse}" var="c">
+                                                    <option class="py-1" value="${c.productID}">${c.name}</option>
+                                                </c:forEach>
+                                            </c:if>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" name="m_quantity" min="1" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Side dish</td>
 
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
-                                                    <option value="">Select</option>
-                                                    <option value="search-product-by-category?id=${2}&ok=${2}">Sandwich</option>
-                                                    <option value="search-product-by-category?id=${6}&ok=${2}">Salad</option>
-                                                    <option value="search-product-by-category?id=${8}&ok=${2}">French Fries</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="side">
-                                                    <c:if test="${sideDish != null}">
-                                                        <c:forEach items="${sideDish}" var="c">
-                                                            <option value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
+                                        <td>
+                                            <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                                <option value="">Select</option>
+                                                <option value="search-product-by-category?id=${2}&ok=${2}">Sandwich</option>
+                                                <option value="search-product-by-category?id=${6}&ok=${2}">Salad</option>
+                                                <option value="search-product-by-category?id=${8}&ok=${2}">French Fries</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select required style="width: 200px;" name="side">
+                                                <c:if test="${sideDish != null}">
+                                                    <c:forEach items="${sideDish}" var="c">
+                                                        <option value="${c.productID}">${c.name}</option>
+                                                    </c:forEach>
 
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="s_quantity" min="1"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bevarage</td>
+                                                </c:if>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="s_quantity" min="1" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bevarage</td>
 
-                                            <td>
-                                                <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
-                                                    <option value="">Select</option>
-                                                    <option value="search-product-by-category?id=${4}&ok=${3}">Bevarage</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select style="width: 200px;" name="bevarage">
-                                                    <c:if test="${bevarage != null}">
-                                                        <c:forEach items="${bevarage}" var="c">
-                                                            <option value="${c.productID}">${c.name}</option>
-                                                        </c:forEach>
+                                        <td>
+                                            <select style="width: 200px;" onchange="redirectToURL(this)" name="" value="">
+                                                <option value="">Select</option>
+                                                <option value="search-product-by-category?id=${4}&ok=${3}">Bevarage</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select required style="width: 200px;" name="bevarage">
+                                                <c:if test="${bevarage != null}">
+                                                    <c:forEach items="${bevarage}" var="c">
+                                                        <option value="${c.productID}">${c.name}</option>
+                                                    </c:forEach>
 
-                                                    </c:if>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="b_quantity" min="1"></td>
-                                        </tr>
+                                                </c:if>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="b_quantity" min="1" required></td>
+                                    </tr>
 
                                     </tbody>
                                 </table>
@@ -552,10 +552,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input class="py-1" type="text" name="comboName" value="${combo.comboName}" placeholder="Please give a name..."></td>
-                                            <td><input class="py-1" type="number" name="exPoint" value="${combo.exchangedPoint}" min="1"></td>
-                                            <td><input class="py-1" type="number" name="accPoint" value="${combo.accumulatedPoint}" min="1"></td>
-                                            <td><input class="py-1" type="text" name="discount"></td>
+                                            <td><input class="py-1" type="text" name="comboName" value="${combo.comboName}" placeholder="Please give a name..." required></td>
+                                            <td><input class="py-1" type="number" name="exPoint" value="${combo.exchangedPoint}" min="1" required></td>
+                                            <td><input class="py-1" type="number" name="accPoint" value="${combo.accumulatedPoint}" min="1" required></td>
+                                            <td><input class="py-1" type="number" name="discount" min="0" max="1" step="0.01" required></td>
                                         </tr>
                                         <tr>
                                             <td></td>
@@ -577,51 +577,51 @@
             <!-- Custom JS -->
             <script src="js/scripts.js"></script>
             <script>
-                    function redirectToURL(selectElement) {
-                        var selectedOption = selectElement.options[selectElement.selectedIndex];
-                        if (selectedOption.value !== '') {
-                            window.location.href = selectedOption.value;
-                        }
-                    }
+                                                function redirectToURL(selectElement) {
+                                                    var selectedOption = selectElement.options[selectElement.selectedIndex];
+                                                    if (selectedOption.value !== '') {
+                                                        window.location.href = selectedOption.value;
+                                                    }
+                                                }
 
-                    var el = document.getElementById("wrapper");
-                    var toggleButton = document.getElementById("menu-toggle");
+                                                var el = document.getElementById("wrapper");
+                                                var toggleButton = document.getElementById("menu-toggle");
 
-                    toggleButton.onclick = function () {
-                        el.classList.toggle("toggled");
-                    };
+                                                toggleButton.onclick = function () {
+                                                    el.classList.toggle("toggled");
+                                                };
 
-                    $(document).ready(function () {
-                        // Activate tooltip
-                        $('[data-toggle="tooltip"]').tooltip();
+                                                $(document).ready(function () {
+                                                    // Activate tooltip
+                                                    $('[data-toggle="tooltip"]').tooltip();
 
-                        // Select/Deselect checkboxes
-                        var checkbox = $('table tbody input[type="checkbox"]');
-                        $("#selectAll").click(function () {
-                            if (this.checked) {
-                                checkbox.each(function () {
-                                    this.checked = true;
-                                });
-                            } else {
-                                checkbox.each(function () {
-                                    this.checked = false;
-                                });
-                            }
-                        });
-                        checkbox.click(function () {
-                            if (!this.checked) {
-                                $("#selectAll").prop("checked", false);
-                            }
-                        });
-                    });
+                                                    // Select/Deselect checkboxes
+                                                    var checkbox = $('table tbody input[type="checkbox"]');
+                                                    $("#selectAll").click(function () {
+                                                        if (this.checked) {
+                                                            checkbox.each(function () {
+                                                                this.checked = true;
+                                                            });
+                                                        } else {
+                                                            checkbox.each(function () {
+                                                                this.checked = false;
+                                                            });
+                                                        }
+                                                    });
+                                                    checkbox.click(function () {
+                                                        if (!this.checked) {
+                                                            $("#selectAll").prop("checked", false);
+                                                        }
+                                                    });
+                                                });
 
-                    function togglePopup() {
-                        document.getElementById("popup-1").classList.toggle("active");
-                    }
+                                                function togglePopup() {
+                                                    document.getElementById("popup-1").classList.toggle("active");
+                                                }
 
-                    function togglePopup2() {
-                        document.getElementById("popup-2").classList.toggle("active");
-                    }
+                                                function togglePopup2() {
+                                                    document.getElementById("popup-2").classList.toggle("active");
+                                                }
             </script>
     </body>
 </html>

@@ -340,6 +340,18 @@
                             </table>
                         </div>
                     </div>
+                    
+                    <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="pagination-wrap text-center">
+                                    <ul class="d-flex text-center justify-content-center" style="margin-top: 10px">
+                                        <c:forEach begin="1" end="${numberPage}" var="i">
+                                            <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="sale-admin?index=${i}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
                 </div>
             </div>
@@ -354,7 +366,7 @@
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
                 <p style="font-weight: bold; text-align: center">ADD NEW SALE</p><br>
                 <div>
-                    <form class="form" action="add-sale" method="post">
+                    <form class="form" action="add-sale" method="post" onsubmit="return validateAddForm()">
 
                         <div class="column">
                             <div class="input-box">
@@ -369,7 +381,7 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Sale Value</label>
-                                <input type="text" name="s-value" placeholder="Enter sale value" required />
+                                <input type="number" name="s-value" placeholder="Enter sale value" required min="0" max="1" step="0.01"/>
                             </div>
                             <div class="input-box">
                                 <label>Sale Code</label>
@@ -379,11 +391,11 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Start Date</label>
-                                <input type="date" name="s-start" placeholder="Enter start date"  min="<%= LocalDate.now() %>" required />
+                                <input type="date" name="s-start" placeholder="Enter start date"  min="<%= LocalDate.now() %>" required id="s_start"/>
                             </div>
                             <div class="input-box">
-                                <label>End Date</label>
-                                <input type="date" name="s-end" placeholder="Enter end date"  min="<%= LocalDate.now() %>" required />
+                                <label>End Date &nbsp; <span class="text-danger" id="error-end"></span></label>
+                                <input type="date" name="s-end" placeholder="Enter end date"  min="<%= LocalDate.now() %>" required id="s_end" />
                             </div>
                         </div>
                         <div class="column mt-3">
@@ -403,7 +415,7 @@
                 <div class="close-btn" onclick="togglePopup2()">&times;</div>
                 <p style="font-weight: bold; text-align: center">UPDATE SALE</p><br>
                 <div>
-                    <form class="form" action="update-sale" method="post">
+                    <form class="form" action="update-sale" method="post" onsubmit="return validateUpdateForm()">
                         <input type="hidden" name="id" value="${id}">
                         <div class="column">
                             <div class="input-box">
@@ -414,7 +426,7 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Sale Value</label>
-                                <input type="text" name="s-value" placeholder="Enter sale value" required value="${sale.saleValue}" />
+                                <input type="number" name="s-value" placeholder="Enter sale value" required value="${sale.saleValue}" min="0" max="1" step="0.01" />
                             </div>
                             <div class="input-box">
                                 <label>Sale Code</label>
@@ -424,11 +436,11 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Start Date</label>
-                                <input type="date" name="s-start" placeholder="Enter start date" required value="${sale.startDate}" />
+                                <input type="date" name="s-start" placeholder="Enter start date" required value="${sale.startDate}" id="s_start2"/>
                             </div>
                             <div class="input-box">
-                                <label>End Date</label>
-                                <input type="date" name="s-end" placeholder="Enter end date" required value="${sale.endDate}" />
+                                <label>End Date &nbsp; <span class="text-danger" id="error-end2" ></span></label>
+                                <input type="date" name="s-end" placeholder="Enter end date" required value="${sale.endDate}" id="s_end2"/>
                             </div>
                         </div>
                         <button>Submit</button>
@@ -513,6 +525,44 @@
                     function togglePopup2() {
                         document.getElementById("popup-2").classList.toggle("active");
                     }
+                    
+                    function validateAddForm() {
+                            const s_start = document.getElementById('s_start').value;
+                            const s_end = document.getElementById('s_end').value;
+
+                            let errorEnd = document.getElementById('error-end');
+
+                            let isValid = true;
+
+                            // Clear error messages
+                            errorEnd.innerText = '';
+
+                            if (new Date(s_end) <= new Date(s_start)) {
+                                errorEnd.innerText = 'End Date is invalid!';
+                                isValid = false;
+                            }
+
+                            return isValid;
+                        }
+                        
+                        function validateUpdateForm() {
+                            const s_start = document.getElementById('s_start2').value;
+                            const s_end = document.getElementById('s_end2').value;
+
+                            let errorEnd = document.getElementById('error-end2');
+
+                            let isValid = true;
+
+                            // Clear error messages
+                            errorEnd.innerText = '';
+
+                            if (new Date(s_end) <= new Date(s_start)) {
+                                errorEnd.innerText = 'End Date is invalid!';
+                                isValid = false;
+                            }
+
+                            return isValid;
+                        }
     </script>
 
 </body>

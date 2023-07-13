@@ -218,7 +218,10 @@
                                         <input type="hidden" name="subtotal" id="subtotalInput" value="<c:out value="${subtotal}"/>" />
                                         <input type="hidden" name="my_point" id="my-point2" value="<c:out value="${sessionScope.acc.totalAccumulatedPoint}"/>" />
                                         <button type="submit" class="btn-orange">Check Out</button>
+                                        
+                                        
                                     </form>
+                                        
 
                                 </div>
                             </div>

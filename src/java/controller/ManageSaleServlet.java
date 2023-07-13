@@ -8,6 +8,7 @@ package controller;
 import dao.SaleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,7 +60,16 @@ public class ManageSaleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Sale> sList = new SaleDAO().getAllSales();
+        List<Sale> sList = new ArrayList<>();
+        if(request.getParameter("index") != null){
+            int index = Integer.parseInt(request.getParameter("index"));
+            sList = new SaleDAO().getAllSalesByPaging(index);
+        } 
+        else{
+            sList = new SaleDAO().getAllSalesByPaging(1);
+        }
+        
+        request.setAttribute("numberPage", new SaleDAO().getNumberPageSale());
         request.setAttribute("sList", sList);
         request.getRequestDispatcher("admin-sale.jsp").forward(request, response);
     }

@@ -8,6 +8,7 @@ import dao.ComboDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,7 @@ public class SearchByPriceServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -60,25 +61,42 @@ public class SearchByPriceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        float from = Integer.parseInt(request.getParameter("from"));
-        float to = Integer.parseInt(request.getParameter("to"));
-        List<Product> listProduct = new ProductDAO().searchProductByPrice(from, to);
-        List<Combo> listCombo = new ComboDAO().searchComboByPrice(from, to);
-        if(listProduct.size() == 0 && listCombo.size() == 0){
+        float from = Float.parseFloat(request.getParameter("from"));
+        float to = Float.parseFloat(request.getParameter("to"));
+        List<Product> listProduct = new ArrayList<>();
+        List<Combo> listCombo = new ArrayList<>();
+        if (request.getParameter("index") == null) {
+            listProduct = new ProductDAO().searchProductByPrice(from, to, 1);
+            listCombo = new ComboDAO().searchComboByPrice(from, to, 1);
+        } else {
+            int index = Integer.parseInt(request.getParameter("index"));
+            listProduct = new ProductDAO().searchProductByPrice(from, to, index);
+            listCombo = new ComboDAO().searchComboByPrice(from, to, index);
+        }
+
+        if (listProduct.size() == 0 && listCombo.size() == 0) {
+            request.setAttribute("pageNumber", 1);
             request.setAttribute("ms", "Your searched products not found!");
-        }
-        else if(listProduct.size() > 0 && listCombo.size() > 0){
+        } else if (listProduct.size() > 0 && listCombo.size() > 0) {
+            int pageNumber = new ProductDAO().getPageNumberSearchProductByPrice(from, to) + new ComboDAO().getPageNumberSearchComboByPrice(from, to);
+            request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("list", listProduct);
             request.setAttribute("listCombo", listCombo);
             request.setAttribute("isCombo", 1);
-        }
-        else if(listProduct.size() > 0){
+        } else if (listProduct.size() > 0) {
+            int pageNumber = new ProductDAO().getPageNumberSearchProductByPrice(from, to);
+            request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("list", listProduct);
-        }
-        else if(listCombo.size() > 0){
+        } else if (listCombo.size() > 0) {
+            int pageNumber = new ComboDAO().getPageNumberSearchComboByPrice(from, to);
+            request.setAttribute("pageNumber", pageNumber);
             request.setAttribute("listCombo", listCombo);
             request.setAttribute("isCombo", 1);
         }
+
+        request.setAttribute("to", to);
+        request.setAttribute("from", from);
+        request.setAttribute("price", 1);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

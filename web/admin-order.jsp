@@ -293,7 +293,16 @@
                 <div class="container-fluid px-4">
                     <div class="row my-5">
                         <div class="row mb-3">
-                            <h3 class="fs-4 mb-3 d-inline col-sm-10">List of orders </h3>
+                            <h3 class="fs-4 mb-3 d-inline col-sm-3">List of orders </h3>
+                            <div class="col-sm-7">
+                                <form action="search-by-time">
+                                    <input class="py-1 w-25" type="number" min="2000" step="1" name="year" placeholder="Enter year..."/>
+                                    <input class="py-1 w-25" type="number" min="1" max="12" step="1" name="month" placeholder="Enter month..."/>
+                                    <input class="py-1 w-25" type="number" min="1" max="31" step="1" name="date" placeholder="Enter date..."/>
+                                    <button type="submit" class="btn btn-success">Search</button>
+                                </form>
+
+                            </div>
                             <div class="dropdown col-sm-2">
                                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                                     Sort order by price
@@ -303,6 +312,7 @@
                                     <a class="dropdown-item" href="sort-orders-admin?ok=0">DECREASINGLY</a>
                                 </div>
                             </div>
+
                         </div>
 
                         <form action="statusproduct" method="POST">
@@ -320,21 +330,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:if test="${listSize != 0}">
+                                            <c:forEach items="${list}" var="c" varStatus="status">
+                                                <tr>
+                                                    <td>${c.orderID}</td>
+                                                    <td>${c.date}</td>
+                                                    <td>${c.totalPrice}</td>
+                                                    <td>${c.note}</td>
+                                                    <td>
+                                                        <input type="radio" name="status_${c.orderID}" value="PEND" ${c.status == 'PEND' ? 'checked' : ''}>Pending
+                                                        <input type="radio" name="status_${c.orderID}" value="SUCC" ${c.status == 'SUCC' ? 'checked' : ''}>Success
+                                                        <input type="radio" name="status_${c.orderID}" value="FAIL" ${c.status == 'FAIL' ? 'checked' : ''}>Fail
+                                                    </td>
+                                                    <td><a href="#"><button class="btn btn-success px-4 py-1">View Details</button></a></td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${listSize == 0}">
+                                            <tr><p class="text-center text-danger">The list is empty!</p></tr>
 
-                                        <c:forEach items="${list}" var="c" varStatus="status">
-                                            <tr>
-                                                <td>${c.orderID}</td>
-                                                <td>${c.date}</td>
-                                                <td>${c.totalPrice}</td>
-                                                <td>${c.note}</td>
-                                                <td>
-                                                    <input type="radio" name="status_${c.orderID}" value="PEND" ${c.status == 'PEND' ? 'checked' : ''}>Pending
-                                                    <input type="radio" name="status_${c.orderID}" value="SUCC" ${c.status == 'SUCC' ? 'checked' : ''}>Success
-                                                    <input type="radio" name="status_${c.orderID}" value="FAIL" ${c.status == 'FAIL' ? 'checked' : ''}>Fail
-                                                </td>
-                                                <td><a href="#"><button class="btn btn-success px-4 py-1">View Details</button></a></td>
-                                            </tr>
-                                        </c:forEach>
+                                    </c:if>
 
                                     </tbody>
 
@@ -343,6 +358,49 @@
                             </div>
                         </form>
                     </div>
+                    <c:if test="${search == null && sort == null}">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="pagination-wrap text-center">
+                                    <ul class="d-flex text-center justify-content-center" style="margin-top: -30px">
+                                        <c:forEach begin="1" end="${numberPage}" var="i">
+                                            <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="orders-admin?index=${i}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${search != null && sort == null}">
+                        
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="pagination-wrap text-center">
+                                    <ul class="d-flex text-center justify-content-center" style="margin-top: -30px">
+                                        <c:forEach begin="1" end="${numberPage}" var="i">
+                                            <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="search-by-time?index=${i}&year=${year}&month=${month}&date=${date}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                    
+                    <c:if test="${sort != null && search == null}">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="pagination-wrap text-center">
+                                    <ul class="d-flex text-center justify-content-center" style="margin-top: -30px">
+                                        <c:forEach begin="1" end="${numberPage}" var="i">
+                                            <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="sort-orders-admin?index=${i}&ok=${ok}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
 
                 </div>
             </div>

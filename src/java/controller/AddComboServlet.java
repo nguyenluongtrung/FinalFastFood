@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.CategoryDAO;
 import dao.ComboDAO;
 import dao.ComboProductDAO;
 import dao.ProductDAO;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
 import model.Combo;
 import model.Product;
 

@@ -7,6 +7,9 @@ package controller;
 import dao.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,7 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -57,8 +60,6 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // processRequest(request, response);
-
         request.getRequestDispatcher("signup.jsp").forward(request, response);
     }
 
@@ -73,7 +74,7 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
+
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
@@ -88,15 +89,32 @@ public class SignUpServlet extends HttpServlet {
         } else {
             gender = true;
         }
-        
-        new AccountDAO().create(new Account(0,role,"",name,address,phone,email,dob,gender,0,password));
 
+        int ok = 1;
+        List<Account> listAcc = new AccountDAO().getAllAccounts();
+        for (Account acc : listAcc) {
+            if (acc.getEmail().equalsIgnoreCase(email)) {
+                ok = 0;
+                break;
+            }
+        }
 
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
-        pw.println("<script type=\"text/javascript\">");
-        pw.println("alert('Sign up successfully');");
-        pw.println("</script>");
+        if (ok == 1) {
+            new AccountDAO().create(new Account(0, role, "", name, address, phone, email, dob, gender, 0, password));
+
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+            pw.println("<script type=\"text/javascript\">");
+            pw.println("alert('Sign up successfully');");
+            pw.println("</script>");
+        } else {
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+            pw.println("<script type=\"text/javascript\">");
+            pw.println("alert('Sign up failed! Your email existed!');");
+            pw.println("</script>");
+        }
+
         request.getRequestDispatcher("index.jsp").include(request, response);
 
     }

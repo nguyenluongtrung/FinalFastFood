@@ -259,19 +259,76 @@
 
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    <div class="pagination-wrap">
-                                        <ul>
-                                            <li><a href="#">Prev</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a class="active" href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">Next</a></li>
-                                        </ul>
+                            <c:if test="${price == null && s_name == null && calo == null && category == null}">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap">
+                                            <ul>
+                                                <c:forEach begin="1" end="${pageNumber}" var="i">
+                                                    <li><a href="shopping?index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </c:if>
+                                            
+                            <c:if test="${price != null && s_name == null && calo == null && category == null}">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap">
+                                            <ul>
+                                                <c:forEach begin="1" end="${pageNumber}" var="i">
+                                                    <li><a href="search-price?from=${from}&to=${to}&index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                                            
+                            <c:if test="${price == null && s_name != null && calo == null && category == null}">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap">
+                                            <ul>
+                                                <c:forEach begin="1" end="${pageNumber}" var="i">
+                                                    <li><a href="search-name?name=${name}&index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                                            
+                            <c:if test="${price == null && s_name == null && calo != null && category == null}">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap">
+                                            <ul>
+                                                <c:forEach begin="1" end="${pageNumber}" var="i">
+                                                    <li><a href="search-by-calories?from=${from}&to=${to}&index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                            
+                            <c:if test="${price == null && s_name == null && calo == null && category != null}">
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap">
+                                            <ul>
+                                                <c:forEach begin="1" end="${pageNumber}" var="i">
+                                                    <li><a href="search-category?id=${id}&index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+
                         </div>
                     </div>
                     <!-- end products -->

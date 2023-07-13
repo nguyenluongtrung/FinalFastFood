@@ -12,6 +12,7 @@ import dao.ProductDAO;
 import dao.ProductOrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,11 +39,20 @@ public class UpdateAccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("acc");
         int accountID = acc.getAccountID();
-        List<Order> orders = new OrderDAO().getOrderByAccountID(accountID);
+        
+        List<Order> orders = new ArrayList<>();
+        if(request.getParameter("index") == null){
+            orders = new OrderDAO().getOrderByAccountIDPaging(accountID, 1);
+        }else{
+            int index = Integer.parseInt(request.getParameter("index"));
+            orders = new OrderDAO().getOrderByAccountIDPaging(accountID, index);
+        }
+        
         List<FeedBack> feeds = new FeedbackDAO().getFeedbacksByAccountID(accountID);
         List<Product> products = new ProductDAO().getAllProducts();
         request.setAttribute("products", products);
         request.setAttribute("orders", orders);
+        request.setAttribute("numberPage", new OrderDAO().getNumberPageOrderByAccID(accountID));
         request.setAttribute("feeds", feeds);
         request.getRequestDispatcher("updateAccount.jsp").forward(request, response);
     }

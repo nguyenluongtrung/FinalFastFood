@@ -20,25 +20,25 @@ import model.Category;
  * @author ADMIN
  */
 public class CategoryDAO {
-
+    
     Connection conn;
     PreparedStatement ps;
     ResultSet rs;
-
+    
     public Category getCategoryByID(int id) {
         try {
             String sql = "SELECT [CategoryID]\n"
                     + "      ,[CategoryName]\n"
                     + "  FROM [dbo].[Category]\n"
                     + "  WHERE CategoryID = ?";
-
+            
             conn = new DBContext().getConnection();
-
+            
             ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
-
+            
             rs = ps.executeQuery();
-
+            
             if (rs.next()) {
                 return new Category(rs.getInt(1), rs.getString(2));
             }
@@ -54,11 +54,46 @@ public class CategoryDAO {
             String sql = "SELECT [CategoryID]\n"
                     + "      ,[CategoryName]\n"
                     + "  FROM [dbo].[Category]";
-
+            
             conn = new DBContext().getConnection();
-
+            
             ps = conn.prepareStatement(sql);
-
+            
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Category(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public List<Category> getCategoryByChoices(int choice) {
+        List<Category> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (choice == 1) {
+                sql = "SELECT [CategoryID]\n"
+                        + "      ,[CategoryName]\n"
+                        + "  FROM [dbo].[Category]\n"
+                        + "  WHERE CategoryID in (1,3,5,7)";
+            } else if (choice == 2) {
+                sql = "SELECT [CategoryID]\n"
+                        + "      ,[CategoryName]\n"
+                        + "  FROM [dbo].[Category]\n"
+                        + "  WHERE CategoryID in (2,6,8)";
+            } else {
+                sql = "SELECT [CategoryID]\n"
+                        + "      ,[CategoryName]\n"
+                        + "  FROM [dbo].[Category]\n"
+                        + "  WHERE CategoryID in (4)";
+            }
+            
+            conn = new DBContext().getConnection();
+            
+            ps = conn.prepareStatement(sql);
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Category(rs.getInt(1), rs.getString(2)));
@@ -70,7 +105,7 @@ public class CategoryDAO {
     }
     
     public static void main(String[] args) {
-        System.out.println(new CategoryDAO().getCategoryByID(1));
+        System.out.println(new CategoryDAO().getCategoryByChoices(3));
     }
-
+    
 }

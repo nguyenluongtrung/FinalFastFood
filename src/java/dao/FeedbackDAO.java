@@ -89,7 +89,7 @@ public class FeedbackDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new FeedbackDAO().getFeedbackByProductID(1));
+        System.out.println(new FeedbackDAO().getAllFeedbackByPaging(3));
     }
 
     public int countFeedBack(int productID) {
@@ -146,6 +146,49 @@ public class FeedbackDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new FeedBack(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int getNumberPageFeedback() {
+        try {
+            String sql = "SELECT COUNT(*)\n"
+                    + "  FROM Review\n";
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int num = rs.getInt(1);
+                if (num % 20 == 0) {
+                    return num / 20;
+                } else {
+                    return num / 20 + 1;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public List<FeedbackAccount> getAllFeedbackByPaging(int index) {
+        List<FeedbackAccount> list = new ArrayList<>();
+        try {
+            String sql = "SELECT Review.ReviewID, Review.UserID, Review.Msg, Review.Reply,\n"
+                    + "                     Review.Date, Review.ProductID, Account.Gender, Account.Name FROM Review INNER JOIN Account ON Review.UserID=Account.AccountID Order by ReviewID  OFFSET ? ROWS FETCH FIRST 20 ROWS ONLY ";
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (index - 1) * 20);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new FeedbackAccount(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getBoolean(7), rs.getString(8)));
             }
         } catch (Exception ex) {
             Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);

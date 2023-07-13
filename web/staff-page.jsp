@@ -271,8 +271,9 @@
                 </div>
             </div>
             <!-- /#sidebar-wrapper -->
-
             <!-- Page Content -->
+            
+
             <div id="page-content-wrapper">
                 <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                     <div class="d-flex align-items-center">
@@ -294,7 +295,7 @@
                                 <div class="col-sm-4 float-right" style="padding-left: 60px;">
                                     <input class="btn btn-dark px-3 py-1" style="width: 100px; color: white" type="button" id="btn1" value="All"/>
                                     <input class="btn btn-dark px-3 py-1" style="width: 100px; color: white" type="button" id="btn2" value="None"/>
-                                    <button class="btn btn-success px-3 py-1"><a class="view-modal text-decoration-none text-white" href="#"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Submit</a></button>
+                                    <button type="submit" class="btn btn-success px-3 py-1"><a class="view-modal text-decoration-none text-white" href="#"><span><i class="fa-sharp fa-solid fa-plus"></i></span>&nbsp; Submit</a></button>
                                 </div>
 
                             </div>
@@ -307,7 +308,6 @@
                                             <th scope="col" style="font-size: 90%">Name</th>
                                             <th scope="col" style="font-size: 90%">Image</th>
                                             <th scope="col" style="font-size: 90%">Category ID</th>
-                                            <th scope="col" style="font-size: 90%">Quantity</th>
                                             <th scope="col" style="font-size: 90%">Calories</th>
                                             <th scope="col" style="font-size: 90%">Is Surprise</th>
                                             <th scope="col" style="font-size: 90%">Rating</th>
@@ -322,7 +322,6 @@
                                                 <td>${c.name}</td>
                                                 <td><image src="${c.image}" style="width: 40px; height: 40px;"></td>
                                                 <td>${c.categoryID}</td>
-                                                <td>${c.quantity}</td>
                                                 <td>${c.calories}</td>
                                                 <td>${c.isSurprise}</td>
                                                 <td>${c.rating}</td>
@@ -341,6 +340,11 @@
 
                 </form>
             </div>
+            
+            
+            
+            
+     
         </div>
         <!-- /#page-content-wrapper -->
 

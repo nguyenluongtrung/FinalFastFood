@@ -21,7 +21,7 @@
     </head>
     <body class="img js-fullheight" style="background-image: url(assets/img/bglogin.jpg);">
         <section class="ftco-section">
-            <div class="container">
+            <div class="container p-5">
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4">
                         <div class="login-wrap p-0">
@@ -49,16 +49,12 @@
                                     </div>
                                 </div>
                             </form>
-                            <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
-                            <div class="social d-flex text-center">
-                                <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
-                                <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/popper.js"></script>

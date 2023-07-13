@@ -66,7 +66,7 @@ public class ProductDAO {
         }
         return null;
     }
-    
+
     public Product getSurpriseProduct() {
         try {
             String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE b.isSurprise = 1 AND b.ProductStatus = 1 AND a.EndDate is null";
@@ -109,6 +109,27 @@ public class ProductDAO {
     public List<Product> getProductsByName(String name, int index) {
         List<Product> list = new ArrayList<>();
         try {
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Name like ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%");
+            ps.setInt(2, (index -1)*15);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public int getProductsByName(String name) {
+        List<Product> list = new ArrayList<>();
+        try {
             String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Name like ?) AND a.EndDate is null";
 
             conn = new DBContext().getConnection();
@@ -123,7 +144,7 @@ public class ProductDAO {
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
     }
 
     public List<Product> getSomeProducts() {
@@ -145,7 +166,7 @@ public class ProductDAO {
         return list;
     }
 
-    public List<Product> searchByCalories(int from, int to) {
+    public int searchByCalories(int from, int to) {
         List<Product> list = new ArrayList<>();
         try {
             String sql = "";
@@ -161,6 +182,35 @@ public class ProductDAO {
                 ps.setInt(2, to);
             } else {
                 ps.setInt(1, from);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
+    }
+    
+    public List<Product> searchByCalories(int from, int to, int index) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Calories >= ?) AND (b.Calories <= ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            } else {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.Calories >= ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setInt(1, from);
+                ps.setInt(2, to);
+                ps.setInt(3, (index - 1)*15);
+            } else {
+                ps.setInt(1, from);
+                ps.setInt(2, (index - 1)*15);
             }
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -252,23 +302,93 @@ public class ProductDAO {
         }
         return list;
     }
+    
+    public List<Product> getProductsByCategoryID(int categoryID, int index) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (categoryID == -1) {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+                conn = new DBContext().getConnection();
 
-    public List<Product> searchProductByPrice(float from, float to) {
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, (index -1)*15);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+                }
+            } else {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.CategoryID = ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+                conn = new DBContext().getConnection();
+
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, categoryID);
+                ps.setInt(2, (index -1)*15);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+                }
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public int getPageNumberByCategoryID(int categoryID) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (categoryID == -1) {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID AND a.EndDate is null";
+                conn = new DBContext().getConnection();
+
+                ps = conn.prepareStatement(sql);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+                }
+            } else {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (b.CategoryID = ?) AND a.EndDate is null";
+                conn = new DBContext().getConnection();
+
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, categoryID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+                }
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
+    }
+
+    public List<Product> searchProductByPrice(float from, float to, int index) {
         List<Product> list = new ArrayList<>();
         try {
             String sql = "";
             if (to != -1) {
-                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND (a.Price <= ?) AND a.EndDate is null";
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND (a.Price <= ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
             } else {
-                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND a.EndDate is null";
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND a.EndDate is null ORDER BY ProductID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
             }
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(sql);
             if (to != -1) {
                 ps.setFloat(1, from);
                 ps.setFloat(2, to);
+                ps.setInt(3, (index - 1) * 15);
             } else {
                 ps.setFloat(1, from);
+                ps.setInt(2, (index - 1) * 15);
             }
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -394,7 +514,7 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getSurpriseProduct());
+        System.out.println(new ProductDAO().getProductsByName("c", 1));
     }
 
     public int createProductReturnKey(String name, String image, int categoryID, int calories, int accPoint, int exPoint, String p_startDate, String p_endDate) {
@@ -477,6 +597,93 @@ public class ProductDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+    public List<Product> getAllProductsByPaging(int i) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE a.EndDate is null ORDER BY ProductID OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (i - 1) * 15);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int getNumberOfProductsAdmin() {
+        try {
+            String sql = "SELECT count(*) FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE a.EndDate is null";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int getPageNumberShopping() {
+        try {
+            String sql = "SELECT count(*) FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE a.EndDate is null";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int num = rs.getInt(1);
+                if (num % 15 == 0) {
+                    return num / 15;
+                } else {
+                    return num / 15 + 1;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int getPageNumberSearchProductByPrice(float from, float to) {
+        List<Product> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND (a.Price <= ?) AND a.EndDate is null";
+            } else {
+                sql = "SELECT a.PriceID, a.StartDate, a.EndDate, a.Price, b.* FROM [FastFood].[dbo].[Price]  a JOIN [FastFood].[dbo].[Product] b ON b.ProductID = a.ProductID WHERE (a.Price >= ?) AND a.EndDate is null";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setFloat(1, from);
+                ps.setFloat(2, to);
+            } else {
+                ps.setFloat(1, from);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), rs.getBoolean(10), rs.getFloat(11), rs.getInt(12), rs.getInt(13), rs.getBoolean(14), rs.getString(15), rs.getString(16)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
+    }
+
 }

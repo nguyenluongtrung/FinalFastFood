@@ -5,15 +5,18 @@
 package controller;
 
 import dao.CategoryDAO;
+import dao.ComboDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Category;
+import model.Combo;
 import model.Product;
 
 /**
@@ -62,12 +65,21 @@ public class SearchByCategoryServlet extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-        List<Product> list = new ProductDAO().getProductsByCategoryID(id);
-        request.setAttribute("id", id);
+        List<Product> list = new ArrayList<>();
+        if (request.getParameter("index") == null) {
+            list = new ProductDAO().getProductsByCategoryID(id,1);
+        } else {
+            int index = Integer.parseInt(request.getParameter("index"));
+            list = new ProductDAO().getProductsByCategoryID(id, index);
+        }
         if(list.size() == 0){
             request.setAttribute("ms", "Your searched products not found!");
         }
         else request.setAttribute("list", list);
+        
+        request.setAttribute("id", id);
+        request.setAttribute("pageNumber", new ProductDAO().getPageNumberByCategoryID(id));
+        request.setAttribute("category", 1);
         request.getRequestDispatcher("shop.jsp").forward(request, response);
     }
 

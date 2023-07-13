@@ -122,8 +122,26 @@ public class CheckoutServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String note = request.getParameter("note");
 
-        int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
         HttpSession session = request.getSession();
+
+        if (request.getParameter("type") != null) {
+            String type = request.getParameter("type");
+            if (type.equalsIgnoreCase("vnpay")) {
+                session.setAttribute("vnpay_name", name);
+                session.setAttribute("vnpay_email", email);
+                session.setAttribute("vnpay_address", address);
+                session.setAttribute("vnpay_phone", phone);
+                session.setAttribute("vnpay_note", note);
+                session.setAttribute("vnpay_code", request.getParameter("code"));
+                session.setAttribute("vnpay_my_point", request.getParameter("my_point"));
+
+                request.getRequestDispatcher("/vnpayajax").forward(request, response);
+                return;
+            }
+        }
+
+        int shippingID = new ShippingDAO().addShippingReturnKey(name, email, address, phone);
+
         Account acc = (Account) session.getAttribute("acc");
 
         Cart cart = null;
@@ -205,8 +223,7 @@ public class CheckoutServlet extends HttpServlet {
                 new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
                 acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints());
             }
-        }
-        else{
+        } else {
             if (comboCart != null && cart != null) {
                 new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
                 acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
@@ -217,6 +234,10 @@ public class CheckoutServlet extends HttpServlet {
                 new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
                 acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints());
             }
+        }
+        
+        if(request.getParameter("changeStatus") != null){
+            new OrderDAO().updateOrderStatus(orderID, "SUCC");
         }
 
         session.removeAttribute("cart");

@@ -129,6 +129,7 @@
                                             <div class="card-body">
                                                 <div class="billing-address-form">
                                                     <form action="checkout" method="post">
+                                                        
                                                         <p><input type="text" placeholder="Name" value="${sessionScope.acc.name}" name="name"></p>
                                                     <p><input type="email" placeholder="Email"value="${sessionScope.acc.email}" name="email"></p>
                                                     <p><input type="text" placeholder="Address" value="${sessionScope.acc.address}" name="address"></p>
@@ -136,8 +137,15 @@
                                                     <p><input type="hidden" value="${code}" name="code"></p>
                                                     <p><input type="hidden" value="${my_point}" name="my_point"></p>
                                                     <p><textarea name="note" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
+                                                    Choose payment methods:<select name="type">
+                                                        <option value="cash">By cash</option>
+                                                        <option value="vnpay">By VNPay</option>
+                                                    </select><br>
                                                     <button type="submit" class="boxed-btn place-btn px-4 py-2">Place Order</button>
+                                                    
+                                                    
                                                 </form>
+<!--                                                    <button><a href="vnpayajax?total=${subtotal}">Place order VNPAY</a></button>-->
 
                                             </div>
                                         </div>
@@ -217,10 +225,6 @@
                                         <td>Subtotal</td>
                                         <td>${subtotal}$</td>
                                     </tr>
-                                    <!--                                    <tr>
-                                                                            <td>Shipping</td>
-                                                                            <td>$50</td>
-                                                                        </tr>-->
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
                                         <td>${subtotal}$</td>

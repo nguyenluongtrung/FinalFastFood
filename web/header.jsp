@@ -49,8 +49,8 @@
                                     </c:if>
 
                                     <c:if test="${sessionScope.acc.role == null}">
-                                        <a class="" href="login.jsp">Login</a>
-                                        <a class="" href="signup.jsp">Sign up</a>
+                                        <a class="" href="LoginServlet">Login</a>
+                                        <a class="" href="signup">Sign up</a>
                                     </c:if>
 
                                     <c:if test="${sessionScope.acc.role != null}">

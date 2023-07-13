@@ -8,6 +8,7 @@ package controller;
 import dao.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,7 +60,16 @@ public class ManageOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Order> list = new OrderDAO().getAllOrders();
+        List<Order> list = new ArrayList<>();
+        if(request.getParameter("index") == null){
+            list = new OrderDAO().getOrdersByPage(1);
+        } else{
+            int index = Integer.parseInt(request.getParameter("index"));
+            list = new OrderDAO().getOrdersByPage(index);
+        }
+        
+        int numberPage = new OrderDAO().getNumberPageOrder();
+        request.setAttribute("numberPage", numberPage);
         request.setAttribute("list", list);
         request.getRequestDispatcher("admin-order.jsp").forward(request, response);
     }

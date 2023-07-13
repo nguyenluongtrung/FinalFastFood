@@ -198,7 +198,166 @@ public class ComboDAO {
         }
     }
 
-    public List<Combo> searchComboByPrice(float from, float to) {
+    public List<Combo> searchComboByPrice(float from, float to, int index) {
+        List<Combo> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE (TotalPrice >= ?) and (TotalPrice <= ?) ORDER BY ComboID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            } else {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE TotalPrice >= ? ORDER BY ComboID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setFloat(1, from);
+                ps.setFloat(2, to);
+                ps.setInt(3, (index - 1) * 15);
+            } else {
+                ps.setFloat(1, from);
+                ps.setInt(2, (index - 1) * 15);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int searchByCalories(int from, int to) {
+        List<Combo> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE (TotalCalories >= ?) and (TotalCalories <= ?)";
+            } else {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE TotalCalories >= ?";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setInt(1, from);
+                ps.setInt(2, to);
+            } else {
+                ps.setInt(1, from);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
+    }
+
+    public List<Combo> searchByCalories(int from, int to, int index) {
+        List<Combo> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if (to != -1) {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE (TotalCalories >= ?) and (TotalCalories <= ?)  ORDER BY ComboID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            } else {
+                sql = "SELECT [ComboID]\n"
+                        + "      ,[ComboName]\n"
+                        + "      ,[Image]\n"
+                        + "      ,[TotalCalories]\n"
+                        + "      ,[TotalPrice]\n"
+                        + "      ,[Rating]\n"
+                        + "      ,[AccumulatedPoint]\n"
+                        + "      ,[ExchangedPoint]\n"
+                        + "  FROM [dbo].[Combo]\n"
+                        + "  WHERE TotalCalories >= ?  ORDER BY ComboID  OFFSET ? ROWS FETCH FIRST 15 ROWS ONLY";
+            }
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            if (to != -1) {
+                ps.setInt(1, from);
+                ps.setInt(2, to);
+                ps.setInt(3, (index - 1) * 15);
+            } else {
+                ps.setInt(1, from);
+                ps.setInt(2, (index - 1) * 15);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public List<ComboInfoOrderDetail> getAllComboOrderDetailByOrderID(int id) {
+        List<ComboInfoOrderDetail> list = new ArrayList<>();
+        try {
+            String sql = "SELECT b.ComboID, b.Quantity, c.ComboName, c.TotalPrice, c.TotalCalories, c.AccumulatedPoint FROM [Order] a JOIN Combo_OrderDetail b ON a.OrderID = b.OrderID JOIN Combo c ON c.ComboID = b.ComboID WHERE a.OrderID = ?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ComboInfoOrderDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getInt(6)));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ComboDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public int getPageNumberSearchComboByPrice(float from, float to) {
         List<Combo> list = new ArrayList<>();
         try {
             String sql = "";
@@ -240,72 +399,7 @@ public class ComboDAO {
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
-    }
-
-    public List<Combo> searchByCalories(int from, int to) {
-        List<Combo> list = new ArrayList<>();
-        try {
-            String sql = "";
-            if (to != -1) {
-                sql = "SELECT [ComboID]\n"
-                        + "      ,[ComboName]\n"
-                        + "      ,[Image]\n"
-                        + "      ,[TotalCalories]\n"
-                        + "      ,[TotalPrice]\n"
-                        + "      ,[Rating]\n"
-                        + "      ,[AccumulatedPoint]\n"
-                        + "      ,[ExchangedPoint]\n"
-                        + "  FROM [dbo].[Combo]\n"
-                        + "  WHERE (TotalCalories >= ?) and (TotalCalories <= ?)";
-            } else {
-                sql = "SELECT [ComboID]\n"
-                        + "      ,[ComboName]\n"
-                        + "      ,[Image]\n"
-                        + "      ,[TotalCalories]\n"
-                        + "      ,[TotalPrice]\n"
-                        + "      ,[Rating]\n"
-                        + "      ,[AccumulatedPoint]\n"
-                        + "      ,[ExchangedPoint]\n"
-                        + "  FROM [dbo].[Combo]\n"
-                        + "  WHERE TotalCalories >= ?";
-            }
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(sql);
-            if (to != -1) {
-                ps.setFloat(1, from);
-                ps.setFloat(2, to);
-            } else {
-                ps.setFloat(1, from);
-            }
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new Combo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8)));
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return list;
-    }
-
-    public List<ComboInfoOrderDetail> getAllComboOrderDetailByOrderID(int id) {
-        List<ComboInfoOrderDetail> list = new ArrayList<>();
-        try {
-            String sql = "SELECT b.ComboID, b.Quantity, c.ComboName, c.TotalPrice, c.TotalCalories, c.AccumulatedPoint FROM [Order] a JOIN Combo_OrderDetail b ON a.OrderID = b.OrderID JOIN Combo c ON c.ComboID = b.ComboID WHERE a.OrderID = ?";
-            
-            conn = new DBContext().getConnection();
-            
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            
-            rs = ps.executeQuery();
-            while(rs.next()){
-                list.add(new ComboInfoOrderDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getFloat(4), rs.getInt(5), rs.getInt(6)));
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(ComboDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return list;
+        return (list.size() % 15 == 0) ? (list.size() / 15) : (list.size() / 15 + 1);
     }
 
 }

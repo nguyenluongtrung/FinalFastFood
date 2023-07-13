@@ -247,10 +247,10 @@
                                                     <td><a href="view-order-details?id=${c.orderID}">View</a></td>
                                                     <c:if test="${c.status != 'SUCC'}">
                                                         <td><a href="buy-again?id=${c.orderID}" style="pointer-events: none;"><i class="fa-sharp fa-solid fa-shop text-dark"></i></a></td>
-                                                    </c:if>
-                                                    <c:if test="${c.status == 'SUCC'}">
+                                                            </c:if>
+                                                            <c:if test="${c.status == 'SUCC'}">
                                                         <td><a href="buy-again?id=${c.orderID}"><i class="fa-sharp fa-solid fa-shop text-dark"></i></a></td>
-                                                    </c:if>
+                                                            </c:if>
                                                 </tr>
                                             </c:forEach>
 
@@ -258,6 +258,17 @@
                                         </table>
                                     </div>
 
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination-wrap text-center">
+                                            <ul class="d-flex text-center justify-content-center" style="margin-top: 20px">
+                                                <c:forEach begin="1" end="${numberPage}" var="i">
+                                                    <li style="list-style: none"><a style="border: 1px solid black; border-radius: 50%" class="m-3 text-dark text-decoration-none px-2 py-1" href="UpdateAccountServlet?index=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

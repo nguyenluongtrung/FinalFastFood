@@ -132,6 +132,10 @@
         <servlet-name>UpdateComboServlet</servlet-name>
         <servlet-class>controller.UpdateComboServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchByTimeServlet</servlet-name>
+        <servlet-class>controller.SearchByTimeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShoppingServlet</servlet-name>
         <url-pattern>/shopping</url-pattern>
@@ -343,6 +347,35 @@
     <servlet-mapping>
         <servlet-name>UpdateComboServlet</servlet-name>
         <url-pattern>/update-combo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByTimeServlet</servlet-name>
+        <url-pattern>/search-by-time</url-pattern>
+    </servlet-mapping>
+    <!--    VNPAY-->
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>VNPAY.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayQuery</servlet-name>
+        <servlet-class>VNPAY.vnpayQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayRefund</servlet-name>
+        <servlet-class>VNPAY.common.vnpayRefund</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpayajax/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayQuery</servlet-name>
+        <url-pattern>/vnpayquery/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayRefund</servlet-name>
+        <url-pattern>/vnpayrefund/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

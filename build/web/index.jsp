@@ -39,7 +39,9 @@
         <!-- responsive -->
         <link rel="stylesheet" href="assets/css/responsive.css">
         <style>
-
+            .single-testimonial-slider1{
+                color: white;
+            }
         </style>
 
     </head>
@@ -216,7 +218,7 @@
                                         </div>
                                     </section>
                                 </div>
-                                <div class="single-testimonial-slider">
+                                <div class="single-testimonial-slider1">
                                     <section class="w-100" style="background-image: url('https://pbsapos.com.au/wp-content/uploads/2019/12/fastfood.jpg'); 
                                              position: relative;
                                              background-color: #f5f5f5;
