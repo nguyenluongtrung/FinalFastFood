@@ -207,7 +207,7 @@
                                     <c:if test="${product.status == true}">
                                         <button class="btn btn-success px-5 py-3" type="submit"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
                                     </c:if>
-                                    
+
                                 </form><br>
                                 <c:if test="${sessionScope.acc.role != null}">
                                     <a href="add-to-wishlist?productID=${product.productID}"><button class="btn btn-danger px-5 py-3"><i class="fas fa-heart"></i></button></a>
@@ -224,42 +224,46 @@
                     </div>
                 </div>
             </div>
+
             <div class="row row-content">
                 <div class="col-12">
-                    <h3 class="mx-auto text-black mt-5 text-center">Your Feedback</h3>
+                    <h3 class="mx-auto text-black mt-5 mb-5 text-center">Feedback</h3>
 
                 </div>
                 <div class="col-9 offset-2 mx-auto">
-                    <form action="feedback" method="post">
-                        <input name="pid" value="${product.productID}" style="display:none;">
-                        <input name="orate" value="${product.rating}" style="display:none;">
+                    <c:if test="${write != null}" >
+                        <form action="feedback" method="post">
+                            <input name="pid" value="${product.productID}" style="display:none;">
+                            <input name="orate" value="${product.rating}" style="display:none;">
 
-                        <div class="rating mx-auto">
-                            <div class="star">
-                                <input type="radio" name="rate" id="rate-1" value="5">
-                                <label for="rate-1"  class="fas fa-star"></label>
-                                <input type="radio" name="rate" id="rate-2" value="4">
-                                <label for="rate-2"  class="fas fa-star"></label>
-                                <input type="radio" name="rate" id="rate-3" value="3">
-                                <label for="rate-3"  class="fas fa-star"></label>
-                                <input type="radio" name="rate" id="rate-4" value="2">
-                                <label for="rate-4"  class="fas fa-star"></label>
-                                <input type="radio" name="rate" id="rate-5" value="1">
-                                <label for="rate-5"  class="fas fa-star"></label>
+                            <div class="rating mx-auto">
+                                <div class="star">
+                                    <input type="radio" name="rate" id="rate-1" value="5">
+                                    <label for="rate-1"  class="fas fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-2" value="4">
+                                    <label for="rate-2"  class="fas fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-3" value="3">
+                                    <label for="rate-3"  class="fas fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-4" value="2">
+                                    <label for="rate-4"  class="fas fa-star"></label>
+                                    <input type="radio" name="rate" id="rate-5" value="1">
+                                    <label for="rate-5"  class="fas fa-star"></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <textarea class="form-control" name="feedback" placeholder="Please write your feedback" rows="4"></textarea>
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <textarea class="form-control" name="feedback" placeholder="Please write your feedback" rows="4"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row offset-10">
-                            <div class="col-12">
-                                <button type="submit"  class="btn btn-warning">Send Feedback</button>
+                            <div class="form-group row offset-10">
+                                <div class="col-12">
+                                    <button type="submit"  class="btn btn-warning">Send Feedback</button>
+                                </div>
                             </div>
-                        </div>
 
-                    </form>
+                        </form>  
+                    </c:if>
+
                     <div class="feedback">
                         <form>
                             <c:forEach items="${feed}" var="c">

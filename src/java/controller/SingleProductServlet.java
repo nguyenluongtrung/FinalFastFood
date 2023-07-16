@@ -7,16 +7,21 @@ package controller;
 
 import dao.CategoryDAO;
 import dao.FeedbackDAO;
+import dao.OrderDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Account;
 import model.Category;
 import model.FeedbackAccount;
+import model.Order;
 import model.Product;
 
 /**
@@ -68,6 +73,36 @@ public class SingleProductServlet extends HttpServlet {
         Category category = new CategoryDAO().getCategoryByID(product.getCategoryID());
         List<Product> relatedProducts = new ProductDAO().getRelatedProducts(product.getCategoryID(), product.getProductID());
         List<FeedbackAccount> list = new FeedbackDAO().getFeedbackByProductID(id);
+        
+        // xu li viet duoc feedback hay khong
+        int ok = 0;
+        HttpSession session = request.getSession();
+       
+        if(session.getAttribute("acc") == null){
+            ok = 0;
+        }
+        else{
+            Account acc = (Account) session.getAttribute("acc");
+            int accountID = acc.getAccountID();
+            List<Integer> orders = new OrderDAO().getOrderIDByAccountID(accountID);
+            List<Integer> productIDs = new ArrayList<>();
+            for(Integer i: orders){
+                List<Integer> product_orderID = new OrderDAO().getAllProductIDByOrderID(i);
+                productIDs.addAll(product_orderID);
+            }
+            
+            for(Integer i: productIDs){
+                if(id == i){
+                    ok = 1;
+                    break;
+                }
+            }
+            
+        }
+        if(ok == 1){
+            request.setAttribute("write", 1);
+        }
+        
         request.setAttribute("feed", list);
         request.setAttribute("relatedProducts", relatedProducts);
         request.setAttribute("category", category);
