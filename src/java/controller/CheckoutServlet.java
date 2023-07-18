@@ -193,7 +193,7 @@ public class CheckoutServlet extends HttpServlet {
             new OrderDetailDAO().addComboOrderDetail(orderID, comboID, quantity);
         }
 
-        if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+        if (request.getParameter("changeStatus") == null) {
             if ((sale != null) && (request.getParameter("code") != "")) {
                 for (Item i : items) {
                     for (SaleProduct pro : saleList) {
@@ -210,9 +210,28 @@ public class CheckoutServlet extends HttpServlet {
                     }
                 }
             }
+        } else {
+            if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+                if ((sale != null) && (request.getParameter("code") != "")) {
+                    for (Item i : items) {
+                        for (SaleProduct pro : saleList) {
+                            if (i.getProduct().getProductID() == pro.getProductID()) {
+                                if (i.getQuantity() > pro.getSaleQuantity()) {
+                                    int quantity = pro.getSaleQuantity();
+                                    new SaleProductDAO().updateQuantity(i.getProduct().getProductID(), quantity, sale.getSaleID());
+                                } else {
+                                    int quantity = i.getQuantity();
+                                    new SaleProductDAO().updateQuantity(i.getProduct().getProductID(), quantity, sale.getSaleID());
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+        if (request.getParameter("changeStatus") == null) {
             if ((request.getParameter("my_point") != "") && (request.getParameter("my_point") != null)) {
                 int my_point = Integer.parseInt(request.getParameter("my_point"));
                 new AccountDAO().updateAccumulatedPoints(acc.getAccountID(), my_point, 2);
@@ -238,23 +257,59 @@ public class CheckoutServlet extends HttpServlet {
                     acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints());
                 }
             }
+        } else {
+            if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+                if ((request.getParameter("my_point") != "") && (request.getParameter("my_point") != null)) {
+                    int my_point = Integer.parseInt(request.getParameter("my_point"));
+                    new AccountDAO().updateAccumulatedPoints(acc.getAccountID(), my_point, 2);
+                    if (comboCart != null && cart != null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
+                    } else if (comboCart != null && cart == null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, comboCart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(my_point + comboCart.getTotalAccumulatedPoints());
+                    } else if (comboCart == null && cart != null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(my_point + cart.getTotalAccumulatedPoints());
+                    }
+                } else {
+                    if (comboCart != null && cart != null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints() + comboCart.getTotalAccumulatedPoints());
+                    } else if (comboCart != null && cart == null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, comboCart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + comboCart.getTotalAccumulatedPoints());
+                    } else if (comboCart == null && cart != null) {
+                        new AccountDAO().updateAccumulatedPoints(accountID, cart.getTotalAccumulatedPoints(), 1);
+                        acc.setTotalAccumulatedPoint(acc.getTotalAccumulatedPoint() + cart.getTotalAccumulatedPoints());
+                    }
+                }
+            }
         }
 
-        if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
-            new OrderDAO().updateOrderStatus(orderID, "SUCC");
-        } else {
-            new OrderDAO().updateOrderStatus(orderID, "FAIL");
+        if (request.getParameter("changeStatus") != null) {
+            if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+                new OrderDAO().updateOrderStatus(orderID, "SUCC");
+            } else {
+                new OrderDAO().updateOrderStatus(orderID, "FAIL");
+            }
         }
 
         session.removeAttribute("cart");
         session.removeAttribute("comboCart");
         session.removeAttribute("count");
-        if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
-            request.getRequestDispatcher("thankyou.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("sorry_1.jsp").forward(request, response);
+
+        if (request.getParameter("changeStatus") != null) {
+            if (Integer.parseInt(request.getParameter("changeStatus")) == 1) {
+                request.getRequestDispatcher("thankyou.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("sorry_1.jsp").forward(request, response);
+            }
         }
-        
+        else{
+            request.getRequestDispatcher("thankyou.jsp").forward(request, response);
+        }
+
     }
 
     /**

@@ -231,9 +231,7 @@ public class ProductDAO {
                         + "GROUP BY a.ProductID, b.Name\n"
                         + "ORDER BY SUM(a.Quantity) DESC";
             } else {
-                sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID \n"
-                        + "GROUP BY a.ProductID, b.Name\n"
-                        + "ORDER BY SUM(a.Quantity)";
+                sql = "SELECT TOP 5 a.ProductID, b.Name, SUM(a.Quantity) as TotalQuantity FROM OrderDetail a JOIN Product b ON a.ProductID = b.ProductID WHERE b.isSurprise = 0 GROUP BY a.ProductID, b.Name ORDER BY SUM(a.Quantity) ";
             }
 
             conn = new DBContext().getConnection();
